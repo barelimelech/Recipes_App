@@ -10,17 +10,17 @@
             android:title="@string/menu_home" />
 
         <item
-            android:id="@+id/menu_user"
+            android:id="@+id/myAccount_nav"
             android:icon="@drawable/user"
             android:title="User"
            />
         <item
-            android:id="@+id/menu_add"
+            android:id="@+id/newRecipeFragment"
             android:icon="@drawable/add"
             android:title="Add"
          />
         <item
-            android:id="@+id/menu_search"
+            android:id="@+id/searchFragment"
             android:icon="@drawable/search"
             android:title="Search"
           />
