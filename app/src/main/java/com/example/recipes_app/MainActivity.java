@@ -1,13 +1,16 @@
 package com.example.recipes_app;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
+import androidx.annotation.NonNull;
 import androidx.navigation.NavController;
+import androidx.navigation.NavHost;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
@@ -20,28 +23,39 @@ public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
+    NavController navCtl;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
+//        NavHost navHost = (NavHost)getSupportFragmentManager().findFragmentById(R.id.base_navhost);
+//        navCtl = navHost.getNavController();
+//
+//        NavigationUI.setupActionBarWithNavController(this,navCtl);
+
+
+
+
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         setSupportActionBar(binding.appBarMain.toolbar);
-        binding.appBarMain.fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+//        binding.appBarMain.fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+//            }
+//        });
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow)
+                R.id.nav_home, R.id.myAccountFragment, R.id.newRecipeFragment, R.id.searchFragment)
                 .setOpenableLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
@@ -53,6 +67,9 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+
+//        super.onCreateOptionsMenu(menu);
+//        getMenuInflater().inflate(R.menu.base_menu,menu);
         return true;
     }
 
@@ -62,4 +79,29 @@ public class MainActivity extends AppCompatActivity {
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }
+//    @Override
+//    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+//        if (!super.onOptionsItemSelected(item)){
+//            switch (item.getItemId()){
+//                case R.id.menu_user:
+//                    navCtl.navigate(R.id.action_global_myAccountFragment);
+//                    break;
+//                case R.id.menu_add:
+//                    navCtl.navigate(R.id.action_global_newRecipeFragment);
+//                    break;
+//                case R.id.menu_search:
+//                    navCtl.navigate(R.id.action_global_searchFragment);
+//                    break;
+//
+//                case android.R.id.home:
+//                    navCtl.navigateUp();
+//                    return true;
+//                default:
+//                    NavigationUI.onNavDestinationSelected(item,navCtl);
+//            }
+//        }else{
+//            return true;
+//        }
+//        return false;
+//    }
 }
