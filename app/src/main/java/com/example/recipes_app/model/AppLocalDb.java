@@ -8,7 +8,7 @@ import com.example.recipes_app.MyApplication;
 
 @Database(entities = {Recipe.class}, version = 2)
 abstract class AppLocalDbRepository extends RoomDatabase {
-    public abstract RecipeDao studentDao();
+    public abstract RecipeDao recipeDao();
 }
 
 public class AppLocalDb{

@@ -13,9 +13,6 @@
         <action
             android:id="@+id/action_nav_home_to_subCategoryFragment"
             app:destination="@id/subCategoryFragment" />
-        <action
-            android:id="@+id/action_nav_home_to_myAccount_nav"
-            app:destination="@id/myAccount_nav" />
     </fragment>
     <fragment
         android:id="@+id/subCategoryFragment"
@@ -37,12 +34,15 @@
     </fragment>
     <fragment
         android:id="@+id/recipeFragment"
-        android:name="com.example.recipes_app.RecipeFragment"
+        android:name="com.example.recipes_app.RecipeDetailsFragment"
         android:label="fragment_recipe"
-        tools:layout="@layout/fragment_recipe_row" >
+        tools:layout="@layout/fragment_recipe" >
         <action
             android:id="@+id/action_recipeFragment_to_editRecipeFragment"
             app:destination="@id/editRecipeFragment" />
+        <argument
+            android:name="recipeId"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/editRecipeFragment"

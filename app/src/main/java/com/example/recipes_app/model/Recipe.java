@@ -13,43 +13,25 @@ public class Recipe {
     @PrimaryKey
     @NonNull
     String name = "";
+    String method= "";
+    String ingredients= "";
     String id = "";
-    String method;
-    String ingredients;
 
 
     public Recipe(){}
-    public Recipe(String name, String id, String method, String ingredients) {
+    public Recipe(String name,String method, String ingredients,String id) {
         this.name = name;
-        this.id = id;
-        this.ingredients = ingredients;
         this.method = method;
+        this.ingredients = ingredients;
+        this.id = id;
     }
 
     public void setId(String id) {
         this.id = id;
     }
 
-
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-
-    public String getIngredients() {
-        return ingredients;
-    }
-
-    public String getMethod() {
-        return method;
     }
 
     public void setIngredients(String ingredients) {
@@ -61,22 +43,40 @@ public class Recipe {
     }
 
 
+    public String getName() { return name; }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getIngredients() {
+        return ingredients;
+    }
+
+    public String getMethod() {
+        return method;
+    }
+
+
+
+
     public Map<String, Object> toJson() {
         Map<String, Object> json = new HashMap<String, Object>();
-        json.put("id",id);
         json.put("name",name);
         json.put("method",method);
         json.put("ingredients",ingredients);
+        json.put("id",id);
+
         return json;
     }
     public static Recipe create(Map<String, Object> json) {
-        String id = (String) json.get("id");
         String name = (String) json.get("name");
         String method = (String) json.get("method");
         String ingredients = (String) json.get("ingredients");
+        String id = (String) json.get("id");
 
 
-        Recipe recipe = new Recipe(name,id,method,ingredients);
+        Recipe recipe = new Recipe(name,method,ingredients,id);
         return recipe;
     }
 }

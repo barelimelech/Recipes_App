@@ -16,8 +16,8 @@ public interface RecipeDao {
     List<Recipe> getAll();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertAll(Recipe... students);
+    void insertAll(Recipe... recipes);
 
     @Delete
-    void delete(Recipe student);
+    void delete(Recipe recipe);
 }
