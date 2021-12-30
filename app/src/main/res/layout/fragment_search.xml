@@ -17,7 +17,7 @@
         android:fontFamily="@font/paprika"
         android:gravity="center"
         android:text="Search"
-        android:textColor="#530A0A"
+        android:textColor="#3E260B"
         android:textSize="45sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -39,7 +39,7 @@
         android:id="@+id/recipeFragment"
         android:name="com.example.recipes_app.RecipeFragment"
         android:label="fragment_recipe"
-        tools:layout="@layout/fragment_recipe" >
+        tools:layout="@layout/fragment_recipe_row" >
         <action
             android:id="@+id/action_recipeFragment_to_editRecipeFragment"
             app:destination="@id/editRecipeFragment" />
@@ -51,7 +51,7 @@
         tools:layout="@layout/fragment_edit_recipe" />
     <fragment
         android:id="@+id/myAccount_nav"
-        android:name="com.example.recipes_app.ui.User.MyAccountFragment"
+        android:name="com.example.recipes_app.ui.user.MyAccountFragment"
         android:label="fragment_my_account"
         tools:layout="@layout/fragment_my_account" />
     <fragment

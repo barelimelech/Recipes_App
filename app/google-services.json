@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "211609576402",
+    "project_id": "cookandshare-95c10",
+    "storage_bucket": "cookandshare-95c10.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:211609576402:android:095a496777b7a94ce45e0b",
+        "android_client_info": {
+          "package_name": "com.example.recipes_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "211609576402-f9ugjpkpljeton1bre8gr98hfj9icerq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAV46gwPurVdifKRAEUHI8BgrVzOxz5dfI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "211609576402-f9ugjpkpljeton1bre8gr98hfj9icerq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
