@@ -6,10 +6,6 @@
         android:orderInCategory="100"
         android:title="@string/action_settings"
         app:showAsAction="never" />
-    <item
-        android:id="@+id/menu_myAccount"
-        android:icon="@drawable/user"
-        android:title="user"
-        app:showAsAction="always" />
+
 
 </menu>

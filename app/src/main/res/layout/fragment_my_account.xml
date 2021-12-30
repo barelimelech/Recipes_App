@@ -17,7 +17,7 @@
 
         android:gravity="center"
         android:text="My Account"
-        android:textColor="#530A0A"
+        android:textColor="#5A3914"
         android:textSize="45sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -18,6 +18,7 @@ public class Model {
     public List<String> getAllCategories() {
         data.add("Deserts");
         data.add("Breakfast");
+        data.add("example");
         data.add("Lunch");
         data.add("Dinner");
         data.add("Holidays");

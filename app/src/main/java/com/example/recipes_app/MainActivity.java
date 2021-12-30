@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.myaccount_menu,menu);
         getMenuInflater().inflate(R.menu.main, menu);
 
 //        super.onCreateOptionsMenu(menu);
@@ -59,23 +60,23 @@ public class MainActivity extends AppCompatActivity {
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (!super.onOptionsItemSelected(item)){
-            switch (item.getItemId()){
-                case R.id.menu_myAccount:
-                    navController.navigate(R.id.action_global_myAccountFragment);
-                    break;
-                case android.R.id.home:
-                    navController.navigateUp();
-                    return true;
-                default:
-                    NavigationUI.onNavDestinationSelected(item,navController);
-            }
-        }else{
-            return true;
-        }
-        return false;
-    }
+//
+//    @Override
+//    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+//        if (!super.onOptionsItemSelected(item)){
+//            switch (item.getItemId()){
+//                case R.id.menu_myAccount:
+//                    navController.navigate(R.id.action_global_myAccountFragment);
+//                    break;
+//                case android.R.id.home:
+//                    navController.navigateUp();
+//                    return true;
+//                default:
+//                    NavigationUI.onNavDestinationSelected(item,navController);
+//            }
+//        }else{
+//            return true;
+//        }
+//        return false;
+//    }
 }
