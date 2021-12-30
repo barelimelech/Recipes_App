@@ -26,8 +26,8 @@
     <fragment
         android:id="@+id/recipesListFragment"
         android:name="com.example.recipes_app.RecipesListFragment"
-        android:label="fragment_recipes_list"
-        tools:layout="@layout/fragment_recipes_list" >
+        android:label="Recipes List"
+        tools:layout="@layout/fragment_recipes_list">
         <action
             android:id="@+id/action_recipesListFragment_to_recipeFragment"
             app:destination="@id/recipeFragment" />
@@ -35,8 +35,8 @@
     <fragment
         android:id="@+id/recipeFragment"
         android:name="com.example.recipes_app.RecipeDetailsFragment"
-        android:label="fragment_recipe"
-        tools:layout="@layout/fragment_recipe" >
+        android:label="Recipe"
+        tools:layout="@layout/fragment_recipe">
         <action
             android:id="@+id/action_recipeFragment_to_editRecipeFragment"
             app:destination="@id/editRecipeFragment" />
@@ -47,22 +47,26 @@
     <fragment
         android:id="@+id/editRecipeFragment"
         android:name="com.example.recipes_app.EditRecipeFragment"
-        android:label="fragment_edit_recipe"
+        android:label="Edit Recipe"
         tools:layout="@layout/fragment_edit_recipe" />
     <fragment
         android:id="@+id/myAccount_nav"
         android:name="com.example.recipes_app.ui.user.MyAccountFragment"
-        android:label="fragment_my_account"
-        tools:layout="@layout/fragment_my_account" />
+        android:label="My Account"
+        tools:layout="@layout/fragment_my_account">
+        <action
+            android:id="@+id/action_myAccount_nav_to_recipesListFragment"
+            app:destination="@id/recipesListFragment" />
+    </fragment>
     <fragment
         android:id="@+id/searchFragment"
         android:name="com.example.recipes_app.ui.search.SearchFragment"
-        android:label="fragment_search"
+        android:label="Search"
         tools:layout="@layout/fragment_search" />
     <fragment
         android:id="@+id/newRecipeFragment"
         android:name="com.example.recipes_app.ui.newRecipe.NewRecipeFragment"
-        android:label="fragment_new_recipe"
+        android:label="New Recipe"
         tools:layout="@layout/fragment_new_recipe" />
     <action android:id="@+id/action_global_myAccountFragment" app:destination="@id/myAccount_nav" />
     <action android:id="@+id/action_global_searchFragment" app:destination="@id/searchFragment" />

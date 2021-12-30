@@ -55,7 +55,7 @@ public class RecipesListFragment extends Fragment {
 
 
 
-        Button addRecipe = view.findViewById(R.id.recipeslist_add_btn);
+        Button addRecipe = view.findViewById(R.id.myaccount_add_btn);
         addRecipe.setOnClickListener((v)->{
             Navigation.findNavController(v).navigate(R.id.action_global_newRecipeFragment);
         });

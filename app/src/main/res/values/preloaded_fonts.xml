@@ -3,6 +3,7 @@
     <array name="preloaded_fonts" translatable="false">
         <item>@font/aclonica</item>
         <item>@font/berkshire_swash</item>
+        <item>@font/boogaloo</item>
         <item>@font/paprika</item>
     </array>
 </resources>
