@@ -75,7 +75,11 @@
         android:id="@+id/editRecipeFragment"
         android:name="com.example.recipes_app.EditRecipeFragment"
         android:label="Edit Recipe"
-        tools:layout="@layout/fragment_edit_recipe" />
+        tools:layout="@layout/fragment_edit_recipe" >
+        <argument
+            android:name="recipeId"
+            app:argType="string" />
+    </fragment>
     <fragment
         android:id="@+id/myAccount_nav"
         android:name="com.example.recipes_app.ui.user.MyAccountFragment"

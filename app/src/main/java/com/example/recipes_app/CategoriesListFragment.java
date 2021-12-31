@@ -1,7 +1,9 @@
 package com.example.recipes_app;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
@@ -9,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -104,6 +107,17 @@ public class CategoriesListFragment extends Fragment {
             }
             return categories.size();
 
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.menu_myAccount){
+            Log.d("TAG","ADD...");
+            NavHostFragment.findNavController(this).navigate(CategoriesListFragmentDirections.actionGlobalMyAccountFragment());
+            return true;
+        }else {
+            return super.onOptionsItemSelected(item);
         }
     }
 }

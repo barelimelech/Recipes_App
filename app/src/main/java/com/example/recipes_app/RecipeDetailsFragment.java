@@ -1,14 +1,20 @@
 package com.example.recipes_app;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.recipes_app.model.Model;
 import com.example.recipes_app.model.Recipe;
@@ -18,15 +24,15 @@ public class RecipeDetailsFragment extends Fragment {
     TextView recipeMethod;
     TextView recipeIngredients;
 
-    TextView recipeId;
-
+    //TextView recipeId;
+    String recipeId;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.fragment_recipe, container, false);
 
-        String recipeId = RecipeDetailsFragmentArgs.fromBundle(getArguments()).getRecipeId();
+        recipeId = RecipeDetailsFragmentArgs.fromBundle(getArguments()).getRecipeId();
         recipeName = view.findViewById(R.id.recipeDetails_nameOfRec);
         recipeMethod= view.findViewById(R.id.recipeDetails_method);
         recipeIngredients= view.findViewById(R.id.recipeDetails_ingredients);
@@ -43,7 +49,8 @@ public class RecipeDetailsFragment extends Fragment {
 
         Button editRecipe = view.findViewById(R.id.recipeDetails_edit_btn);
         editRecipe.setOnClickListener((v)->{
-            Navigation.findNavController(v).navigate(R.id.action_recipeFragment_to_editRecipeFragment);
+            //Navigation.findNavController(v).navigate(R.id.action_recipeFragment_to_editRecipeFragment);
+            NavHostFragment.findNavController(this).navigate(RecipeDetailsFragmentDirections.actionRecipeFragmentToEditRecipeFragment(recipeId));
         });
 
 
@@ -51,6 +58,7 @@ public class RecipeDetailsFragment extends Fragment {
         backBtn.setOnClickListener((v)->{
             Navigation.findNavController(v).navigateUp();
         });
+        setHasOptionsMenu(true);
         return view;
 //
 //        String stId = StudentDetailsFragmentArgs.fromBundle(getArguments()).getStudentId();
@@ -65,5 +73,21 @@ public class RecipeDetailsFragment extends Fragment {
 ////            Navigation.findNavController(v).navigateUp();
 ////        });
 //        return view;
+    }
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.detalis_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.EditRecipeFragment){
+            Log.d("TAG","edit...");
+            NavHostFragment.findNavController(this).navigate(RecipeDetailsFragmentDirections.actionRecipeFragmentToEditRecipeFragment(recipeId));
+            return true;
+        }else {
+            return super.onOptionsItemSelected(item);
+        }
     }
 }
