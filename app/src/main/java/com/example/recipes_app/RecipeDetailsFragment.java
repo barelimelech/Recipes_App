@@ -4,18 +4,21 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
+import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import com.example.recipes_app.model.Model;
 import com.example.recipes_app.model.Recipe;
 
 public class RecipeDetailsFragment extends Fragment {
-    EditText recipeName;
-    EditText recipeMethod;
-    EditText recipeIngredients;
-    EditText recipeId;
+    TextView recipeName;
+    TextView recipeMethod;
+    TextView recipeIngredients;
+
+    TextView recipeId;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -38,11 +41,16 @@ public class RecipeDetailsFragment extends Fragment {
             }
         });
 
+        Button editRecipe = view.findViewById(R.id.recipeDetails_edit_btn);
+        editRecipe.setOnClickListener((v)->{
+            Navigation.findNavController(v).navigate(R.id.action_recipeFragment_to_editRecipeFragment);
+        });
 
-//        Button backBtn = view.findViewById(R.id.details_back_btn);
-//        backBtn.setOnClickListener((v)->{
-//            Navigation.findNavController(v).navigateUp();
-//        });
+
+        Button backBtn = view.findViewById(R.id.recipeDetails_back_btn);
+        backBtn.setOnClickListener((v)->{
+            Navigation.findNavController(v).navigateUp();
+        });
         return view;
 //
 //        String stId = StudentDetailsFragmentArgs.fromBundle(getArguments()).getStudentId();

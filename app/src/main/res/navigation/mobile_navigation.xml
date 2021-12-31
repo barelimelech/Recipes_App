@@ -7,11 +7,38 @@
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="com.example.recipes_app.ui.home.HomeFragment"
+        android:name="com.example.recipes_app.ui.logIn.LogInFragment"
         android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" >
+        tools:layout="@layout/fragment_log_in" >
+
         <action
-            android:id="@+id/action_nav_home_to_subCategoryFragment"
+            android:id="@+id/action_nav_home_to_signUpFragment"
+            app:destination="@id/signUpFragment" />
+        <action
+            android:id="@+id/action_nav_home_to_categoriesListFragment2"
+            app:destination="@id/categoriesListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/signUpFragment"
+        android:name="com.example.recipes_app.ui.signUp.SignUpFragment"
+        android:label="@string/menu_home"
+        tools:layout="@layout/fragment_sign_up" >
+
+        <action
+            android:id="@+id/action_signUpFragment_to_nav_home"
+            app:destination="@id/nav_home" />
+        <action
+            android:id="@+id/action_signUpFragment_to_categoriesListFragment"
+            app:destination="@id/categoriesListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/categoriesListFragment"
+        android:name="com.example.recipes_app.CategoriesListFragment"
+        android:label="Categories List"
+        tools:layout="@layout/fragment_categories_list" >
+
+        <action
+            android:id="@+id/action_categoriesListFragment_to_subCategoryFragment"
             app:destination="@id/subCategoryFragment" />
     </fragment>
     <fragment

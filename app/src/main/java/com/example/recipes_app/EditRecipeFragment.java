@@ -1,27 +1,63 @@
 package com.example.recipes_app;
 
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.fragment.NavHostFragment;
-
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
+
+import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
+
+import com.example.recipes_app.model.Model;
+import com.example.recipes_app.model.Recipe;
 
 public class EditRecipeFragment extends Fragment {
+    TextView recipeName;
+    TextView recipeMethod;
+    TextView recipeIngredients;
 
+    TextView recipeId;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_edit_recipe, container, false);
+        View view =  inflater.inflate(R.layout.fragment_edit_recipe, container, false);
+
+        String recipeId = RecipeDetailsFragmentArgs.fromBundle(getArguments()).getRecipeId();
+        recipeName = view.findViewById(R.id.editrecipe_name_tv);
+        recipeMethod= view.findViewById(R.id.editrecipe_method_tv);
+        recipeIngredients= view.findViewById(R.id.editrecipe_ingredients_yv);
+
+        Model.instance.getRecipeById(recipeId, new Model.GetRecipeById() {
+            @Override
+            public void onComplete(Recipe student) {
+                recipeName.setText(student.getName());
+                recipeMethod.setText(student.getMethod());
+                recipeIngredients.setText(student.getIngredients());
+
+            }
+        });
+
+        Button saveRecipe = view.findViewById(R.id.editrecipe_save_btn);
+//        saveRecipe.setOnClickListener((v)->{
+//            Navigation.findNavController(v).navigate();
+//        });
+
+//        saveRecipe.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                NewRecipeFragment.save();
+//            }
+//        });
+        Button backBtn = view.findViewById(R.id.editrecipe_back_btn);
+        backBtn.setOnClickListener((v)->{
+            Navigation.findNavController(v).navigateUp();
+        });
+
+        return view;
     }
 
 
