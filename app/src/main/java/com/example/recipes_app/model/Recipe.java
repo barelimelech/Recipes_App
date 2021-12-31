@@ -16,14 +16,16 @@ public class Recipe {
     String method= "";
     String ingredients= "";
     String id = "";
+    String type = "";
 
 
     public Recipe(){}
-    public Recipe(String name,String method, String ingredients,String id) {
+    public Recipe(String name,String method, String ingredients,String id,String type) {
         this.name = name;
         this.method = method;
         this.ingredients = ingredients;
         this.id = id;
+        this.type = type;
     }
 
     public void setId(String id) {
@@ -42,6 +44,9 @@ public class Recipe {
         this.method = method;
     }
 
+    public void setType(String type) {
+        this.type = type;
+    }
 
     public String getName() { return name; }
 
@@ -57,8 +62,9 @@ public class Recipe {
         return method;
     }
 
-
-
+    public String getType() {
+        return type;
+    }
 
     public Map<String, Object> toJson() {
         Map<String, Object> json = new HashMap<String, Object>();
@@ -66,6 +72,7 @@ public class Recipe {
         json.put("method",method);
         json.put("ingredients",ingredients);
         json.put("id",id);
+        json.put("type",type);
 
         return json;
     }
@@ -74,9 +81,10 @@ public class Recipe {
         String method = (String) json.get("method");
         String ingredients = (String) json.get("ingredients");
         String id = (String) json.get("id");
+        String type = (String) json.get("type");
 
 
-        Recipe recipe = new Recipe(name,method,ingredients,id);
+        Recipe recipe = new Recipe(name,method,ingredients,id,type);
         return recipe;
     }
 }

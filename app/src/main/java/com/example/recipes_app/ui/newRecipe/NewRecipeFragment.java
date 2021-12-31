@@ -24,7 +24,7 @@ public class NewRecipeFragment extends Fragment {
     EditText recipeMethod;
     EditText recipeIngredients;
     EditText recipeId;
-
+    EditText recipeType;
     Button saveBtn;
     //Button cancelBtn;
 
@@ -36,8 +36,9 @@ public class NewRecipeFragment extends Fragment {
         recipeMethod= view.findViewById(R.id.newRec_method);
         recipeIngredients= view.findViewById(R.id.newRec_ingredients);
         recipeId= view.findViewById(R.id.newRec_id);
-
+        recipeType= view.findViewById(R.id.newRec_recType_rv);
         saveBtn = view.findViewById(R.id.newRec_save_btn);
+
         //cancelBtn = view.findViewById(R.id.main_cancel_btn);
         //progressBar = view.findViewById(R.id.main_progressbar);
         //progressBar.setVisibility(View.GONE);
@@ -60,8 +61,10 @@ public class NewRecipeFragment extends Fragment {
         String method = recipeMethod.getText().toString();
         String ingredients = recipeIngredients.getText().toString();
         String id = recipeId.getText().toString();
+        String type = recipeType.getText().toString();
 
-        Recipe recipe = new Recipe(name,method,ingredients,id);
+
+        Recipe recipe = new Recipe(name,method,ingredients,id,type);
         Model.instance.addRecipe(recipe,()->{
             Navigation.findNavController(recipeId).navigateUp();
         });
