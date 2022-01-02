@@ -1,5 +1,6 @@
 package com.example.recipes_app;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,6 +13,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -25,19 +28,25 @@ import java.util.List;
 
 
 public class RecipesListFragment extends Fragment {
-    List<Recipe> recipes;
+    RecipesListViewModel viewModel;
     MyAdapter adapter;
     SwipeRefreshLayout swipeRefresh;
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        viewModel = new ViewModelProvider(this).get(RecipesListViewModel.class);
+    }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-         //Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_recipes_list,container,false);
+        //Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_recipes_list, container, false);
         swipeRefresh = view.findViewById(R.id.recipeslist_swiperefresh);
-        swipeRefresh.setOnRefreshListener(() -> refresh());
+        swipeRefresh.setOnRefreshListener(() -> Model.instance.refreshRecipeList());
 
-       // String recipeId = RecipeDetailsFragmentArgs.fromBundle(getArguments()).getRecipeId();
+        // String recipeId = RecipeDetailsFragmentArgs.fromBundle(getArguments()).getRecipeId();
 
         RecyclerView list = view.findViewById(R.id.recipeslist_rv);
         list.setHasFixedSize(true);
@@ -49,12 +58,11 @@ public class RecipesListFragment extends Fragment {
 
         adapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
-            public void onItemClick(View v , int position) {
-                String recipeId = recipes.get(position).getId();
+            public void onItemClick(View v, int position) {
+                String recipeId = viewModel.getRecipes().getValue().get(position).getId();
                 Navigation.findNavController(v).navigate(RecipesListFragmentDirections.actionRecipesListFragmentToRecipeFragment(recipeId));
             }
         });
-
 
 
         Button addRecipe = view.findViewById(R.id.myaccount_add_btn);
@@ -64,20 +72,32 @@ public class RecipesListFragment extends Fragment {
 
 
         setHasOptionsMenu(true);
-        refresh();
+        //when data update
+        viewModel.getRecipes().observe(getViewLifecycleOwner(), recipes -> refresh());
+        swipeRefresh.setRefreshing(Model.instance.getRecipeListLoadingState().getValue() == Model.RecipeListLoadingState.loading);
+        Model.instance.getRecipeListLoadingState().observe(getViewLifecycleOwner(), recipeListLoadingState -> {
+            if (recipeListLoadingState == Model.RecipeListLoadingState.loading) {
+                swipeRefresh.setRefreshing(true);
+            } else {
+                swipeRefresh.setRefreshing(false);
+            }
+        });
         return view;
 
     }
+
     private void refresh() {
-        swipeRefresh.setRefreshing(true);
-        Model.instance.getAllRecipes((list)->{
-            recipes = list;
-            adapter.notifyDataSetChanged();
-            swipeRefresh.setRefreshing(false);
-        });
+        adapter.notifyDataSetChanged();
+        swipeRefresh.setRefreshing(false);
+//        swipeRefresh.setRefreshing(true);
+//        Model.instance.getAllRecipes((list)->{
+//            viewModel.setRecipes(list);
+//            adapter.notifyDataSetChanged();
+//            swipeRefresh.setRefreshing(false);
+//        });
     }
 
-    class MyViewHolder extends RecyclerView.ViewHolder{
+    class MyViewHolder extends RecyclerView.ViewHolder {
         TextView nameTv;
 
 
@@ -96,22 +116,22 @@ public class RecipesListFragment extends Fragment {
         }
     }
 
-    interface OnItemClickListener{
-        void onItemClick(View v,int position);
+    interface OnItemClickListener {
+        void onItemClick(View v, int position);
     }
-    class MyAdapter extends RecyclerView.Adapter<RecipesListFragment.MyViewHolder>{
+    class MyAdapter extends RecyclerView.Adapter<RecipesListFragment.MyViewHolder> {
 
         RecipesListFragment.OnItemClickListener listener;
 
-        public void setOnItemClickListener(OnItemClickListener listener){
+        public void setOnItemClickListener(OnItemClickListener listener) {
             this.listener = listener;
         }
 
         @NonNull
         @Override
         public RecipesListFragment.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View view = getLayoutInflater().inflate(R.layout.recipe_list_row,parent,false);
-            RecipesListFragment.MyViewHolder holder = new RecipesListFragment.MyViewHolder(view,listener);
+            View view = getLayoutInflater().inflate(R.layout.recipe_list_row, parent, false);
+            RecipesListFragment.MyViewHolder holder = new RecipesListFragment.MyViewHolder(view, listener);
             return holder;
 
 
@@ -119,9 +139,9 @@ public class RecipesListFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull RecipesListFragment.MyViewHolder holder, int position) {
-            Recipe recipe = recipes.get(position);
-            Log.d("TAG","the recipe is  : : : : " +recipe);
-            Log.d("TAG","the recipe name is  : : : : " +recipe.getName());
+            Recipe recipe = viewModel.getRecipes().getValue().get(position);
+            Log.d("TAG", "the recipe is  : : : : " + recipe);
+            Log.d("TAG", "the recipe name is  : : : : " + recipe.getName());
 
             holder.nameTv.setText(recipe.getName());
 
@@ -129,39 +149,22 @@ public class RecipesListFragment extends Fragment {
 
         @Override
         public int getItemCount() {
-            if(recipes == null) {
+            if (viewModel.getRecipes().getValue() == null) {
                 return 0;
             }
-            return recipes.size();
+            return viewModel.getRecipes().getValue().size();
 
         }
-
-
-//        @Override
-//        public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-//            super.onCreateOptionsMenu(menu, inflater);
-//            inflater.inflate(R.menu.myaccount_menu,menu);
-//        }
-//
-//        @Override
-//        public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-//            if (item.getItemId() == R.id.add){
-//                Log.d("TAG","ADD...");
-//                return true;
-//            }else {
-//                return super.onOptionsItemSelected(item);
-//            }
-//        }
     }
 
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.menu_myAccount){
-            Log.d("TAG","ADD...");
+        if (item.getItemId() == R.id.menu_myAccount) {
+            Log.d("TAG", "ADD...");
             NavHostFragment.findNavController(this).navigate(RecipesListFragmentDirections.actionGlobalMyAccountFragment());
             return true;
-        }else {
+        } else {
             return super.onOptionsItemSelected(item);
         }
     }

@@ -3,6 +3,9 @@ import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.FieldValue;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,6 +20,8 @@ public class Recipe {
     String ingredients= "";
     String id = "";
     String type = "";
+
+    Long updateDate = new Long(0);
 
 
     public Recipe(){}
@@ -66,6 +71,10 @@ public class Recipe {
         return type;
     }
 
+    public void setUpdateDate(Long updateDate) {
+        this.updateDate = updateDate;
+    }
+
     public Map<String, Object> toJson() {
         Map<String, Object> json = new HashMap<String, Object>();
         json.put("name",name);
@@ -73,18 +82,26 @@ public class Recipe {
         json.put("ingredients",ingredients);
         json.put("id",id);
         json.put("type",type);
-
+        json.put("updateDate", FieldValue.serverTimestamp());
         return json;
     }
+
     public static Recipe create(Map<String, Object> json) {
         String name = (String) json.get("name");
         String method = (String) json.get("method");
         String ingredients = (String) json.get("ingredients");
         String id = (String) json.get("id");
         String type = (String) json.get("type");
-
+        Timestamp ts = (Timestamp)json.get("updateDate");
+        Long updateDate = ts.getSeconds();
 
         Recipe recipe = new Recipe(name,method,ingredients,id,type);
+        recipe.setUpdateDate(updateDate);
         return recipe;
+    }
+
+    //TODO:....
+    public Long getUpdateDate() {
+        return updateDate;
     }
 }

@@ -101,6 +101,6 @@
         tools:layout="@layout/fragment_new_recipe" />
     <action android:id="@+id/action_global_myAccountFragment" app:destination="@id/myAccount_nav" />
     <action android:id="@+id/action_global_searchFragment" app:destination="@id/searchFragment" />
-    <action android:id="@+id/action_global_newRecipeFragment" app:destination="@id/newRecipeFragment" />
+    <action android:id="@+id/action_global_newRecipeFragment" app:destination="@id/newRecipeFragment" /><action android:id="@+id/action_global_recipesListFragment2" app:destination="@id/recipesListFragment"/>
 
 </navigation>

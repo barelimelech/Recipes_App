@@ -1,11 +1,15 @@
 package com.example.recipes_app.model;
 
+import android.icu.lang.UProperty;
+
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.LinkedList;
@@ -15,8 +19,22 @@ import java.util.Map;
 public class ModelFirebase {
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
-    public void getAllRecipes(Model.GetAllRecipesListener listener) {
+
+    public ModelFirebase(){
+        FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
+                .setPersistenceEnabled(false)
+                .build();
+        db.setFirestoreSettings(settings);
+    }
+
+    public interface GetAllRecipesListener{
+        void onComplete(List<Recipe> list);
+    }
+
+    //TODO: fix since
+    public void getAllRecipes(Long lastUpdateDate, GetAllRecipesListener listener) {
         db.collection(Recipe.COLLECTION_NAME)
+                .whereGreaterThanOrEqualTo("updateDate",new Timestamp(lastUpdateDate,0))
                 .get()
                 .addOnCompleteListener(task -> {
                     List<Recipe> list = new LinkedList<Recipe>();
@@ -33,7 +51,7 @@ public class ModelFirebase {
 
     }
 
-    public void addRecipe(Recipe recipe, Model.AddRecipeListener listener) {
+   public void addRecipe(Recipe recipe, Model.AddRecipeListener listener) {
         Map<String, Object> json = recipe.toJson();
         db.collection(Recipe.COLLECTION_NAME)
                 .document(recipe.getId())
@@ -51,7 +69,7 @@ public class ModelFirebase {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         Recipe recipe = null;
-                        if (task.isSuccessful() & task.getResult()!= null){
+                        if (task.isSuccessful() & task.getResult()!= null) {
                             recipe = Recipe.create(task.getResult().getData());
                         }
                         listener.onComplete(recipe);
