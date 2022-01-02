@@ -32,6 +32,15 @@ public class MyAccountFragment extends Fragment {
             Navigation.findNavController(v).navigate(R.id.action_myAccount_nav_to_recipesListFragment);
         });
 
+        Button edit = view.findViewById(R.id.myaccount_edit_btn);
+        edit.setOnClickListener((v)->{
+            Navigation.findNavController(v).navigate(R.id.action_myAccount_nav_to_editMyAccountFragment);
+        });
+
+        Button categories = view.findViewById(R.id.myaccount_categories_btn);
+        categories.setOnClickListener((v)->{
+            Navigation.findNavController(v).navigate(R.id.action_myAccount_nav_to_categoriesListFragment);
+        });
         //TODO: edit my account page and fragment
 //        Button editMyAccount = view.findViewById(R.id.myaccount_edit_btn);
 //        editMyAccount.setOnClickListener((v)->{

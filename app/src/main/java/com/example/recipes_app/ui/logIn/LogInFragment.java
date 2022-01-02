@@ -24,6 +24,7 @@ public class LogInFragment extends Fragment {
 
         username = view.findViewById(R.id.login_username_tv);
         password = view.findViewById(R.id.lodin_password_tv);
+        //recipeId = RecipeDetailsFragmentArgs.fromBundle(getArguments()).getRecipeId();
 
 
         Button signUp = view.findViewById(R.id.login_signup_btn);
@@ -35,6 +36,23 @@ public class LogInFragment extends Fragment {
         logIn.setOnClickListener((v)->{
             Navigation.findNavController(v).navigate(R.id.action_nav_home_to_categoriesListFragment2);
         });
+
+        String username1 = "bar";
+        String password1 = password.getText().toString();
+
+//
+//        Model.instance.getUserByUsername(username1, new Model.GetUserByUsername() {
+//
+//            @Override
+//            public void onComplete(User user) {
+//                if(user.getPassword().equals(password1)){
+//                    //Navigation.findNavController()
+//                   // Log.d("TAG", "password : " + user.getPassword());
+//
+//                }
+//            }
+//        });
+
         return view;
     }
 //

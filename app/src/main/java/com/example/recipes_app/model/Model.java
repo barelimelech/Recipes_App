@@ -28,7 +28,7 @@ public class Model {
     }
 
     MutableLiveData<RecipeListLoadingState> recipeListLoadingState = new MutableLiveData<>();
-    //MutableLiveData<RecipeListLoadingState> userListLoadingState = new MutableLiveData<>();
+    MutableLiveData<RecipeListLoadingState> userListLoadingState = new MutableLiveData<>();
 
 
     public LiveData<RecipeListLoadingState> getRecipeListLoadingState() {
@@ -39,6 +39,7 @@ public class Model {
 
     private Model() {
         recipeListLoadingState.setValue(RecipeListLoadingState.loaded);
+        //userListLoadingState.setValue();
     }
 
     List<String> data = new LinkedList<String>();
@@ -52,12 +53,61 @@ public class Model {
 //    }
 
     MutableLiveData<List<Recipe>> recipesList = new MutableLiveData<List<Recipe>>();
+    MutableLiveData<List<User>> usersList = new MutableLiveData<List<User>>();
+
 
     public LiveData<List<Recipe>> getAll() {
         if (recipesList.getValue() == null) {
             refreshRecipeList();
         }
         return recipesList;
+    }
+
+    public LiveData<List<User>> getAllUsers() {
+        if (usersList.getValue() == null) {
+            refreshUserList();
+        }
+        return usersList;
+    }
+
+    private void refreshUserList() {
+        userListLoadingState.setValue(RecipeListLoadingState.loading);
+
+        //get last local update date
+        Long lastUpdateDate = MyApplication.getContext().getSharedPreferences("TAG", Context.MODE_PRIVATE).getLong("RecipeLastUpdateDate", 0);
+
+        //firebase get all updates since lastLocalUpdateDate
+        modelFirebase.getAllUsers(lastUpdateDate, new ModelFirebase.GetAllUsersListener() {
+            @Override
+            public void onComplete(List<User> list) {
+                //add all records to the local db
+                executor.execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        Long lud = new Long(0);
+                        Log.d("TAG", "fb returned " + list.size());
+                        for (User user : list) {
+                            AppLocalDb.db.userDao().insertAll(user);
+                            if (lud < user.getUpdateDate()) {
+                                lud = user.getUpdateDate();
+                            }
+                        }
+                        //update last local update date
+                        MyApplication.getContext()
+                                .getSharedPreferences("TAG", Context.MODE_PRIVATE)
+                                .edit()
+                                .putLong("RecipeLastUpdateDate", lud)
+                                .commit();
+
+                        //return all data to caller
+                        List<User> reList = AppLocalDb.db.userDao().getAll();
+                        usersList.postValue(reList);
+                        userListLoadingState.postValue(RecipeListLoadingState.loaded);
+                        //delete from room
+                    }
+                });
+            }
+        });
     }
 
     public void refreshRecipeList() {
@@ -137,6 +187,9 @@ public class Model {
         return data;
         //return null;
     }
+
+
+    //***********************************USER*************************************//
 
     public interface AddUserListener {
         void onComplete();

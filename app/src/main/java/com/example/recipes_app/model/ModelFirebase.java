@@ -77,7 +77,7 @@ public class ModelFirebase {
 
 
 
-    ////////////////////////////User////////////////////////////
+    //*******************************User*******************************//
 
 
     public interface GetAllUsersListener{
@@ -115,7 +115,7 @@ public class ModelFirebase {
 
     public void getUserByUsername(String username, Model.GetUserByUsername listener) {
 
-        db.collection(Recipe.COLLECTION_NAME)
+        db.collection(User.COLLECTION_NAME)
                 .document(username)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {

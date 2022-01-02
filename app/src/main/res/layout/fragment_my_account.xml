@@ -92,14 +92,14 @@
         android:textColorHighlight="#00FFFFFF"
         android:textColorLink="#00231F1F"
         android:textSize="20sp"
-        app:layout_constraintEnd_toStartOf="@+id/myaccount_othersrecipes_btn2"
+        app:layout_constraintEnd_toStartOf="@+id/myaccount_categories_btn"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/myaccount_myrecipes_btn"
         app:rippleColor="#8F4F4F" />
 
     <Button
-        android:id="@+id/myaccount_othersrecipes_btn2"
+        android:id="@+id/myaccount_categories_btn"
         android:layout_width="155dp"
         android:layout_height="75dp"
         android:layout_marginTop="20dp"

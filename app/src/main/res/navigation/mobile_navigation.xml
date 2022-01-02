@@ -21,7 +21,7 @@
     <fragment
         android:id="@+id/signUpFragment"
         android:name="com.example.recipes_app.ui.signUp.SignUpFragment"
-        android:label="@string/menu_home"
+        android:label="sighUpFrag"
         tools:layout="@layout/fragment_sign_up" >
 
         <action
@@ -88,6 +88,12 @@
         <action
             android:id="@+id/action_myAccount_nav_to_recipesListFragment"
             app:destination="@id/recipesListFragment" />
+        <action
+            android:id="@+id/action_myAccount_nav_to_categoriesListFragment"
+            app:destination="@id/categoriesListFragment" />
+        <action
+            android:id="@+id/action_myAccount_nav_to_editMyAccountFragment"
+            app:destination="@id/editMyAccountFragment" />
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
@@ -102,5 +108,10 @@
     <action android:id="@+id/action_global_myAccountFragment" app:destination="@id/myAccount_nav" />
     <action android:id="@+id/action_global_searchFragment" app:destination="@id/searchFragment" />
     <action android:id="@+id/action_global_newRecipeFragment" app:destination="@id/newRecipeFragment" /><action android:id="@+id/action_global_recipesListFragment2" app:destination="@id/recipesListFragment"/>
+    <fragment
+        android:id="@+id/editMyAccountFragment"
+        android:name="com.example.recipes_app.EditMyAccountFragment"
+        android:label="fragment_edit_my_account"
+        tools:layout="@layout/fragment_edit_my_account" />
 
 </navigation>

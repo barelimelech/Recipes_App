@@ -24,6 +24,8 @@ public class Recipe {
     Long updateDate = new Long(0);
 
 
+    //String username;
+
     public Recipe(){}
     public Recipe(String name,String method, String ingredients,String id,String type) {
         this.name = name;

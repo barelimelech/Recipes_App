@@ -32,6 +32,8 @@ public class NewRecipeFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_new_recipe, container, false);
+
+
         recipeName= view.findViewById(R.id.pe_nameOfRec);
         recipeMethod= view.findViewById(R.id.newRec_method);
         recipeIngredients= view.findViewById(R.id.newRec_ingredients);
