@@ -1,5 +1,11 @@
 package com.example.recipes_app.model;
 
+import androidx.annotation.NonNull;
+import androidx.room.PrimaryKey;
+
+import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.FieldValue;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -7,9 +13,12 @@ public class User {
 
     final public static String COLLECTION_NAME = "users";
 
+    @PrimaryKey
+    @NonNull
     String username;
     String password;
     String birthday;
+    Long updateDate = new Long(0);
 
     public User(){}
 
@@ -42,6 +51,9 @@ public class User {
     public void setUsername(String username) {
         this.username = username;
     }
+    public void setUpdateDate(Long updateDate) {
+        this.updateDate = updateDate;
+    }
 
 
     public Map<String, Object> toJson() {
@@ -49,6 +61,7 @@ public class User {
         json.put("username",username);
         json.put("password",password);
         json.put("birthday",birthday);
+        json.put("updateDate", FieldValue.serverTimestamp());
 
         return json;
     }
@@ -56,9 +69,18 @@ public class User {
         String username = (String) json.get("username");
         String password = (String) json.get("password");
         String birthday = (String) json.get("birthday");
+        Timestamp ts = (Timestamp)json.get("updateDate");
+        Long updateDate = ts.getSeconds();
 
 
         User user = new User(username,password,birthday);
+        user.setUpdateDate(updateDate);
         return user;
+    }
+
+
+    //TODO:....
+    public Long getUpdateDate() {
+        return updateDate;
     }
 }

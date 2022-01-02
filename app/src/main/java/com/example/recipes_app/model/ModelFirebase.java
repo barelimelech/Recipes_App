@@ -1,7 +1,5 @@
 package com.example.recipes_app.model;
 
-import android.icu.lang.UProperty;
-
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -76,4 +74,61 @@ public class ModelFirebase {
                     }
                 });
     }
+
+
+
+    ////////////////////////////User////////////////////////////
+
+
+    public interface GetAllUsersListener{
+        void onComplete(List<User> list);
+    }
+
+    //TODO: fix since
+    public void getAllUsers(Long lastUpdateDate, GetAllUsersListener listener) {
+        db.collection(User.COLLECTION_NAME)
+                .whereGreaterThanOrEqualTo("updateDate",new Timestamp(lastUpdateDate,0))
+                .get()
+                .addOnCompleteListener(task -> {
+                    List<User> list = new LinkedList<User>();
+                    if (task.isSuccessful()){
+                        for (QueryDocumentSnapshot doc : task.getResult()){
+                            User user = User.create(doc.getData());
+                            if (user != null){
+                                list.add(user);
+                            }
+                        }
+                    }
+                    listener.onComplete(list);
+                });
+
+    }
+
+    public void addUser(User user, Model.AddUserListener listener) {
+        Map<String, Object> json = user.toJson();
+        db.collection(User.COLLECTION_NAME)
+                .document(user.getUsername())
+                .set(json)
+                .addOnSuccessListener(unused -> listener.onComplete())
+                .addOnFailureListener(e -> listener.onComplete());
+    }
+
+    public void getUserByUsername(String username, Model.GetUserByUsername listener) {
+
+        db.collection(Recipe.COLLECTION_NAME)
+                .document(username)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        User user = null;
+                        if (task.isSuccessful() & task.getResult()!= null) {
+                            user = User.create(task.getResult().getData());
+                        }
+                        listener.onComplete(user);
+                    }
+                });
+    }
+
+
 }

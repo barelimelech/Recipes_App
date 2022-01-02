@@ -4,16 +4,21 @@ import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
+import android.widget.Filter;
+import android.widget.Filterable;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
@@ -24,6 +29,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.example.recipes_app.model.Model;
 import com.example.recipes_app.model.Recipe;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -31,11 +37,13 @@ public class RecipesListFragment extends Fragment {
     RecipesListViewModel viewModel;
     MyAdapter adapter;
     SwipeRefreshLayout swipeRefresh;
+    List<Recipe> recipes = new ArrayList<>();
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         viewModel = new ViewModelProvider(this).get(RecipesListViewModel.class);
+
     }
 
     @Nullable
@@ -45,6 +53,8 @@ public class RecipesListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_recipes_list, container, false);
         swipeRefresh = view.findViewById(R.id.recipeslist_swiperefresh);
         swipeRefresh.setOnRefreshListener(() -> Model.instance.refreshRecipeList());
+       // recipes.addAll(viewModel.recipes.getValue());
+        Log.d("TAG", "recipes  : : : : " + recipes);
 
         // String recipeId = RecipeDetailsFragmentArgs.fromBundle(getArguments()).getRecipeId();
 
@@ -82,6 +92,7 @@ public class RecipesListFragment extends Fragment {
                 swipeRefresh.setRefreshing(false);
             }
         });
+
         return view;
 
     }
@@ -119,9 +130,10 @@ public class RecipesListFragment extends Fragment {
     interface OnItemClickListener {
         void onItemClick(View v, int position);
     }
-    class MyAdapter extends RecyclerView.Adapter<RecipesListFragment.MyViewHolder> {
+    class MyAdapter extends RecyclerView.Adapter<RecipesListFragment.MyViewHolder> implements Filterable {
 
         RecipesListFragment.OnItemClickListener listener;
+       List<Recipe> tmpList = viewModel.getRecipes().getValue();
 
         public void setOnItemClickListener(OnItemClickListener listener) {
             this.listener = listener;
@@ -132,6 +144,9 @@ public class RecipesListFragment extends Fragment {
         public RecipesListFragment.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View view = getLayoutInflater().inflate(R.layout.recipe_list_row, parent, false);
             RecipesListFragment.MyViewHolder holder = new RecipesListFragment.MyViewHolder(view, listener);
+            recipes.addAll(viewModel.recipes.getValue());
+           // Log.d("TAG", "recipesssssssssssssssssssssssssssssssssssss " + recipes);
+
             return holder;
 
 
@@ -155,6 +170,52 @@ public class RecipesListFragment extends Fragment {
             return viewModel.getRecipes().getValue().size();
 
         }
+        @Override
+        public Filter getFilter() {
+            return myFilter;
+        }
+
+        private Filter myFilter = new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                List<Recipe> list = new ArrayList<>();
+                if(constraint == null || constraint.length() == 0){
+                    List<Recipe> tmpList = recipes;
+
+                    list.addAll(tmpList);
+                }else{
+                    String filterPattern = constraint.toString().toLowerCase().trim();
+                    for (Recipe item : viewModel.recipes.getValue()) {
+                        if (item.getName().toLowerCase().contains(filterPattern)) {
+                            list.add(item);
+                        }
+                    }
+                }
+                FilterResults results = new FilterResults();
+                results.values = list;
+
+                return results;
+            }
+
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                List<Recipe> tmpList = viewModel.getRecipes().getValue();
+
+                tmpList.clear();
+                tmpList.addAll((List) results.values);
+                notifyDataSetChanged();
+            }
+        };
+//        public void updateList(ArrayList<Recipe> newList) {
+//            Log.i("String:", newList.toString());
+//
+//           // viewModel.recipes.getValue() = new ArrayList<>();
+//            viewModel.recipes.getValue().addAll(newList);
+//
+//
+//            notifyDataSetChanged();
+//        }
+
     }
 
 
@@ -168,4 +229,51 @@ public class RecipesListFragment extends Fragment {
             return super.onOptionsItemSelected(item);
         }
     }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater)
+    {
+        inflater.inflate(R.menu.search_menu, menu);
+
+
+        MenuItem searchViewItem = menu.findItem(R.id.search_bar_menu);
+        SearchView searchView = (SearchView) searchViewItem.getActionView();
+        searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
+
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
+
+            @Override
+            public boolean onQueryTextSubmit(String query)
+            {
+
+//                if (recipes.contains(query)) {
+//                    adapter.getFilter().filter(query);
+//                }
+//                else {
+//                    // Search query not found in List View
+//                    Toast.makeText(RecipesListFragment.this, "Not found", Toast.LENGTH_LONG).show();
+//                }
+
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText)
+            {
+                adapter.getFilter().filter(newText);
+
+                if(newText.length()==0){
+                    //list.addAll(viewModel.recipes.getValue());
+
+                }
+                return false;
+            }
+        });
+
+        super.onCreateOptionsMenu(menu,inflater);
+    }
 }
+
+

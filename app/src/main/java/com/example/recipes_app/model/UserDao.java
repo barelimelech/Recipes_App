@@ -10,12 +10,12 @@
 //public class UserDao {
 //
 //
-//    @Query("select * from User")
+//    @Query("select * from Recipe")
 //    List<User> getAll();
 //
 //    @Insert(onConflict = OnConflictStrategy.REPLACE)
 //    void insertAll(User... recipes);
 //
 //    @Delete
-//    void delete(User recipe);
+//    void delete(Recipe recipe);
 //}

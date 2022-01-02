@@ -28,6 +28,8 @@ public class Model {
     }
 
     MutableLiveData<RecipeListLoadingState> recipeListLoadingState = new MutableLiveData<>();
+    //MutableLiveData<RecipeListLoadingState> userListLoadingState = new MutableLiveData<>();
+
 
     public LiveData<RecipeListLoadingState> getRecipeListLoadingState() {
         return recipeListLoadingState;
@@ -134,6 +136,22 @@ public class Model {
         data.add("Holidays");
         return data;
         //return null;
+    }
+
+    public interface AddUserListener {
+        void onComplete();
+    }
+
+    public void addUser(User user, AddUserListener listener) {
+        modelFirebase.addUser(user, listener);
+    }
+
+    public interface GetUserByUsername {
+        void onComplete(User user);
+    }
+    public User getUserByUsername(String username, GetUserByUsername listener) {
+        modelFirebase.getUserByUsername(username,listener);
+        return null;
     }
 
 
