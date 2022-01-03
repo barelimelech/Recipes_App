@@ -9,23 +9,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.recipes_app.model.Model;
-import com.example.recipes_app.model.ModelFirebase;
 import com.example.recipes_app.model.Recipe;
-import com.example.recipes_app.ui.newRecipe.NewRecipeFragment;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
-
-import java.util.Map;
 
 public class EditRecipeFragment extends Fragment {
     TextView recipeName;
@@ -35,7 +27,7 @@ public class EditRecipeFragment extends Fragment {
     Button saveRecipe;
     Button backBtn;
     //TextView recipeId;
-    String recipeId;
+    String recipeId, usernameAsId;
     private FirebaseFirestore db;
 
     @Override
@@ -44,7 +36,7 @@ public class EditRecipeFragment extends Fragment {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_edit_recipe, container, false);
         recipeId = EditRecipeFragmentArgs.fromBundle(getArguments()).getRecipeId();
-        //String recipeId = RecipeDetailsFragmentArgs.fromBundle(getArguments()).getRecipeId();
+        //usernameAsId = MyAccountFragmentArgs.fromBundle(getArguments()).getUsername(); //TODO:!!!!!!!
         recipeName = view.findViewById(R.id.editrecipe_name_tv);
         recipeMethod= view.findViewById(R.id.editrecipe_method_tv);
         recipeIngredients= view.findViewById(R.id.editrecipe_ingredients_yv);
@@ -103,7 +95,7 @@ public class EditRecipeFragment extends Fragment {
 //        db.collection("Recipe.COLLECTION_NAME")
 //                .document(recipeId)
 //                .set(json);
-        NavHostFragment.findNavController(this).navigate(EditRecipeFragmentDirections.actionGlobalRecipesListFragment2());
+       // NavHostFragment.findNavController(this).navigate(EditRecipeFragmentDirections.actionGlobalRecipesListFragment2());//TODO:!!!!
 
     }
 
@@ -121,7 +113,8 @@ public class EditRecipeFragment extends Fragment {
             //TODO:delete
             // Model.instance.deleteRecipeNew(recipe.getId());
 
-            NavHostFragment.findNavController(this).navigate(EditRecipeFragmentDirections.actionGlobalMyAccountFragment());
+            //TODO:
+           // NavHostFragment.findNavController(this).navigate(EditRecipeFragmentDirections.actionGlobalMyAccountFragment(usernameAsId));
             return true;
         }else {
             return super.onOptionsItemSelected(item);

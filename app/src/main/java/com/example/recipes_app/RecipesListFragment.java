@@ -28,6 +28,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.recipes_app.model.Model;
 import com.example.recipes_app.model.Recipe;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +39,9 @@ public class RecipesListFragment extends Fragment {
     MyAdapter adapter;
     SwipeRefreshLayout swipeRefresh;
     List<Recipe> recipes = new ArrayList<>();
+    List<Recipe> tmpRecipes = new ArrayList<>();
+    String usernameAsId;
+    private FirebaseFirestore db;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -51,6 +55,10 @@ public class RecipesListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         //Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_recipes_list, container, false);
+
+        usernameAsId = RecipesListFragmentArgs.fromBundle(getArguments()).getUsername();//TODO:!!!!!!!
+        db = FirebaseFirestore.getInstance();
+
         swipeRefresh = view.findViewById(R.id.recipeslist_swiperefresh);
         swipeRefresh.setOnRefreshListener(() -> Model.instance.refreshRecipeList());
        // recipes.addAll(viewModel.recipes.getValue());
@@ -133,10 +141,11 @@ public class RecipesListFragment extends Fragment {
     class MyAdapter extends RecyclerView.Adapter<RecipesListFragment.MyViewHolder> implements Filterable {
 
         RecipesListFragment.OnItemClickListener listener;
-       List<Recipe> tmpList = viewModel.getRecipes().getValue();
+        List<Recipe> tmpList = viewModel.getRecipes().getValue();
 
         public void setOnItemClickListener(OnItemClickListener listener) {
             this.listener = listener;
+
         }
 
         @NonNull
@@ -144,7 +153,7 @@ public class RecipesListFragment extends Fragment {
         public RecipesListFragment.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View view = getLayoutInflater().inflate(R.layout.recipe_list_row, parent, false);
             RecipesListFragment.MyViewHolder holder = new RecipesListFragment.MyViewHolder(view, listener);
-            recipes.addAll(viewModel.recipes.getValue());
+            //recipes.addAll(viewModel.recipes.getValue());
            // Log.d("TAG", "recipesssssssssssssssssssssssssssssssssssss " + recipes);
 
             return holder;
@@ -157,7 +166,7 @@ public class RecipesListFragment extends Fragment {
             Recipe recipe = viewModel.getRecipes().getValue().get(position);
             Log.d("TAG", "the recipe is  : : : : " + recipe);
             Log.d("TAG", "the recipe name is  : : : : " + recipe.getName());
-
+            tmpList = viewModel.getRecipes().getValue();
             holder.nameTv.setText(recipe.getName());
 
         }
@@ -167,6 +176,8 @@ public class RecipesListFragment extends Fragment {
             if (viewModel.getRecipes().getValue() == null) {
                 return 0;
             }
+            tmpList = viewModel.getRecipes().getValue();
+
             return viewModel.getRecipes().getValue().size();
 
         }
@@ -180,7 +191,7 @@ public class RecipesListFragment extends Fragment {
             protected FilterResults performFiltering(CharSequence constraint) {
                 List<Recipe> list = new ArrayList<>();
                 if(constraint == null || constraint.length() == 0){
-                    List<Recipe> tmpList = recipes;
+                    //List<Recipe> tmpList = viewModel.getRecipes().getValue();
 
                     list.addAll(tmpList);
                 }else{
@@ -199,10 +210,10 @@ public class RecipesListFragment extends Fragment {
 
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
-                List<Recipe> tmpList = viewModel.getRecipes().getValue();
+                List<Recipe> list1 = viewModel.getRecipes().getValue();
 
-                tmpList.clear();
-                tmpList.addAll((List) results.values);
+                list1.clear();
+                list1.addAll((List) results.values);
                 notifyDataSetChanged();
             }
         };
@@ -223,7 +234,7 @@ public class RecipesListFragment extends Fragment {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.menu_myAccount) {
             Log.d("TAG", "ADD...");
-            NavHostFragment.findNavController(this).navigate(RecipesListFragmentDirections.actionGlobalMyAccountFragment());
+            NavHostFragment.findNavController(this).navigate(RecipesListFragmentDirections.actionGlobalMyAccountFragment(usernameAsId));
             return true;
         } else {
             return super.onOptionsItemSelected(item);

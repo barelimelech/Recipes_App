@@ -8,7 +8,10 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
 
+import com.example.recipes_app.model.Model;
+import com.example.recipes_app.model.User;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 
@@ -27,22 +30,24 @@ public class EditMyAccountFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_edit_my_account, container, false);
 
-        // Inflate the layout for this fragment
-        //usernameAsId = EditRecipeFragmentArgs.fromBundle(getArguments()).getRecipeId();
-        //String recipeId = RecipeDetailsFragmentArgs.fromBundle(getArguments()).getRecipeId();
+
         username = view.findViewById(R.id.editmyaccount_username_tv);
         password= view.findViewById(R.id.editmyaccount_password_tv);
         fullName= view.findViewById(R.id.editmyaccount_fullname_tv);
         db = FirebaseFirestore.getInstance();
-//        Model.instance.getUserByUsername(recipeId, new Model.GetRecipeById() {
-//            @Override
-//            public void onComplete(Recipe student) {
-//                recipeName.setText(student.getName());
-//                recipeMethod.setText(student.getMethod());
-//                recipeIngredients.setText(student.getIngredients());
-//
-//            }
-//        });
+        usernameAsId = EditMyAccountFragmentArgs.fromBundle(getArguments()).getUsername();
+
+
+        Model.instance.getUserByUsername(usernameAsId, new Model.GetUserByUsername() {
+
+            @Override
+            public void onComplete(User user) {
+                fullName.setText(user.getFullName());
+                password.setText(user.getPassword());
+                username.setText(user.getUsername());
+
+            }
+        });
 
 
         saveMyAccount = view.findViewById(R.id.editmyaccount_save_btn);
@@ -69,6 +74,18 @@ public class EditMyAccountFragment extends Fragment {
         String username1 = username.getText().toString();
         String password1 = password.getText().toString();
         String fullName1 = fullName.getText().toString();
+        Model.instance.getUserByUsername(usernameAsId, new Model.GetUserByUsername() {
+
+            @Override
+            public void onComplete(User user) {
+                user.setFullName(fullName1);
+                user.setUsername(username1);
+                user.setPassword(password1);
+            }
+        });
+
+        NavHostFragment.findNavController(this).navigate(EditMyAccountFragmentDirections.actionGlobalMyAccountFragment(usernameAsId));
+
 //        Model.instance.getRecipeById(recipeId, new Model.GetRecipeById() {
 //            @Override
 //            public void onComplete(Recipe student) {
@@ -87,6 +104,7 @@ public class EditMyAccountFragment extends Fragment {
 //                .document(recipeId)
 //                .set(json);
        // NavHostFragment.findNavController(this).navigate(EditRecipeFragmentDirections.actionGlobalRecipesListFragment2());
+
 
     }
 }

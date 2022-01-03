@@ -32,7 +32,7 @@ public class User {
         this.fullName = fullName;
     }
 
-    public String getBirthday() {
+    public String getFullName() {
         return fullName;
     }
 
@@ -44,8 +44,8 @@ public class User {
         return username;
     }
 
-    public void setBirthday(String birthday) {
-        this.fullName = birthday;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     public void setPassword(String password) {
@@ -65,7 +65,7 @@ public class User {
         Map<String, Object> json = new HashMap<String, Object>();
         json.put("username",username);
         json.put("password",password);
-        json.put("birthday",fullName);
+        json.put("fullName",fullName);
         json.put("updateDate", FieldValue.serverTimestamp());
 
         return json;
@@ -75,11 +75,11 @@ public class User {
         String password = (String) json.get("password");
         String fullName = (String) json.get("fullName");
         Timestamp ts = (Timestamp)json.get("updateDate");
-        Long updateDate = ts.getSeconds();
+        //Long updateDate = ts.getSeconds();//TODO: not working
 
 
         User user = new User(username,password,fullName);
-        user.setUpdateDate(updateDate);
+       // user.setUpdateDate(updateDate);
         return user;
     }
 

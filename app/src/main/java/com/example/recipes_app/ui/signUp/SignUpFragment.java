@@ -10,6 +10,7 @@ import android.widget.EditText;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.recipes_app.R;
 import com.example.recipes_app.model.Model;
@@ -21,6 +22,8 @@ public class SignUpFragment extends Fragment {
     EditText password;
     EditText fullName;
     Button signUp;
+
+    String usernameAsId;
 
     @Nullable
     @Override
@@ -41,8 +44,11 @@ public class SignUpFragment extends Fragment {
         Button logIn = view.findViewById(R.id.signup_login_btn);
         logIn.setOnClickListener((v)->{
             save();
-            Navigation.findNavController(v).navigate(R.id.action_signUpFragment_to_categoriesListFragment);
+            //Navigation.findNavController(v).navigate(R.id.action_signUpFragment_to_categoriesListFragment);
+            NavHostFragment.findNavController(this).navigate(SignUpFragmentDirections.actionSignUpFragmentToCategoriesListFragment(usernameAsId));
+
         });
+        setHasOptionsMenu(true);
 
         return view;
     }
@@ -52,7 +58,7 @@ public class SignUpFragment extends Fragment {
         String username1 = username.getText().toString();
         String password1 = password.getText().toString();
         String fullName1 = fullName.getText().toString();
-
+        usernameAsId = username1;
 
         User user = new User(username1,password1,fullName1);
 

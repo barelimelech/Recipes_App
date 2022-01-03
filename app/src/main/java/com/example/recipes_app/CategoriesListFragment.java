@@ -16,17 +16,28 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.recipes_app.model.Model;
+import com.example.recipes_app.model.User;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.List;
 
 public class CategoriesListFragment extends Fragment {
 
    List<String> categories;
+    String usernameAsId;
+    private FirebaseFirestore db;
+
+    TextView headline;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_categories_list,container,false);
         categories = Model.instance.getAllCategories();
+        usernameAsId = CategoriesListFragmentArgs.fromBundle(getArguments()).getUsername();
+        headline = view.findViewById(R.id.categorieslist_headline_tv);
+
+        db = FirebaseFirestore.getInstance();
 
 
         RecyclerView list = view.findViewById(R.id.categorieslist_rv);
@@ -45,6 +56,13 @@ public class CategoriesListFragment extends Fragment {
             }
         });
 
+        Model.instance.getUserByUsername(usernameAsId, new Model.GetUserByUsername() {
+
+            @Override
+            public void onComplete(User user) {
+                headline.setText("Welcome " +user.getUsername()+" :)"+"\n"+"Please choose category:");
+            }
+        });
 
 
 
@@ -114,7 +132,7 @@ public class CategoriesListFragment extends Fragment {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.menu_myAccount){
             Log.d("TAG","ADD...");
-            NavHostFragment.findNavController(this).navigate(CategoriesListFragmentDirections.actionGlobalMyAccountFragment());
+            NavHostFragment.findNavController(this).navigate(CategoriesListFragmentDirections.actionGlobalMyAccountFragment(usernameAsId));
             return true;
         }else {
             return super.onOptionsItemSelected(item);

@@ -1,6 +1,7 @@
 package com.example.recipes_app.ui.logIn;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,13 +10,17 @@ import android.widget.EditText;
 
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.recipes_app.R;
+import com.example.recipes_app.model.Model;
+import com.example.recipes_app.model.User;
 
 public class LogInFragment extends Fragment {
 
     EditText username;
     EditText password;
+    String usernameAsId;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -34,46 +39,42 @@ public class LogInFragment extends Fragment {
 
         Button logIn = view.findViewById(R.id.login_login_btn);
         logIn.setOnClickListener((v)->{
-            Navigation.findNavController(v).navigate(R.id.action_nav_home_to_categoriesListFragment2);
+            save();
+            NavHostFragment.findNavController(this).navigate(LogInFragmentDirections.actionNavHomeToCategoriesListFragment2(usernameAsId));
+
+           // Navigation.findNavController(v).navigate(R.id.action_nav_home_to_categoriesListFragment2);
         });
 
-        String username1 = "bar";
-        String password1 = password.getText().toString();
 
 //
 //        Model.instance.getUserByUsername(username1, new Model.GetUserByUsername() {
 //
 //            @Override
 //            public void onComplete(User user) {
-//                if(user.getPassword().equals(password1)){
-//                    //Navigation.findNavController()
-//                   // Log.d("TAG", "password : " + user.getPassword());
 //
-//                }
 //            }
 //        });
 
         return view;
     }
-//
-//    private void save() {
-//        //progressBar.setVisibility(View.VISIBLE);
-//        saveBtn.setEnabled(false);
-//        //cancelBtn.setEnabled(false);
-//        String name = recipeName.getText().toString();
-//        String method = recipeMethod.getText().toString();
-//        String ingredients = recipeIngredients.getText().toString();
-//        String id = recipeId.getText().toString();
-//        if (TextUtils.isEmpty(name)){
-//            nameEt.setError("Please Enter name!");
-//        }
-//        else if(TextUtils.isEmpty(id)){
-//            idEt.setError("Please Enter id!");
-//        }
-//        Recipe recipe = new Recipe(name,method,ingredients,id);
-//        Model.instance.addRecipe(recipe,()->{
-//            Navigation.findNavController(recipeId).navigateUp();
-//        });
-//
-//    }
+
+    private void save() {
+        String username1 = username.getText().toString();
+        String password1 = password.getText().toString();
+        usernameAsId = username1;
+
+        Model.instance.getUserByUsername(username1, new Model.GetUserByUsername() {
+
+            @Override
+            public void onComplete(User user) {
+                Log.d("TAG", "hello " + username1);
+                user.setUsername(username1);
+                user.setPassword(password1);
+            }
+        });
+
+       // NavHostFragment.findNavController(this).navigate(EditMyAccountFragmentDirections.actionGlobalMyAccountFragment(usernameAsId));
+
+
+    }
 }

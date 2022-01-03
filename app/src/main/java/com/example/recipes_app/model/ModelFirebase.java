@@ -130,5 +130,10 @@ public class ModelFirebase {
                 });
     }
 
+    public boolean isContain(String username){
+
+        return false;
+    }
+
 
 }
