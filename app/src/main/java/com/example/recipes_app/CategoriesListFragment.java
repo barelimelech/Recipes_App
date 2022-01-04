@@ -17,15 +17,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.recipes_app.model.Model;
 import com.example.recipes_app.model.User;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.List;
 
 public class CategoriesListFragment extends Fragment {
 
-   List<String> categories;
+    List<String> categories;
     String usernameAsId;
-    private FirebaseFirestore db;
+    //private FirebaseFirestore db;
 
     TextView headline;
 
@@ -37,7 +36,7 @@ public class CategoriesListFragment extends Fragment {
         usernameAsId = CategoriesListFragmentArgs.fromBundle(getArguments()).getUsername();
         headline = view.findViewById(R.id.categorieslist_headline_tv);
 
-        db = FirebaseFirestore.getInstance();
+        //db = FirebaseFirestore.getInstance();
 
 
         RecyclerView list = view.findViewById(R.id.categorieslist_rv);
@@ -84,6 +83,11 @@ public class CategoriesListFragment extends Fragment {
                 public void onClick(View v) {
                     int pos = getAdapterPosition();
                     listener.onItemClick(pos);
+
+                    NavHostFragment.findNavController(CategoriesListFragment.this)
+                            .navigate(CategoriesListFragmentDirections
+                                    .actionCategoriesListFragmentToRecipesListFragment(usernameAsId,Model.instance.getAllCategories().get(pos)));
+
 
                 }
             });

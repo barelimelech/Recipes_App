@@ -26,9 +26,18 @@ public class Model {
         loading,
         loaded
     }
+    public enum UserListLoadingState {
+        loading,
+        loaded
+    }
+    public enum UserRecipeListLoadingState {
+        loading,
+        loaded
+    }
 
     MutableLiveData<RecipeListLoadingState> recipeListLoadingState = new MutableLiveData<>();
-    MutableLiveData<RecipeListLoadingState> userListLoadingState = new MutableLiveData<>();
+    MutableLiveData<UserListLoadingState> userListLoadingState = new MutableLiveData<>();
+    MutableLiveData<UserRecipeListLoadingState> userRecipeListLoadingState = new MutableLiveData<>();
 
 
     public LiveData<RecipeListLoadingState> getRecipeListLoadingState() {
@@ -39,7 +48,8 @@ public class Model {
 
     private Model() {
         recipeListLoadingState.setValue(RecipeListLoadingState.loaded);
-        //userListLoadingState.setValue();
+        userListLoadingState.setValue(UserListLoadingState.loaded);
+        userRecipeListLoadingState.setValue(UserRecipeListLoadingState.loaded);
     }
 
     List<String> data = new LinkedList<String>();
@@ -54,9 +64,10 @@ public class Model {
 
     MutableLiveData<List<Recipe>> recipesList = new MutableLiveData<List<Recipe>>();
     MutableLiveData<List<User>> usersList = new MutableLiveData<List<User>>();
+    MutableLiveData<List<UserRecipe>> userRecipeList = new MutableLiveData<List<UserRecipe>>();
 
 
-    public LiveData<List<Recipe>> getAll() {
+    public LiveData<List<Recipe>> getAllRecipes() {
         if (recipesList.getValue() == null) {
             refreshRecipeList();
         }
@@ -70,11 +81,18 @@ public class Model {
         return usersList;
     }
 
+    public LiveData<List<UserRecipe>> getAllUsersRecipes() {
+        if (userRecipeList.getValue() == null) {
+            refreshUserList();
+        }
+        return userRecipeList;
+    }
+
     private void refreshUserList() {
-        userListLoadingState.setValue(RecipeListLoadingState.loading);
+        userListLoadingState.setValue(UserListLoadingState.loading);
 
         //get last local update date
-        Long lastUpdateDate = MyApplication.getContext().getSharedPreferences("TAG", Context.MODE_PRIVATE).getLong("RecipeLastUpdateDate", 0);
+        Long lastUpdateDate = MyApplication.getContext().getSharedPreferences("TAG", Context.MODE_PRIVATE).getLong("UserLastUpdateDate", 0);
 
         //firebase get all updates since lastLocalUpdateDate
         modelFirebase.getAllUsers(lastUpdateDate, new ModelFirebase.GetAllUsersListener() {
@@ -102,7 +120,7 @@ public class Model {
                         //return all data to caller
                         List<User> reList = AppLocalDb.db.userDao().getAll();
                         usersList.postValue(reList);
-                        userListLoadingState.postValue(RecipeListLoadingState.loaded);
+                        userListLoadingState.postValue(UserListLoadingState.loaded);
                         //delete from room
                     }
                 });
@@ -168,11 +186,12 @@ public class Model {
         modelFirebase.addRecipe(recipe, listener);
     }
 
-    public interface GetRecipeById {
+    public interface GetRecipeByRecipeName {
         void onComplete(Recipe recipe);
     }
-    public Recipe getRecipeById(String recipeId, GetRecipeById listener) {
-        modelFirebase.getRecipeById(recipeId,listener);
+
+    public Recipe getRecipeByRecipeName(String recipeId, GetRecipeByRecipeName listener) {
+        modelFirebase.getRecipeByRecipeName(recipeId, listener);
         return null;
     }
 
@@ -180,7 +199,6 @@ public class Model {
 
         data.add("Deserts");
         data.add("Breakfast");
-        data.add("example");
         data.add("Lunch");
         data.add("Dinner");
         data.add("Holidays");
@@ -202,11 +220,68 @@ public class Model {
     public interface GetUserByUsername {
         void onComplete(User user);
     }
+
     public User getUserByUsername(String username, GetUserByUsername listener) {
-        modelFirebase.getUserByUsername(username,listener);
+        modelFirebase.getUserByUsername(username, listener);
+        return null;
+    }
+    //***********************************UserRecipe*************************************//
+
+    private void refreshUserRecipeList() {
+        userRecipeListLoadingState.setValue(UserRecipeListLoadingState.loading);
+
+        //get last local update date
+        Long lastUpdateDate = MyApplication.getContext().getSharedPreferences("TAG", Context.MODE_PRIVATE).getLong("UserRecipeLastUpdateDate", 0);
+
+        //firebase get all updates since lastLocalUpdateDate
+        modelFirebase.getAllUsersRecipes(lastUpdateDate, new ModelFirebase.GetAllUsersRecipesListener() {
+            @Override
+            public void onComplete(List<UserRecipe> list) {
+                //add all records to the local db
+                executor.execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        Long lud = new Long(0);
+                        Log.d("TAG", "fb returned " + list.size());
+                        for (UserRecipe userRecipe : list) {
+                            AppLocalDb.db.userRecipeDao().insertAll(userRecipe);
+                            if (lud < userRecipe.getUpdateDate()) {
+                                lud = userRecipe.getUpdateDate();
+                            }
+                        }
+                        //update last local update date
+                        MyApplication.getContext()
+                                .getSharedPreferences("TAG", Context.MODE_PRIVATE)
+                                .edit()
+                                .putLong("RecipeLastUpdateDate", lud)
+                                .commit();
+
+                        //return all data to caller
+                        List<UserRecipe> reList = AppLocalDb.db.userRecipeDao().getAll();
+                        userRecipeList.postValue(reList);
+                        userRecipeListLoadingState.postValue(UserRecipeListLoadingState.loaded);
+                        //delete from room
+                    }
+                });
+            }
+        });
+    }
+    public interface AddUserRecipeListener {
+        void onComplete();
+    }
+
+    public void addUserRecipe(UserRecipe user, AddUserRecipeListener listener) {
+        modelFirebase.addUserRecipe(user, listener);
+    }
+
+    public interface GetUserRecipeByUsername {
+        void onComplete(UserRecipe user);
+    }
+    public UserRecipe getUserRecipeByUsername(String username, GetUserRecipeByUsername listener) {
+        modelFirebase.getUserRecipeByUsername(username,listener);
         return null;
     }
 
 
+    }
 
-}

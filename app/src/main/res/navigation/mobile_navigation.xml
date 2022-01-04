@@ -36,20 +36,11 @@
         android:label="Categories List"
         tools:layout="@layout/fragment_categories_list" >
 
-        <action
-            android:id="@+id/action_categoriesListFragment_to_subCategoryFragment"
-            app:destination="@id/subCategoryFragment" />
         <argument
             android:name="username"
             app:argType="string" />
-    </fragment>
-    <fragment
-        android:id="@+id/subCategoryFragment"
-        android:name="com.example.recipes_app.SubCategoryFragment"
-        android:label="fragment_sub_category"
-        tools:layout="@layout/fragment_sub_category" >
         <action
-            android:id="@+id/action_subCategoryFragment_to_recipesListFragment"
+            android:id="@+id/action_categoriesListFragment_to_recipesListFragment"
             app:destination="@id/recipesListFragment" />
     </fragment>
     <fragment
@@ -63,6 +54,12 @@
         <argument
             android:name="username"
             app:argType="string" />
+        <argument
+            android:name="category"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_recipesListFragment_to_newRecipeFragment"
+            app:destination="@id/newRecipeFragment" />
     </fragment>
     <fragment
         android:id="@+id/recipeFragment"
@@ -112,7 +109,11 @@
         android:id="@+id/newRecipeFragment"
         android:name="com.example.recipes_app.ui.newRecipe.NewRecipeFragment"
         android:label="New Recipe"
-        tools:layout="@layout/fragment_new_recipe" />
+        tools:layout="@layout/fragment_new_recipe" >
+        <argument
+            android:name="username"
+            app:argType="string" />
+    </fragment>
     <action android:id="@+id/action_global_myAccountFragment" app:destination="@id/myAccount_nav" />
     <action android:id="@+id/action_global_searchFragment" app:destination="@id/searchFragment" />
     <action android:id="@+id/action_global_newRecipeFragment" app:destination="@id/newRecipeFragment" /><action android:id="@+id/action_global_recipesListFragment2" app:destination="@id/recipesListFragment"/>

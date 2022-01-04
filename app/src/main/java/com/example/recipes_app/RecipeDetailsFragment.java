@@ -23,26 +23,29 @@ public class RecipeDetailsFragment extends Fragment {
     TextView recipeName;
     TextView recipeMethod;
     TextView recipeIngredients;
+    TextView type;
 
     //TextView recipeId;
-    String recipeId;
+    String recipeNameAsId;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.fragment_recipe, container, false);
 
-        recipeId = RecipeDetailsFragmentArgs.fromBundle(getArguments()).getRecipeId();
+        recipeNameAsId = RecipeDetailsFragmentArgs.fromBundle(getArguments()).getRecipeId();
         recipeName = view.findViewById(R.id.recipeDetails_nameOfRec);
         recipeMethod= view.findViewById(R.id.recipeDetails_method);
         recipeIngredients= view.findViewById(R.id.recipeDetails_ingredients);
+        type= view.findViewById(R.id.recipeDetails_type);
 
-        Model.instance.getRecipeById(recipeId, new Model.GetRecipeById() {
+        Model.instance.getRecipeByRecipeName(recipeNameAsId, new Model.GetRecipeByRecipeName() {
             @Override
-            public void onComplete(Recipe student) {
-                recipeName.setText(student.getName());
-                recipeMethod.setText(student.getMethod());
-                recipeIngredients.setText(student.getIngredients());
+            public void onComplete(Recipe recipe) {
+                recipeName.setText(recipe.getName());
+                recipeMethod.setText(recipe.getMethod());
+                recipeIngredients.setText(recipe.getIngredients());
+                type.setText(recipe.getType());
 
             }
         });
@@ -50,7 +53,7 @@ public class RecipeDetailsFragment extends Fragment {
         Button editRecipe = view.findViewById(R.id.recipeDetails_edit_btn);
         editRecipe.setOnClickListener((v)->{
             //Navigation.findNavController(v).navigate(R.id.action_recipeFragment_to_editRecipeFragment);
-            NavHostFragment.findNavController(this).navigate(RecipeDetailsFragmentDirections.actionRecipeFragmentToEditRecipeFragment(recipeId));
+            NavHostFragment.findNavController(this).navigate(RecipeDetailsFragmentDirections.actionRecipeFragmentToEditRecipeFragment(recipeNameAsId));
         });
 
 
@@ -84,7 +87,7 @@ public class RecipeDetailsFragment extends Fragment {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.EditRecipeFragment){
             Log.d("TAG","edit...");
-            NavHostFragment.findNavController(this).navigate(RecipeDetailsFragmentDirections.actionRecipeFragmentToEditRecipeFragment(recipeId));
+            NavHostFragment.findNavController(this).navigate(RecipeDetailsFragmentDirections.actionRecipeFragmentToEditRecipeFragment(recipeNameAsId));
             return true;
         }else {
             return super.onOptionsItemSelected(item);

@@ -1,6 +1,7 @@
 package com.example.recipes_app.ui.logIn;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,9 +40,11 @@ public class LogInFragment extends Fragment {
 
         Button logIn = view.findViewById(R.id.login_login_btn);
         logIn.setOnClickListener((v)->{
-            save();
-            NavHostFragment.findNavController(this).navigate(LogInFragmentDirections.actionNavHomeToCategoriesListFragment2(usernameAsId));
-
+            boolean bool = save();
+            //Navigation.findNavController(v).navigate(R.id.action_signUpFragment_to_categoriesListFragment);
+            if(bool) {
+                NavHostFragment.findNavController(this).navigate(LogInFragmentDirections.actionNavHomeToCategoriesListFragment2(usernameAsId));
+            }
            // Navigation.findNavController(v).navigate(R.id.action_nav_home_to_categoriesListFragment2);
         });
 
@@ -58,21 +61,30 @@ public class LogInFragment extends Fragment {
         return view;
     }
 
-    private void save() {
+    private boolean save() {
         String username1 = username.getText().toString();
         String password1 = password.getText().toString();
         usernameAsId = username1;
 
-        Model.instance.getUserByUsername(username1, new Model.GetUserByUsername() {
+        if (TextUtils.isEmpty(username1)){
+            username.setError("Please Enter username!");
+        }
+        else if(TextUtils.isEmpty(password1)){
+            password.setError("Please Enter password!");
+        }
+        else {
+            Model.instance.getUserByUsername(username1, new Model.GetUserByUsername() {
 
-            @Override
-            public void onComplete(User user) {
-                Log.d("TAG", "hello " + username1);
-                user.setUsername(username1);
-                user.setPassword(password1);
-            }
-        });
-
+                @Override
+                public void onComplete(User user) {
+                    Log.d("TAG", "hello " + username1);
+                    user.setUsername(username1);
+                    user.setPassword(password1);
+                }
+            });
+            return true;
+        }
+        return false;
        // NavHostFragment.findNavController(this).navigate(EditMyAccountFragmentDirections.actionGlobalMyAccountFragment(usernameAsId));
 
 

@@ -8,7 +8,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -17,7 +19,8 @@ import androidx.navigation.Navigation;
 
 import com.example.recipes_app.model.Model;
 import com.example.recipes_app.model.Recipe;
-import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.List;
 
 public class EditRecipeFragment extends Fragment {
     TextView recipeName;
@@ -27,21 +30,27 @@ public class EditRecipeFragment extends Fragment {
     Button saveRecipe;
     Button backBtn;
     //TextView recipeId;
-    String recipeId, usernameAsId;
-    private FirebaseFirestore db;
+    String recipeNameAsId, usernameAsId;
+    Spinner categoriesSpinner;
+    List<String> categories = Model.instance.getAllCategories();
+    String selectedCategory;
+    //private FirebaseFirestore db;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_edit_recipe, container, false);
-        recipeId = EditRecipeFragmentArgs.fromBundle(getArguments()).getRecipeId();
+        recipeNameAsId = EditRecipeFragmentArgs.fromBundle(getArguments()).getRecipeId();
         //usernameAsId = MyAccountFragmentArgs.fromBundle(getArguments()).getUsername(); //TODO:!!!!!!!
         recipeName = view.findViewById(R.id.editrecipe_name_tv);
         recipeMethod= view.findViewById(R.id.editrecipe_method_tv);
         recipeIngredients= view.findViewById(R.id.editrecipe_ingredients_yv);
-        db = FirebaseFirestore.getInstance();
-        Model.instance.getRecipeById(recipeId, new Model.GetRecipeById() {
+        categoriesSpinner= view.findViewById(R.id.editrecipe_spinner);
+       // categories = Model.instance.getAllCategories();
+
+        //db = FirebaseFirestore.getInstance();
+        Model.instance.getRecipeByRecipeName(recipeNameAsId, new Model.GetRecipeByRecipeName() {
             @Override
             public void onComplete(Recipe student) {
                 recipeName.setText(student.getName());
@@ -51,6 +60,7 @@ public class EditRecipeFragment extends Fragment {
             }
         });
 
+        initSpinnerFooter();
 
         saveRecipe = view.findViewById(R.id.editrecipe_save_btn);
         saveRecipe.setOnClickListener(new View.OnClickListener() {
@@ -78,12 +88,15 @@ public class EditRecipeFragment extends Fragment {
         Log.d("TAG", "name: " + name);
         String method = recipeMethod.getText().toString();
         String ingredients = recipeIngredients.getText().toString();
-        Model.instance.getRecipeById(recipeId, new Model.GetRecipeById() {
+        String type = selectedCategory;
+
+        Model.instance.getRecipeByRecipeName(recipeNameAsId, new Model.GetRecipeByRecipeName() {
             @Override
-            public void onComplete(Recipe student) {
-                student.setName(name);
-                student.setMethod(method);
-                student.setIngredients(ingredients);
+            public void onComplete(Recipe recipe) {
+                recipe.setName(name);
+                recipe.setMethod(method);
+                recipe.setIngredients(ingredients);
+                recipe.setType(type);
             }
         });
 //        Recipe updatedRecipe = new Recipe();
@@ -99,7 +112,28 @@ public class EditRecipeFragment extends Fragment {
 
     }
 
+    private void initSpinnerFooter() {
+        String[] items = new String[categories.size()];//TODO: why the size is 10?! instead of 5
 
+        for(int i = 0 ; i<categories.size();i++){
+            items[i] = categories.get(i);
+        }
+        //ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, items);
+        //categoriesSpinner.setAdapter(adapter);
+        categoriesSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                //Log.v("item", (String) parent.getItemAtPosition(position));
+                ((TextView) parent.getChildAt(0)).setTextSize(25);
+                selectedCategory = items[position];
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+    }
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);

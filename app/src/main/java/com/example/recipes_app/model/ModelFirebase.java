@@ -52,16 +52,16 @@ public class ModelFirebase {
    public void addRecipe(Recipe recipe, Model.AddRecipeListener listener) {
         Map<String, Object> json = recipe.toJson();
         db.collection(Recipe.COLLECTION_NAME)
-                .document(recipe.getId())
+                .document(recipe.getName())
                 .set(json)
                 .addOnSuccessListener(unused -> listener.onComplete())
                 .addOnFailureListener(e -> listener.onComplete());
     }
 
-    public void getRecipeById(String recipeId, Model.GetRecipeById listener) {
+    public void getRecipeByRecipeName(String recipeName, Model.GetRecipeByRecipeName listener) {
 
         db.collection(Recipe.COLLECTION_NAME)
-                .document(recipeId)
+                .document(recipeName)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
@@ -136,4 +136,53 @@ public class ModelFirebase {
     }
 
 
+    //*******************************UserRecipe*******************************//
+    public interface GetAllUsersRecipesListener{
+        void onComplete(List<UserRecipe> list);
+    }
+
+    //TODO: fix since
+    public void getAllUsersRecipes(Long lastUpdateDate, GetAllUsersRecipesListener listener) {
+        db.collection(UserRecipe.COLLECTION_NAME)
+                .whereGreaterThanOrEqualTo("updateDate",new Timestamp(lastUpdateDate,0))
+                .get()
+                .addOnCompleteListener(task -> {
+                    List<UserRecipe> list = new LinkedList<UserRecipe>();
+                    if (task.isSuccessful()){
+                        for (QueryDocumentSnapshot doc : task.getResult()){
+                            UserRecipe userRecipe = UserRecipe.create(doc.getData());
+                            if (userRecipe != null){
+                                list.add(userRecipe);
+                            }
+                        }
+                    }
+                    listener.onComplete(list);
+                });
+
+    }
+
+    public void addUserRecipe(UserRecipe userRecipe, Model.AddUserRecipeListener listener) {
+        Map<String, Object> json = userRecipe.toJson();
+        db.collection(UserRecipe.COLLECTION_NAME)
+                .document(userRecipe.getUsernameAsId())
+                .set(json)
+                .addOnSuccessListener(unused -> listener.onComplete())
+                .addOnFailureListener(e -> listener.onComplete());
+    }
+    public void getUserRecipeByUsername(String username, Model.GetUserRecipeByUsername listener) {
+
+        db.collection(UserRecipe.COLLECTION_NAME)
+                .document(username)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        UserRecipe userRecipe = null;
+                        if (task.isSuccessful() & task.getResult()!= null) {
+                            userRecipe = UserRecipe.create(task.getResult().getData());
+                        }
+                        listener.onComplete(userRecipe);
+                    }
+                });
+    }
 }

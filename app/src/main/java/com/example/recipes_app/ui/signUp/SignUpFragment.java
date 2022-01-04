@@ -1,6 +1,7 @@
 package com.example.recipes_app.ui.signUp;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,30 +44,42 @@ public class SignUpFragment extends Fragment {
 
         Button logIn = view.findViewById(R.id.signup_login_btn);
         logIn.setOnClickListener((v)->{
-            save();
+            boolean bool = save();
             //Navigation.findNavController(v).navigate(R.id.action_signUpFragment_to_categoriesListFragment);
-            NavHostFragment.findNavController(this).navigate(SignUpFragmentDirections.actionSignUpFragmentToCategoriesListFragment(usernameAsId));
-
+            if(bool) {
+                NavHostFragment.findNavController(this).navigate(SignUpFragmentDirections.actionSignUpFragmentToCategoriesListFragment(usernameAsId));
+            }
         });
         setHasOptionsMenu(true);
 
         return view;
     }
 
-    private void save() {
+    private boolean save() {
         signUp.setEnabled(false);
         String username1 = username.getText().toString();
         String password1 = password.getText().toString();
         String fullName1 = fullName.getText().toString();
         usernameAsId = username1;
+        if (TextUtils.isEmpty(username1)){
+            username.setError("Please Enter username!");
+        }
+        else if(TextUtils.isEmpty(password1)){
+            password.setError("Please Enter password!");
+        }
+        else if(TextUtils.isEmpty(fullName1)){
+            fullName.setError("Please Enter full name!");
+        }
+        else {
+            User user = new User(username1, password1, fullName1);
 
-        User user = new User(username1,password1,fullName1);
+            Model.instance.addUser(user, () -> {
+                //Navigation.findNavController(username).navigateUp();
 
-        Model.instance.addUser(user,()->{
-            //Navigation.findNavController(username).navigateUp();
+            });
+            return true;
+        }
 
-        });
-
-
+        return false;
     }
 }

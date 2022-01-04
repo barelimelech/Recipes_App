@@ -39,15 +39,16 @@ public class RecipesListFragment extends Fragment {
     MyAdapter adapter;
     SwipeRefreshLayout swipeRefresh;
     List<Recipe> recipes = new ArrayList<>();
-    List<Recipe> tmpRecipes = new ArrayList<>();
+    RecipesListViewModel tmpRecipes;
     String usernameAsId;
+    String category;
     private FirebaseFirestore db;
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         viewModel = new ViewModelProvider(this).get(RecipesListViewModel.class);
-
+        tmpRecipes= new ViewModelProvider(this).get(RecipesListViewModel.class);
     }
 
     @Nullable
@@ -56,7 +57,9 @@ public class RecipesListFragment extends Fragment {
         //Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_recipes_list, container, false);
 
-        usernameAsId = RecipesListFragmentArgs.fromBundle(getArguments()).getUsername();//TODO:!!!!!!!
+        usernameAsId = RecipesListFragmentArgs.fromBundle(getArguments()).getUsername();//TODO:show recipes cy id
+        category = RecipesListFragmentArgs.fromBundle(getArguments()).getCategory();
+
         db = FirebaseFirestore.getInstance();
 
         swipeRefresh = view.findViewById(R.id.recipeslist_swiperefresh);
@@ -77,19 +80,20 @@ public class RecipesListFragment extends Fragment {
         adapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(View v, int position) {
-                String recipeId = viewModel.getRecipes().getValue().get(position).getId();
-                Navigation.findNavController(v).navigate(RecipesListFragmentDirections.actionRecipesListFragmentToRecipeFragment(recipeId));
+                String recipeNameAsId = viewModel.getRecipes().getValue().get(position).getName();
+                Navigation.findNavController(v).navigate(RecipesListFragmentDirections.actionRecipesListFragmentToRecipeFragment(recipeNameAsId));
             }
         });
 
 
         Button addRecipe = view.findViewById(R.id.myaccount_add_btn);
         addRecipe.setOnClickListener((v)->{
-            Navigation.findNavController(v).navigate(R.id.action_global_newRecipeFragment);
+            //Navigation.findNavController(v).navigate(R.id.action_global_newRecipeFragment);
+            Navigation.findNavController(v).navigate(RecipesListFragmentDirections.actionRecipesListFragmentToNewRecipeFragment(usernameAsId));//the user that make the new recipe
+
         });
 
 
-        setHasOptionsMenu(true);
         //when data update
         viewModel.getRecipes().observe(getViewLifecycleOwner(), recipes -> refresh());
         swipeRefresh.setRefreshing(Model.instance.getRecipeListLoadingState().getValue() == Model.RecipeListLoadingState.loading);
@@ -100,6 +104,20 @@ public class RecipesListFragment extends Fragment {
                 swipeRefresh.setRefreshing(false);
             }
         });
+
+//        if(category!=null){
+//            viewModel.getRecipesOfCategory(category).observe(getViewLifecycleOwner(), recipes -> refresh());
+//            swipeRefresh.setRefreshing(Model.instance.getRecipeListLoadingState().getValue() == Model.RecipeListLoadingState.loading);
+//            Model.instance.getRecipeListLoadingState().observe(getViewLifecycleOwner(), recipeListLoadingState -> {
+//                if (recipeListLoadingState == Model.RecipeListLoadingState.loading) {
+//                    swipeRefresh.setRefreshing(true);
+//                } else {
+//                    swipeRefresh.setRefreshing(false);
+//                }
+//            });
+//        }
+        //refresh();
+        setHasOptionsMenu(true);
 
         return view;
 
@@ -193,7 +211,7 @@ public class RecipesListFragment extends Fragment {
                 if(constraint == null || constraint.length() == 0){
                     //List<Recipe> tmpList = viewModel.getRecipes().getValue();
 
-                    list.addAll(tmpList);
+                    list.addAll(tmpRecipes.getRecipes().getValue());
                 }else{
                     String filterPattern = constraint.toString().toLowerCase().trim();
                     for (Recipe item : viewModel.recipes.getValue()) {
