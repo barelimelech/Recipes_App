@@ -13,6 +13,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.TextView;
 
@@ -28,6 +29,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.recipes_app.model.Model;
 import com.example.recipes_app.model.Recipe;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +40,6 @@ public class RecipesListFragment extends Fragment {
     MyAdapter adapter;
     SwipeRefreshLayout swipeRefresh;
     List<Recipe> recipes = new ArrayList<>();
-    //RecipesListViewModel tmpRecipes;
     String usernameAsId;
     String category;
 
@@ -46,7 +47,6 @@ public class RecipesListFragment extends Fragment {
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         viewModel = new ViewModelProvider(this).get(RecipesListViewModel.class);
-        //tmpRecipes= new ViewModelProvider(this).get(RecipesListViewModel.class);
     }
 
     @Nullable
@@ -62,7 +62,6 @@ public class RecipesListFragment extends Fragment {
 
         swipeRefresh = view.findViewById(R.id.recipeslist_swiperefresh);
         swipeRefresh.setOnRefreshListener(() -> Model.instance.refreshRecipeList());
-        Log.d("TAG", "recipes  : : : : " + recipes);
 
         // String recipeId = RecipeDetailsFragmentArgs.fromBundle(getArguments()).getRecipeId();
 
@@ -134,21 +133,16 @@ public class RecipesListFragment extends Fragment {
     private void refresh() {
         adapter.notifyDataSetChanged();
         swipeRefresh.setRefreshing(false);
-//        swipeRefresh.setRefreshing(true);
-//        Model.instance.getAllRecipes((list)->{
-//            viewModel.setRecipes(list);
-//            adapter.notifyDataSetChanged();
-//            swipeRefresh.setRefreshing(false);
-//        });
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
         TextView nameTv;
-
+        ImageView recipeImage;
 
         public MyViewHolder(@NonNull View itemView, RecipesListFragment.OnItemClickListener listener) {
             super(itemView);
             nameTv = itemView.findViewById(R.id.recipe_listrow_name);
+            recipeImage = itemView.findViewById(R.id.recipe_listrow_image);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -158,6 +152,18 @@ public class RecipesListFragment extends Fragment {
 
                 }
             });
+
+
+        }
+        void bind(Recipe recipe){
+            nameTv.setText(recipe.getName());
+
+            recipeImage.setImageResource(R.drawable.cake);
+            if (recipe.getRecipeUrl() != null) {
+                Picasso.get()
+                        .load(recipe.getRecipeUrl())
+                        .into(recipeImage);
+            }
         }
     }
 
@@ -167,7 +173,6 @@ public class RecipesListFragment extends Fragment {
     class MyAdapter extends RecyclerView.Adapter<RecipesListFragment.MyViewHolder> implements Filterable {
 
         RecipesListFragment.OnItemClickListener listener;
-       // List<Recipe> tmpList = viewModel.getRecipes().getValue();
 
         public void setOnItemClickListener(OnItemClickListener listener) {
             this.listener = listener;
@@ -178,10 +183,7 @@ public class RecipesListFragment extends Fragment {
         @Override
         public RecipesListFragment.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View view = getLayoutInflater().inflate(R.layout.recipe_list_row, parent, false);
-            RecipesListFragment.MyViewHolder holder = new RecipesListFragment.MyViewHolder(view, listener);
-            //recipes.addAll(viewModel.recipes.getValue());
-           // Log.d("TAG", "recipesssssssssssssssssssssssssssssssssssss " + recipes);
-
+            MyViewHolder holder = new MyViewHolder(view, listener);
             return holder;
 
 
@@ -190,10 +192,8 @@ public class RecipesListFragment extends Fragment {
         @Override
         public void onBindViewHolder(@NonNull RecipesListFragment.MyViewHolder holder, int position) {
             Recipe recipe = viewModel.getRecipes().getValue().get(position);
-            Log.d("TAG", "the recipe is  : : : : " + recipe);
-            Log.d("TAG", "the recipe name is  : : : : " + recipe.getName());
-            //tmpList = viewModel.getRecipes().getValue();
-            holder.nameTv.setText(recipe.getName());
+            //holder.nameTv.setText(recipe.getName());
+            holder.bind(recipe);
 
         }
 
@@ -202,8 +202,6 @@ public class RecipesListFragment extends Fragment {
             if (viewModel.getRecipes().getValue() == null) {
                 return 0;
             }
-            //tmpList = viewModel.getRecipes().getValue();
-
             return viewModel.getRecipes().getValue().size();
 
         }

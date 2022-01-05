@@ -67,8 +67,8 @@
 
     <Button
         android:id="@+id/login_login_btn"
-        android:layout_width="113dp"
-        android:layout_height="54dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="72dp"
         android:backgroundTint="@android:color/transparent"
         android:fontFamily="@font/paprika"
@@ -93,7 +93,7 @@
         android:backgroundTint="@android:color/transparent"
         android:fontFamily="@font/paprika"
         android:shadowColor="#00FFFFFF"
-        android:text="Don't have an account? Sign Up"
+        android:text="Don't have an account yet? Sign Up"
         android:textColor="#5A3914"
         android:textColorHighlight="#00FFFFFF"
         android:textColorLink="#00231F1F"

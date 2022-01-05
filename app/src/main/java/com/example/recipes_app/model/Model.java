@@ -1,6 +1,7 @@
 package com.example.recipes_app.model;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
@@ -21,6 +22,8 @@ public class Model {
 
     Executor executor = Executors.newFixedThreadPool(1);
     Handler mainThread = HandlerCompat.createAsync(Looper.getMainLooper());
+
+
 
     public enum RecipeListLoadingState {
         loading,
@@ -86,20 +89,20 @@ public class Model {
 
     public LiveData<List<UserRecipe>> getAllUsersRecipes() {
         if (userRecipeList.getValue() == null) {
-            refreshUserList();
+            refreshUserRecipeList();
         }
         return userRecipeList;
     }
-
-    public User getUser(String username){
-        List<User> users =AppLocalDb.db.userDao().getAll();
-        for(User u : users){
-            if(u.getUsername().equals(username)){
-                return u;
-            }
-        }
-        return null;
-    }
+//
+//    public User getUser(String username){
+//        List<User> users =AppLocalDb.db.userDao().getAll();
+//        for(User u : users){
+//            if(u.getUsername().equals(username)){
+//                return u;
+//            }
+//        }
+//        return null;
+//    }
 
     public void refreshUserList() {
         userListLoadingState.setValue(UserListLoadingState.loading);
@@ -190,15 +193,30 @@ public class Model {
 //            }
 //        });
     }
-
+    public interface SaveImageListener{
+        void onComplete(String url);
+    }
+    public void saveImage(Bitmap imageBitmap, String imageName, SaveImageListener listener) {
+            modelFirebase.saveImage(imageBitmap,imageName,listener);
+    }
     public interface AddRecipeListener {
         void onComplete();
     }
 
-    public void addRecipe(Recipe recipe, AddRecipeListener listener) {
-        modelFirebase.addRecipe(recipe, listener);
+    public interface DeleteRecipeListener {
+        void onSuccess();
     }
 
+    public void addRecipe(Recipe recipe, AddRecipeListener listener) {
+        modelFirebase.addRecipe(recipe, ()->{
+            listener.onComplete();
+            refreshRecipeList();
+        });
+    }
+
+    public void deleteRecipe(String recipeName,DeleteRecipeListener listener) {
+        modelFirebase.deleteRecipe(recipeName, listener);
+    }
     public interface GetRecipeByRecipeName {
         void onComplete(Recipe recipe);
     }

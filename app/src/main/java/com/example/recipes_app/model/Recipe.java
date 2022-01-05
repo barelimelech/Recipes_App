@@ -19,6 +19,7 @@ public class Recipe {
     String method= "";
     String ingredients= "";
     String type = "";
+    String recipeUrl;
 
     Long updateDate = new Long(0);
 
@@ -74,6 +75,7 @@ public class Recipe {
         json.put("ingredients",ingredients);
         json.put("type",type);
         json.put("updateDate", FieldValue.serverTimestamp());
+        json.put("recipeUrl", recipeUrl);
         return json;
     }
 
@@ -84,14 +86,22 @@ public class Recipe {
         String type = (String) json.get("type");
         Timestamp ts = (Timestamp)json.get("updateDate");
         Long updateDate = ts.getSeconds();
+        String recipeUrl = (String) json.get("recipeUrl");
 
         Recipe recipe = new Recipe(name,method,ingredients,type);
         recipe.setUpdateDate(updateDate);
+        recipe.setImageUrl(recipeUrl);
         return recipe;
     }
 
-    //TODO:....
     public Long getUpdateDate() {
         return updateDate;
     }
+
+
+    public void setImageUrl(String url) {
+       recipeUrl = url;
+    }
+    public String getRecipeUrl() { return recipeUrl; }
+
 }

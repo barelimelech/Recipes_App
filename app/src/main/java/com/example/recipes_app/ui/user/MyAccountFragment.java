@@ -8,7 +8,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.recipes_app.R;
@@ -54,7 +53,7 @@ public class MyAccountFragment extends Fragment {
 
         Button categories = view.findViewById(R.id.myaccount_categories_btn);
         categories.setOnClickListener((v)->{
-            Navigation.findNavController(v).navigate(R.id.action_myAccount_nav_to_categoriesListFragment);
+            NavHostFragment.findNavController(this).navigate(MyAccountFragmentDirections.actionMyAccountNavToCategoriesListFragment(usernameAsId));
         });
         //TODO: edit my account page and fragment
 //        Button editMyAccount = view.findViewById(R.id.myaccount_edit_btn);
