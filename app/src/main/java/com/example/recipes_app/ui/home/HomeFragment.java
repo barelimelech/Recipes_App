@@ -44,7 +44,7 @@ public class HomeFragment extends Fragment {
     }
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-       // super.onCreateOptionsMenu(menu, inflater);
+        // super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.myaccount_menu,menu);
     }
 
@@ -52,7 +52,7 @@ public class HomeFragment extends Fragment {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.menu_myAccount){
             Log.d("TAG","ADD...");
-          //  NavHostFragment.findNavController(this).navigate(HomeFragmentDirection.actionGlobalMyAccountFragment());
+            //  NavHostFragment.findNavController(this).navigate(HomeFragmentDirection.actionGlobalMyAccountFragment());
             return true;
         }else {
             return super.onOptionsItemSelected(item);

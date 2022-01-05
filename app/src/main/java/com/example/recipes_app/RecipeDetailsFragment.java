@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -18,15 +19,18 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.recipes_app.model.Model;
 import com.example.recipes_app.model.Recipe;
+import com.squareup.picasso.Picasso;
 
 public class RecipeDetailsFragment extends Fragment {
     TextView recipeName;
     TextView recipeMethod;
     TextView recipeIngredients;
     TextView type;
-
+    Button deleteRecipe;
     //TextView recipeId;
     String recipeNameAsId;
+
+    ImageView recipeImage;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -39,6 +43,8 @@ public class RecipeDetailsFragment extends Fragment {
         recipeIngredients= view.findViewById(R.id.recipeDetails_ingredients);
         type= view.findViewById(R.id.recipeDetails_type);
 
+        recipeImage = view.findViewById(R.id.newRec_image_recipe);
+
         Model.instance.getRecipeByRecipeName(recipeNameAsId, new Model.GetRecipeByRecipeName() {
             @Override
             public void onComplete(Recipe recipe) {
@@ -46,6 +52,9 @@ public class RecipeDetailsFragment extends Fragment {
                 recipeMethod.setText(recipe.getMethod());
                 recipeIngredients.setText(recipe.getIngredients());
                 type.setText(recipe.getType());
+                if(recipe.getRecipeUrl()!=null){
+                    Picasso.get().load(recipe.getRecipeUrl()).into(recipeImage);
+                }
 
             }
         });
@@ -54,6 +63,11 @@ public class RecipeDetailsFragment extends Fragment {
         editRecipe.setOnClickListener((v)->{
             //Navigation.findNavController(v).navigate(R.id.action_recipeFragment_to_editRecipeFragment);
             NavHostFragment.findNavController(this).navigate(RecipeDetailsFragmentDirections.actionRecipeFragmentToEditRecipeFragment(recipeNameAsId));
+        });
+
+        deleteRecipe = view.findViewById(R.id.recipeDetails_delete_btn);
+        deleteRecipe.setOnClickListener((v)->{
+            delete();
         });
 
 
@@ -77,6 +91,16 @@ public class RecipeDetailsFragment extends Fragment {
 ////        });
 //        return view;
     }
+
+    private void delete() {
+        deleteRecipe.setEnabled(false);
+
+        Model.instance.deleteRecipe(recipeNameAsId,()->{
+
+        });
+
+    }
+
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
