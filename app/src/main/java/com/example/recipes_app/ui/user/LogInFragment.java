@@ -1,4 +1,4 @@
-package com.example.recipes_app.ui.logIn;
+package com.example.recipes_app.ui.user;
 
 import android.content.Context;
 import android.os.Bundle;

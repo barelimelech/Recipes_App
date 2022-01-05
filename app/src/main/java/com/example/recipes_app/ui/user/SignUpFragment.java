@@ -1,4 +1,4 @@
-package com.example.recipes_app.ui.signUp;
+package com.example.recipes_app.ui.user;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -19,7 +19,6 @@ import androidx.navigation.fragment.NavHostFragment;
 import com.example.recipes_app.R;
 import com.example.recipes_app.model.Model;
 import com.example.recipes_app.model.User;
-import com.example.recipes_app.ui.logIn.UsersListViewModel;
 
 import java.util.List;
 

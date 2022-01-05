@@ -40,7 +40,9 @@ public class MyAccountFragment extends Fragment {
         });
         Button othersRecipes = view.findViewById(R.id.myaccount_othersrecipes_btn);
         othersRecipes.setOnClickListener((v)->{
-            Navigation.findNavController(v).navigate(R.id.action_myAccount_nav_to_recipesListFragment);//TODO
+            NavHostFragment.findNavController(this).navigate(MyAccountFragmentDirections.actionMyAccountNavToRecipesListFragment(usernameAsId,""));
+
+           // Navigation.findNavController(v).navigate(R.id.action_myAccount_nav_to_recipesListFragment);//TODO
         });
 
         Button edit = view.findViewById(R.id.myaccount_edit_btn);
