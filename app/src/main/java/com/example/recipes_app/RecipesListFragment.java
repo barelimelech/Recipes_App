@@ -28,7 +28,6 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.recipes_app.model.Model;
 import com.example.recipes_app.model.Recipe;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +41,7 @@ public class RecipesListFragment extends Fragment {
     RecipesListViewModel tmpRecipes;
     String usernameAsId;
     String category;
-    private FirebaseFirestore db;
+    //private FirebaseFirestore db;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -60,7 +59,7 @@ public class RecipesListFragment extends Fragment {
         usernameAsId = RecipesListFragmentArgs.fromBundle(getArguments()).getUsername();//TODO:show recipes cy id
         category = RecipesListFragmentArgs.fromBundle(getArguments()).getCategory();
 
-        db = FirebaseFirestore.getInstance();
+        //db = FirebaseFirestore.getInstance();
 
         swipeRefresh = view.findViewById(R.id.recipeslist_swiperefresh);
         swipeRefresh.setOnRefreshListener(() -> Model.instance.refreshRecipeList());

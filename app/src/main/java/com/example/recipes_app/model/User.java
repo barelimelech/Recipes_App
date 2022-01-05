@@ -75,11 +75,11 @@ public class User {
         String password = (String) json.get("password");
         String fullName = (String) json.get("fullName");
         Timestamp ts = (Timestamp)json.get("updateDate");
-        //Long updateDate = ts.getSeconds();//TODO: not working
+       // Long updateDate = ts.getSeconds();//TODO: not working
 
 
         User user = new User(username,password,fullName);
-       // user.setUpdateDate(updateDate);
+        //user.setUpdateDate(updateDate);
         return user;
     }
 

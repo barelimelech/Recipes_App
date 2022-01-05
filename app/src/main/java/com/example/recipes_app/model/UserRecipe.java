@@ -17,8 +17,9 @@ public class UserRecipe {
 
     @PrimaryKey
     @NonNull
-    String usernameAsId;
     String recipeNameAsId;
+
+    String usernameAsId;
 
     Long updateDate = new Long(0);
 
@@ -44,6 +45,9 @@ public class UserRecipe {
         this.usernameAsId = usernameAsId;
     }
 
+    public void setUpdateDate(Long updateDate) {
+        this.updateDate = updateDate;
+    }
 
     public Map<String, Object> toJson() {
         Map<String, Object> json = new HashMap<String, Object>();
@@ -61,7 +65,7 @@ public class UserRecipe {
 
 
         UserRecipe userRecipe = new UserRecipe(usernameAsId,recipeNameAsId);
-        // user.setUpdateDate(updateDate);
+        userRecipe.setUpdateDate(updateDate);
         return userRecipe;
     }
 

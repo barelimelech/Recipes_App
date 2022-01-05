@@ -130,10 +130,7 @@ public class ModelFirebase {
                 });
     }
 
-    public boolean isContain(String username){
 
-        return false;
-    }
 
 
     //*******************************UserRecipe*******************************//
@@ -164,7 +161,7 @@ public class ModelFirebase {
     public void addUserRecipe(UserRecipe userRecipe, Model.AddUserRecipeListener listener) {
         Map<String, Object> json = userRecipe.toJson();
         db.collection(UserRecipe.COLLECTION_NAME)
-                .document(userRecipe.getUsernameAsId())
+                .document(userRecipe.getRecipeNameAsId())
                 .set(json)
                 .addOnSuccessListener(unused -> listener.onComplete())
                 .addOnFailureListener(e -> listener.onComplete());

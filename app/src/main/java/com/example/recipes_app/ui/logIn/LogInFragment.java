@@ -1,5 +1,6 @@
 package com.example.recipes_app.ui.logIn;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -9,7 +10,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 
@@ -17,11 +20,22 @@ import com.example.recipes_app.R;
 import com.example.recipes_app.model.Model;
 import com.example.recipes_app.model.User;
 
+import java.util.List;
+
 public class LogInFragment extends Fragment {
 
     EditText username;
     EditText password;
     String usernameAsId;
+
+    UsersListViewModel viewModel;
+    //LogInFragment.MyAdapter adapter;
+    //SwipeRefreshLayout swipeRefresh;
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        viewModel = new ViewModelProvider(this).get(UsersListViewModel.class);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -31,7 +45,8 @@ public class LogInFragment extends Fragment {
         username = view.findViewById(R.id.login_username_tv);
         password = view.findViewById(R.id.lodin_password_tv);
         //recipeId = RecipeDetailsFragmentArgs.fromBundle(getArguments()).getRecipeId();
-
+        //swipeRefresh = view.findViewById(R.id.recipeslist_swiperefresh);
+        //swipeRefresh.setOnRefreshListener(() -> Model.instance.refreshUserList());
 
         Button signUp = view.findViewById(R.id.login_signup_btn);
         signUp.setOnClickListener((v)->{
@@ -49,14 +64,16 @@ public class LogInFragment extends Fragment {
         });
 
 
-//
-//        Model.instance.getUserByUsername(username1, new Model.GetUserByUsername() {
-//
-//            @Override
-//            public void onComplete(User user) {
-//
+        //viewModel.getUsers().observe(getViewLifecycleOwner(),users  -> refresh());
+//        swipeRefresh.setRefreshing(Model.instance.getUserListLoadingState().getValue() == Model.UserListLoadingState.loading);
+//        Model.instance.getUserListLoadingState().observe(getViewLifecycleOwner(), userListLoadingState -> {
+//            if (userListLoadingState == Model.UserListLoadingState.loading) {
+//                swipeRefresh.setRefreshing(true);
+//            } else {
+//                swipeRefresh.setRefreshing(false);
 //            }
 //        });
+
 
         return view;
     }
@@ -73,6 +90,22 @@ public class LogInFragment extends Fragment {
             password.setError("Please Enter password!");
         }
         else {
+            List<User> users = viewModel.getUsers().getValue();
+            boolean flag = false;
+            for(User u : users) {
+                if (u.getUsername().equals(username1)){
+                    if (!password1.equals(u.getPassword())) {
+                        password.setError("password incorrect!");
+                        return false;
+                    }
+                    flag = true;
+                }
+            }
+            if(!flag){
+                username.setError("User does not exist!");
+                return false;
+            }
+
             Model.instance.getUserByUsername(username1, new Model.GetUserByUsername() {
 
                 @Override
@@ -86,7 +119,6 @@ public class LogInFragment extends Fragment {
         }
         return false;
        // NavHostFragment.findNavController(this).navigate(EditMyAccountFragmentDirections.actionGlobalMyAccountFragment(usernameAsId));
-
-
     }
+
 }

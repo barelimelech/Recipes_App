@@ -1,5 +1,6 @@
 package com.example.recipes_app.ui.signUp;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -8,14 +9,19 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.recipes_app.R;
 import com.example.recipes_app.model.Model;
 import com.example.recipes_app.model.User;
+import com.example.recipes_app.ui.logIn.UsersListViewModel;
+
+import java.util.List;
 
 public class SignUpFragment extends Fragment {
 
@@ -25,6 +31,14 @@ public class SignUpFragment extends Fragment {
     Button signUp;
 
     String usernameAsId;
+
+    UsersListViewModel viewModel;
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        viewModel = new ViewModelProvider(this).get(UsersListViewModel.class);
+    }
+
 
     @Nullable
     @Override
@@ -72,7 +86,14 @@ public class SignUpFragment extends Fragment {
         }
         else {
             User user = new User(username1, password1, fullName1);
+            List<User> users = viewModel.getUsers().getValue();
+            for(User u : users) {
+                if (u.getUsername().equals(username1) && u.getPassword().equals(password1) && u.getFullName().equals(fullName1)){
 
+                    username.setError("User already exist!");
+                    return false;
+                }
+            }
             Model.instance.addUser(user, () -> {
                 //Navigation.findNavController(username).navigateUp();
 

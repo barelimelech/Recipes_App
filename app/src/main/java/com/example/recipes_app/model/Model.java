@@ -44,6 +44,9 @@ public class Model {
         return recipeListLoadingState;
     }
 
+    public LiveData<UserListLoadingState> getUserListLoadingState() {
+        return userListLoadingState;
+    }
     ModelFirebase modelFirebase = new ModelFirebase();
 
     private Model() {
@@ -88,7 +91,17 @@ public class Model {
         return userRecipeList;
     }
 
-    private void refreshUserList() {
+    public User getUser(String username){
+        List<User> users =AppLocalDb.db.userDao().getAll();
+        for(User u : users){
+            if(u.getUsername().equals(username)){
+                return u;
+            }
+        }
+        return null;
+    }
+
+    public void refreshUserList() {
         userListLoadingState.setValue(UserListLoadingState.loading);
 
         //get last local update date
@@ -114,7 +127,7 @@ public class Model {
                         MyApplication.getContext()
                                 .getSharedPreferences("TAG", Context.MODE_PRIVATE)
                                 .edit()
-                                .putLong("RecipeLastUpdateDate", lud)
+                                .putLong("UserLastUpdateDate", lud)
                                 .commit();
 
                         //return all data to caller
@@ -162,7 +175,7 @@ public class Model {
                         List<Recipe> reList = AppLocalDb.db.recipeDao().getAll();
                         recipesList.postValue(reList);
                         recipeListLoadingState.postValue(RecipeListLoadingState.loaded);
-                        //delete from room
+                        //delete from room //TODO
                     }
                 });
             }
@@ -227,7 +240,7 @@ public class Model {
     }
     //***********************************UserRecipe*************************************//
 
-    private void refreshUserRecipeList() {
+    public void refreshUserRecipeList() {
         userRecipeListLoadingState.setValue(UserRecipeListLoadingState.loading);
 
         //get last local update date
@@ -253,7 +266,7 @@ public class Model {
                         MyApplication.getContext()
                                 .getSharedPreferences("TAG", Context.MODE_PRIVATE)
                                 .edit()
-                                .putLong("RecipeLastUpdateDate", lud)
+                                .putLong("UserRecipeLastUpdateDate", lud)
                                 .commit();
 
                         //return all data to caller
