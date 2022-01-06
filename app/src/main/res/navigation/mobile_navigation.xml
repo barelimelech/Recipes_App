@@ -126,5 +126,10 @@
             android:name="username"
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/logOutFragment"
+        android:name="com.example.recipes_app.LogOutFragment"
+        android:label="fragment_log_out"
+        tools:layout="@layout/fragment_log_out" /><action android:id="@+id/action_global_logOutFragment" app:destination="@id/logOutFragment"/>
 
 </navigation>

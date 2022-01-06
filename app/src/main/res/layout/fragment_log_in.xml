@@ -8,13 +8,7 @@
     tools:context=".ui.home.HomeFragment">
 
 
-    <Button
-        android:id="@+id/google_sign"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Sign in with Google"
-        tools:layout_editor_absoluteX="115dp"
-        tools:layout_editor_absoluteY="209dp" />
+
 
     <TextView
         android:id="@+id/textView"

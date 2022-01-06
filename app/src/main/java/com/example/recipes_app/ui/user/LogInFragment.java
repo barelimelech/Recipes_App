@@ -19,6 +19,8 @@ import androidx.navigation.fragment.NavHostFragment;
 import com.example.recipes_app.R;
 import com.example.recipes_app.model.Model;
 import com.example.recipes_app.model.User;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.List;
 
@@ -29,6 +31,13 @@ public class LogInFragment extends Fragment {
     String usernameAsId;
 
     UsersListViewModel viewModel;
+
+
+    private GoogleSignInClient mGoogleSignInClient;
+    private FirebaseAuth mAuth;
+    private int permission =0;
+
+
     //LogInFragment.MyAdapter adapter;
     //SwipeRefreshLayout swipeRefresh;
     @Override
@@ -41,6 +50,24 @@ public class LogInFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_log_in, container, false);
+
+
+
+
+//        SignInButton authButton = view.findViewById(R.id.google_signin);
+//        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+//                .requestIdToken("211609576402-f9ugjpkpljeton1bre8gr98hfj9icerq.apps.googleusercontent.com").requestEmail().build();
+//        mAuth = FirebaseAuth.getInstance();
+//        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+//        authButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                signIn();
+//            }
+//        });
+
+
+
 
         username = view.findViewById(R.id.login_username_tv);
         password = view.findViewById(R.id.lodin_password_tv);
