@@ -6,7 +6,9 @@
         <entry key="../../../layout/custom_preview.xml" value="0.19375" />
         <entry key="app/src/main/res/drawable/ic_baseline_add_circle_outline_24.xml" value="0.26944444444444443" />
         <entry key="app/src/main/res/layout/activity_categories.xml" value="0.12545289855072464" />
+        <entry key="app/src/main/res/layout/activity_google_log_in.xml" value="0.19021739130434784" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.15729483282674772" />
+        <entry key="app/src/main/res/layout/activity_main2.xml" value="0.20052083333333334" />
         <entry key="app/src/main/res/layout/activity_profile.xml" value="0.2318840579710145" />
         <entry key="app/src/main/res/layout/app_bar_main.xml" value="0.29347826086956524" />
         <entry key="app/src/main/res/layout/categories_list_row.xml" value="0.1585612968591692" />

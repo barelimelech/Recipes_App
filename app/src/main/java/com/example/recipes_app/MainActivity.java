@@ -94,7 +94,12 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navigationView, navController);
 
 
+        if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
+            // signed in. Show the "sign out" button and explanation.
+            // ...
+        } else {
 
+        }
 
     }
 
@@ -124,12 +129,12 @@ public class MainActivity extends AppCompatActivity {
                 || super.onSupportNavigateUp();
     }
 
-private void signIn() {
-    Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-    startActivityForResult(signInIntent, 0);
-    mGoogleApiClient.clearDefaultAccountAndReconnect();
+    private void signIn() {
+        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+        startActivityForResult(signInIntent, 0);
+        mGoogleApiClient.clearDefaultAccountAndReconnect();
 
-}
+    }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 

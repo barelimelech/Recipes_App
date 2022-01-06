@@ -7,14 +7,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.recipes_app.R;
 import com.example.recipes_app.model.Model;
@@ -69,26 +66,26 @@ public class LogInFragment extends Fragment {
 
 
 
-        username = view.findViewById(R.id.login_username_tv);
-        password = view.findViewById(R.id.lodin_password_tv);
+        //username = view.findViewById(R.id.login_username_tv);
+        //password = view.findViewById(R.id.lodin_password_tv);
         //recipeId = RecipeDetailsFragmentArgs.fromBundle(getArguments()).getRecipeId();
         //swipeRefresh = view.findViewById(R.id.recipeslist_swiperefresh);
         //swipeRefresh.setOnRefreshListener(() -> Model.instance.refreshUserList());
 
-        Button signUp = view.findViewById(R.id.login_signup_btn);
-        signUp.setOnClickListener((v)->{
-            Navigation.findNavController(v).navigate(R.id.action_nav_home_to_signUpFragment);
-        });
-
-        Button logIn = view.findViewById(R.id.login_login_btn);
-        logIn.setOnClickListener((v)->{
-            boolean bool = save();
-            //Navigation.findNavController(v).navigate(R.id.action_signUpFragment_to_categoriesListFragment);
-            if(bool) {
-                NavHostFragment.findNavController(this).navigate(LogInFragmentDirections.actionNavHomeToCategoriesListFragment2(usernameAsId));
-            }
-           // Navigation.findNavController(v).navigate(R.id.action_nav_home_to_categoriesListFragment2);
-        });
+        //Button signUp = view.findViewById(R.id.login_signup_btn);
+//        signUp.setOnClickListener((v)->{
+//            Navigation.findNavController(v).navigate(R.id.action_nav_home_to_signUpFragment);
+//        });
+//
+//        Button logIn = view.findViewById(R.id.login_login_btn);
+//        logIn.setOnClickListener((v)->{
+//            boolean bool = save();
+//            //Navigation.findNavController(v).navigate(R.id.action_signUpFragment_to_categoriesListFragment);
+//            if(bool) {
+//                NavHostFragment.findNavController(this).navigate(LogInFragmentDirections.actionNavHomeToCategoriesListFragment2(usernameAsId));
+//            }
+//           // Navigation.findNavController(v).navigate(R.id.action_nav_home_to_categoriesListFragment2);
+//        });
 
 
         //viewModel.getUsers().observe(getViewLifecycleOwner(),users  -> refresh());

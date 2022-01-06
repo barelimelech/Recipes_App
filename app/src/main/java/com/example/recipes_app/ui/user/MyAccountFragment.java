@@ -11,9 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.recipes_app.R;
-import com.example.recipes_app.model.Model;
 import com.example.recipes_app.model.Recipe;
-import com.example.recipes_app.model.User;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.List;
@@ -27,7 +25,7 @@ public class MyAccountFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.fragment_my_account, container, false);
-        usernameAsId = MyAccountFragmentArgs.fromBundle(getArguments()).getUsername();
+        //usernameAsId = MyAccountFragmentArgs.fromBundle(getArguments()).getUsername();
         db = FirebaseFirestore.getInstance();
 
         fullName = view.findViewById(R.id.myaccount_fullname_tv);
@@ -61,13 +59,13 @@ public class MyAccountFragment extends Fragment {
 //            Navigation.findNavController(v).navigate(R.id.action_global_newRecipeFragment);
 //        });
 
-        Model.instance.getUserByUsername(usernameAsId, new Model.GetUserByUsername() {
-
-            @Override
-            public void onComplete(User user) {
-                fullName.setText(user.getFullName());
-            }
-        });
+//        Model.instance.getUserByUsername(usernameAsId, new Model.GetUserByUsername() {
+//
+//            @Override
+//            public void onComplete(User user) {
+//                fullName.setText(user.getFullName());
+//            }
+//        });
 
 
 

@@ -8,7 +8,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
-import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.recipes_app.model.Model;
 import com.example.recipes_app.model.User;
@@ -84,7 +83,7 @@ public class EditMyAccountFragment extends Fragment {
             }
         });
 
-        NavHostFragment.findNavController(this).navigate(EditMyAccountFragmentDirections.actionGlobalMyAccountFragment(usernameAsId));
+       // NavHostFragment.findNavController(this).navigate(EditMyAccountFragmentDirections.actionGlobalMyAccountFragment(usernameAsId));
 
 //        Model.instance.getRecipeById(recipeId, new Model.GetRecipeById() {
 //            @Override

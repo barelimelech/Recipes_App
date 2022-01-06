@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.recipes_app.databinding.ActivityProfileBinding;
+import com.example.recipes_app.databinding.FragmentMyAccountBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -16,50 +16,31 @@ public class Profile extends AppCompatActivity {
     TextView name, mail;
     Button logout;
 
-    private ActivityProfileBinding binding;
+    private FragmentMyAccountBinding binding;
 
     private FirebaseAuth firebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityProfileBinding.inflate(getLayoutInflater());
+        binding = FragmentMyAccountBinding.inflate(getLayoutInflater());
         //setContentView(R.layout.activity_profile);
         setContentView(binding.getRoot());
 
-//        logout = findViewById(R.id.logout);
-//        name = findViewById(R.id.name);
-//        mail = findViewById(R.id.mail);
-//
-//        GoogleSignInAccount signInAccount = GoogleSignIn.getLastSignedInAccount(this);
-//        if(signInAccount!=null){
-//            name.setText(signInAccount.getDisplayName());
-//            mail.setText(signInAccount.getEmail());
-//        }
 
         firebaseAuth= FirebaseAuth.getInstance();
         checkUser();
 
 
-        binding.logoutBtn.setOnClickListener(new View.OnClickListener() {
+        binding.myAccountLogoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 firebaseAuth.signOut();
                 checkUser();
-//                FirebaseAuth.getInstance().signOut();
-//                Intent intent = new Intent(getApplicationContext(), Profile.class);
-//                startActivity(intent);
             }
         });
 
-//        logout.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                FirebaseAuth.getInstance().signOut();
-//                Intent intent = new Intent(getApplicationContext(), Profile.class);
-//                startActivity(intent);
-//            }
-//        });
+
     }
 
     private void checkUser() {
@@ -69,7 +50,9 @@ public class Profile extends AppCompatActivity {
             finish();
         }else{
             String email=firebaseUser.getEmail();
-            binding.email.setText(email);
+            String userName = firebaseUser.getDisplayName();
+            //String familyName = firebaseUser.getF
+            binding.myaccountFullnameTv.setText(userName);
         }
     }
 
