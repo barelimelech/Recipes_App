@@ -52,6 +52,8 @@ public class Model {
     }
     ModelFirebase modelFirebase = new ModelFirebase();
 
+    //ModelFirebaseAuth modelFirebaseAuth = new ModelFirebaseAuth();
+
     private Model() {
         recipeListLoadingState.setValue(RecipeListLoadingState.loaded);
         userListLoadingState.setValue(UserListLoadingState.loaded);
@@ -206,6 +208,13 @@ public class Model {
     public interface DeleteRecipeListener {
         void onSuccess();
     }
+    public interface UpdateRecipeListener {
+        void onSuccess();
+    }
+
+    public void UpdateRecipeListener(Recipe recipe,UpdateRecipeListener listener) {
+        modelFirebase.updateRecipe(recipe,listener);
+    }
 
     public void addRecipe(Recipe recipe, AddRecipeListener listener) {
         modelFirebase.addRecipe(recipe, ()->{
@@ -225,6 +234,14 @@ public class Model {
         modelFirebase.getRecipeByRecipeName(recipeId, listener);
         return null;
     }
+
+//    public interface ConnectWithGoogle{
+//        void onComplete();
+//    }
+
+//    public void connectWithGoogle(GoogleSignInAccount account , ConnectWithGoogle listener){
+//        modelFirebaseAuth.firebaseAuthWithGoogle(account,listener);
+//    }
 
     public List<String> getAllCategories() {
 

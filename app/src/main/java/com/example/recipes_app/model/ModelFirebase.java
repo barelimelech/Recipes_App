@@ -12,6 +12,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -20,6 +21,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -85,6 +87,34 @@ public class ModelFirebase {
                         listener.onComplete(recipe);
                     }
                 });
+    }
+
+    public void updateRecipe(Recipe recipe, Model.UpdateRecipeListener listener){
+
+       // DatabaseReference ref=db.getInstance().child("Matches").child("Match_01");
+        Map<String, Object> updates = new HashMap<>();
+
+        updates.put("name",recipe.name);
+        updates.put("method",recipe.method);
+        updates.put("ingredients",recipe.ingredients);
+        updates.put("type",recipe.type);
+        updates.put("updateDate", FieldValue.serverTimestamp());
+        updates.put("recipeUrl", recipe.recipeUrl);
+//etc
+
+        //ref.updateChildren(updates);
+        db.collection(Recipe.COLLECTION_NAME)
+                .document(recipe.name)
+                .update(updates)
+                .addOnSuccessListener(unused -> listener.onSuccess())
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                      Log.d("TAG","bla");
+                    }
+                });
+
+
     }
 
     public void deleteRecipe(String recipeName, Model.DeleteRecipeListener listener) {

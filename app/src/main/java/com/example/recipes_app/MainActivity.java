@@ -107,6 +107,9 @@ public class MainActivity extends AppCompatActivity {
         FirebaseUser firebaseUser = mAuth.getCurrentUser();
         if(firebaseUser != null){
             startActivity(new Intent(this,Profile.class));
+//            NavController navController = Navigation.findNavController(MainActivity.this,R.id.nav_host_fragment_content_main);
+//            navController.navigateUp();
+//            navController.navigate(R.id.myAccount_nav);
             finish();
         }
     }
@@ -132,7 +135,8 @@ public class MainActivity extends AppCompatActivity {
     private void signIn() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, 0);
-        mGoogleApiClient.clearDefaultAccountAndReconnect();
+       // if(mGoogleApiClient!=null)
+            mGoogleApiClient.clearDefaultAccountAndReconnect();
 
     }
     @Override
@@ -158,7 +162,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount account) {
-
+//        Model.instance.connectWithGoogle(account, new Model.ConnectWithGoogle() {
+//            @Override
+//            public void onComplete() {
+//                NavController navController = Navigation.findNavController(MainActivity.this,R.id.nav_host_fragment_content_main);
+//                navController.navigateUp();
+//                navController.navigate(R.id.myAccount_nav);
+//                Toast.makeText(MainActivity.this, "Sign-in successful!", Toast.LENGTH_LONG).show();
+//            }
+//        });
         Log.d("AUTH", "firebaseAuthWithGoogle:" + account.getId());
         AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
         mAuth.signInWithCredential(credential)
@@ -167,7 +179,11 @@ public class MainActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             Log.d("AUTH", "signInWithCredential:success");
-                            startActivity(new Intent(MainActivity.this, Profile.class));
+                             //startActivity(new Intent(MainActivity.this, Profile.class));
+
+                            NavController navController = Navigation.findNavController(MainActivity.this,R.id.nav_host_fragment_content_main);
+                            navController.navigateUp();
+                            navController.navigate(R.id.myAccount_nav);
                             Toast.makeText(MainActivity.this, "Sign-in successful!", Toast.LENGTH_LONG).show();
                         } else {
                             Log.w("AUTH", "signInWithCredential:failure", task.getException());

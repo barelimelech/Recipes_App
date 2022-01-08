@@ -42,6 +42,9 @@ public class RecipesListFragment extends Fragment {
     String usernameAsId;
     String category;
 
+    List<Recipe> userRecipes = new ArrayList<>();
+
+
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
@@ -99,6 +102,9 @@ public class RecipesListFragment extends Fragment {
                 swipeRefresh.setRefreshing(false);
             }
         });
+
+      // userRecipes = viewModel.getRecipesOfUser(usernameAsId).getValue();
+
 
 //        if(usernameAsId!=null){
 //            viewModel.getRecipesOfUser(usernameAsId).observe(getViewLifecycleOwner(), recipes -> refresh());

@@ -18,6 +18,7 @@ public class RecipesListViewModel extends ViewModel {
     public RecipesListViewModel() {
         recipes = Model.instance.getAllRecipes();
         userRecipes = Model.instance.getAllUsersRecipes();
+
     }
 
     public LiveData<List<Recipe>> getRecipes() {
@@ -38,13 +39,18 @@ public class RecipesListViewModel extends ViewModel {
         return recipes;
     }
     public LiveData<List<Recipe>> getRecipesOfUser(String username) {
-        for(UserRecipe rec : Model.instance.getAllUsersRecipes().getValue()){
-            if(rec.getUsernameAsId().equals(username)){
-                //userRecipes.getValue().add(rec);
+        for(Recipe rec : recipes.getValue()){
+            if(rec.getUsername().equals(username)){
+                tmpRecipes.getValue().add(rec);
             }
         }
+//        for(UserRecipe rec : Model.instance.getAllUsersRecipes().getValue()){
+//            if(rec.getUsernameAsId().equals(username)){
+//                //userRecipes.getValue().add(rec);
+//            }
+//        }
         //return userRecipes;
-        return recipes;
+        return tmpRecipes;
 
     }
 

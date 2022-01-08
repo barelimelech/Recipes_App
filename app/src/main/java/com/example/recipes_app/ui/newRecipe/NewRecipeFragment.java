@@ -131,7 +131,7 @@ public class NewRecipeFragment extends Fragment{
 
         String type = selectedCategory;
 
-        Recipe recipe = new Recipe(name,method,ingredients,type);
+        Recipe recipe = new Recipe(name,method,ingredients,type,usernameAsId);
         UserRecipe userRecipe = new UserRecipe(usernameAsId,name);
 
         if(imageBitmap == null){

@@ -40,6 +40,10 @@ public class Profile extends AppCompatActivity {
             }
         });
 
+//        binding.profileAddrecipeBtn.setOnClickListener(v -> {
+//
+//        });
+
 
     }
 
@@ -53,6 +57,7 @@ public class Profile extends AppCompatActivity {
             String userName = firebaseUser.getDisplayName();
             //String familyName = firebaseUser.getF
             binding.myaccountFullnameTv.setText(userName);
+
         }
     }
 

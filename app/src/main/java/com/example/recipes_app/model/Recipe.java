@@ -20,16 +20,18 @@ public class Recipe {
     String ingredients= "";
     String type = "";
     String recipeUrl;
+    String username;
 
     Long updateDate = new Long(0);
 
 
     public Recipe(){}
-    public Recipe(String name,String method, String ingredients,String type) {
+    public Recipe(String name,String method, String ingredients,String type,String username) {
         this.name = name;
         this.method = method;
         this.ingredients = ingredients;
         this.type = type;
+        this.username = username;
     }
 
 
@@ -51,6 +53,9 @@ public class Recipe {
 
     public String getName() { return name; }
 
+    public String getUsername() {
+        return username;
+    }
 
     public String getIngredients() {
         return ingredients;
@@ -68,6 +73,10 @@ public class Recipe {
         this.updateDate = updateDate;
     }
 
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     public Map<String, Object> toJson() {
         Map<String, Object> json = new HashMap<String, Object>();
         json.put("name",name);
@@ -76,6 +85,8 @@ public class Recipe {
         json.put("type",type);
         json.put("updateDate", FieldValue.serverTimestamp());
         json.put("recipeUrl", recipeUrl);
+        json.put("username", username);
+
         return json;
     }
 
@@ -87,8 +98,9 @@ public class Recipe {
         Timestamp ts = (Timestamp)json.get("updateDate");
         Long updateDate = ts.getSeconds();
         String recipeUrl = (String) json.get("recipeUrl");
+        String username = (String) json.get("username");
 
-        Recipe recipe = new Recipe(name,method,ingredients,type);
+        Recipe recipe = new Recipe(name,method,ingredients,type,username);
         recipe.setUpdateDate(updateDate);
         recipe.setImageUrl(recipeUrl);
         return recipe;
