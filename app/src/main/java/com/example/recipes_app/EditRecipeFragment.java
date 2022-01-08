@@ -30,25 +30,25 @@ public class EditRecipeFragment extends Fragment {
     Button saveRecipe;
     Button backBtn;
     //TextView recipeId;
-    String recipeNameAsId, usernameAsId;
+    String recipeNameAsId, usernameAsId, category;
     Spinner categoriesSpinner;
     List<String> categories = Model.instance.getAllCategories();
     String selectedCategory;
+    Recipe lastRecipe;
     //private FirebaseFirestore db;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_edit_recipe, container, false);
         recipeNameAsId = EditRecipeFragmentArgs.fromBundle(getArguments()).getRecipeId();
-        //usernameAsId = MyAccountFragmentArgs.fromBundle(getArguments()).getUsername(); //TODO:!!!!!!!
         recipeName = view.findViewById(R.id.editrecipe_name_tv);
         recipeMethod= view.findViewById(R.id.editrecipe_method_tv);
         recipeIngredients= view.findViewById(R.id.editrecipe_ingredients_yv);
         categoriesSpinner= view.findViewById(R.id.editrecipe_spinner);
        // categories = Model.instance.getAllCategories();
-
+        recipe = new Recipe();
+        lastRecipe = new Recipe();
         //db = FirebaseFirestore.getInstance();
         Model.instance.getRecipeByRecipeName(recipeNameAsId, new Model.GetRecipeByRecipeName() {
             @Override
@@ -56,6 +56,7 @@ public class EditRecipeFragment extends Fragment {
                 recipeName.setText(student.getName());
                 recipeMethod.setText(student.getMethod());
                 recipeIngredients.setText(student.getIngredients());
+                lastRecipe.setName(student.getName());
 
             }
         });
@@ -89,27 +90,18 @@ public class EditRecipeFragment extends Fragment {
         String method = recipeMethod.getText().toString();
         String ingredients = recipeIngredients.getText().toString();
         String type = selectedCategory;
+        recipe.setName(name);
+        recipe.setMethod(method);
+        recipe.setIngredients(ingredients);
+        recipe.setType(type);
+        Log.d("TAG", "name: " + recipe.getName());
+        Log.d("TAG", "Lastname: " + lastRecipe.getName());
+        Model.instance.UpdateRecipeListener(recipe,lastRecipe, ()-> {
 
-        Model.instance.getRecipeByRecipeName(recipeNameAsId, new Model.GetRecipeByRecipeName() {
-            @Override
-            public void onComplete(Recipe recipe) {
-                recipe.setName(name);
-                recipe.setMethod(method);
-                recipe.setIngredients(ingredients);
-                recipe.setType(type);
-            }
         });
-//        Recipe updatedRecipe = new Recipe();
-//        updatedRecipe.setName(name);
-//        Log.d("TAG", "name: " + updatedRecipe.getName());
-//        updatedRecipe.setMethod(method);
-//        updatedRecipe.setIngredients(ingredients);
-//        Map<String, Object> json = updatedRecipe.toJson();
-//        db.collection("Recipe.COLLECTION_NAME")
-//                .document(recipeId)
-//                .set(json);
-       // NavHostFragment.findNavController(this).navigate(EditRecipeFragmentDirections.actionGlobalRecipesListFragment2());//TODO:!!!!
+        Navigation.findNavController(recipeName).navigateUp();
 
+    //   NavHostFragment.findNavController(this).navigate(EditRecipeFragmentDirections.actionGlobalRecipesListFragment2();//TODO:!!!!
     }
 
     private void initSpinnerFooter() {

@@ -95,13 +95,13 @@ public class Recipe {
         String method = (String) json.get("method");
         String ingredients = (String) json.get("ingredients");
         String type = (String) json.get("type");
-        Timestamp ts = (Timestamp)json.get("updateDate");
-        Long updateDate = ts.getSeconds();
+//        Timestamp ts = (Timestamp)json.get("updateDate");
+//        Long updateDate = ts.getSeconds();
         String recipeUrl = (String) json.get("recipeUrl");
         String username = (String) json.get("username");
 
         Recipe recipe = new Recipe(name,method,ingredients,type,username);
-        recipe.setUpdateDate(updateDate);
+    //    recipe.setUpdateDate(updateDate);
         recipe.setImageUrl(recipeUrl);
         return recipe;
     }

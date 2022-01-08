@@ -24,7 +24,6 @@ public class Model {
     Handler mainThread = HandlerCompat.createAsync(Looper.getMainLooper());
 
 
-
     public enum RecipeListLoadingState {
         loading,
         loaded
@@ -212,8 +211,8 @@ public class Model {
         void onSuccess();
     }
 
-    public void UpdateRecipeListener(Recipe recipe,UpdateRecipeListener listener) {
-        modelFirebase.updateRecipe(recipe,listener);
+    public void UpdateRecipeListener(Recipe recipe, Recipe lastRecipe,UpdateRecipeListener listener) {
+        modelFirebase.updateRecipe(recipe,lastRecipe,listener);
     }
 
     public void addRecipe(Recipe recipe, AddRecipeListener listener) {

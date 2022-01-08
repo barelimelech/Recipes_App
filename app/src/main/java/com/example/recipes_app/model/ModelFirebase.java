@@ -73,7 +73,6 @@ public class ModelFirebase {
     }
 
     public void getRecipeByRecipeName(String recipeName, Model.GetRecipeByRecipeName listener) {
-
         db.collection(Recipe.COLLECTION_NAME)
                 .document(recipeName)
                 .get()
@@ -89,23 +88,11 @@ public class ModelFirebase {
                 });
     }
 
-    public void updateRecipe(Recipe recipe, Model.UpdateRecipeListener listener){
-
-       // DatabaseReference ref=db.getInstance().child("Matches").child("Match_01");
-        Map<String, Object> updates = new HashMap<>();
-
-        updates.put("name",recipe.name);
-        updates.put("method",recipe.method);
-        updates.put("ingredients",recipe.ingredients);
-        updates.put("type",recipe.type);
-        updates.put("updateDate", FieldValue.serverTimestamp());
-        updates.put("recipeUrl", recipe.recipeUrl);
-//etc
-
-        //ref.updateChildren(updates);
-        db.collection(Recipe.COLLECTION_NAME)
-                .document(recipe.name)
-                .update(updates)
+    public void updateRecipe(Recipe recipe, Recipe lastRecipe, Model.UpdateRecipeListener listener){
+        Map<String, Object> json = recipe.toJson();
+        db.collection("recipes")
+                .document(lastRecipe.getName())
+                .set(json)
                 .addOnSuccessListener(unused -> listener.onSuccess())
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
@@ -113,8 +100,6 @@ public class ModelFirebase {
                       Log.d("TAG","bla");
                     }
                 });
-
-
     }
 
     public void deleteRecipe(String recipeName, Model.DeleteRecipeListener listener) {
