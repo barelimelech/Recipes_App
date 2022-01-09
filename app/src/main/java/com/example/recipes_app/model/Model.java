@@ -205,7 +205,7 @@ public class Model {
     }
 
     public interface DeleteRecipeListener {
-        void onSuccess();
+        void onComplete();
     }
     public interface UpdateRecipeListener {
         void onSuccess();
@@ -223,7 +223,10 @@ public class Model {
     }
 
     public void deleteRecipe(String recipeName,DeleteRecipeListener listener) {
-        modelFirebase.deleteRecipe(recipeName, listener);
+        modelFirebase.deleteRecipe(recipeName, ()->{
+            listener.onComplete();
+            refreshRecipeList();
+        });
     }
     public interface GetRecipeByRecipeName {
         void onComplete(Recipe recipe);

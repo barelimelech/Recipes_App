@@ -12,16 +12,15 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -66,53 +65,114 @@ public class ModelFirebase {
     public void addRecipe(Recipe recipe, Model.AddRecipeListener listener) {
         Map<String, Object> json = recipe.toJson();
         db.collection(Recipe.COLLECTION_NAME)
-                .document(recipe.getName())
-                .set(json)
+                //.document(recipe.getName())
+                //.set(json)
+                .add(json)
                 .addOnSuccessListener(unused -> listener.onComplete())
                 .addOnFailureListener(e -> listener.onComplete());
     }
 
     public void getRecipeByRecipeName(String recipeName, Model.GetRecipeByRecipeName listener) {
         db.collection(Recipe.COLLECTION_NAME)
-                .document(recipeName)
+                .whereEqualTo("name",recipeName)
                 .get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         Recipe recipe = null;
                         if (task.isSuccessful() & task.getResult()!= null) {
-                            recipe = Recipe.create(task.getResult().getData());
+                            DocumentSnapshot documentSnapshot = task.getResult().getDocuments().get(0);
+                            String documentId = documentSnapshot.getId();
+                            db.collection(Recipe.COLLECTION_NAME)
+                                    .document(documentId).get()
+                                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                            Recipe recipe = null;
+                                            if (task.isSuccessful() & task.getResult() != null) {
+                                                recipe = Recipe.create(task.getResult().getData());
+                                            }
+                                            listener.onComplete(recipe);
+                                        }
+                                    });
                         }
-                        listener.onComplete(recipe);
                     }
                 });
+
+
+
+//                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                        Recipe recipe = null;
+//                        if (task.isSuccessful() & task.getResult()!= null) {
+//                            recipe = Recipe.create(task.getResult().getData());
+//                        }
+//                        listener.onComplete(recipe);
+//                    }
+//                });
     }
 
     public void updateRecipe(Recipe recipe, Recipe lastRecipe, Model.UpdateRecipeListener listener){
         Map<String, Object> json = recipe.toJson();
-        db.collection("recipes")
-                .document(lastRecipe.getName())
-                .set(json)
-                .addOnSuccessListener(unused -> listener.onSuccess())
-                .addOnFailureListener(new OnFailureListener() {
+        db.collection(Recipe.COLLECTION_NAME)
+                .whereEqualTo("name",lastRecipe.getName())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
-                    public void onFailure(@NonNull Exception e) {
-                      Log.d("TAG","bla");
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful() & task.getResult()!= null) {
+                            DocumentSnapshot documentSnapshot = task.getResult().getDocuments().get(0);
+                            String documentId = documentSnapshot.getId();
+                            db.collection(Recipe.COLLECTION_NAME)
+                                    .document(documentId)
+                                    .set(json)
+                                    .addOnSuccessListener(unused -> listener.onSuccess())
+                                    .addOnFailureListener(new OnFailureListener() {
+                                     @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                         Log.d("TAG","bla");
+                                     }
+                             });
+                        }
                     }
                 });
+//                .document(lastRecipe.getName())
+//                .set(json)
+//                .addOnSuccessListener(unused -> listener.onSuccess())
+//                .addOnFailureListener(new OnFailureListener() {
+//                    @Override
+//                    public void onFailure(@NonNull Exception e) {
+//                      Log.d("TAG","bla");
+//                    }
+//                });
     }
 
     public void deleteRecipe(String recipeName, Model.DeleteRecipeListener listener) {
         db.collection(Recipe.COLLECTION_NAME)
-                .document(recipeName)
-                .delete()
-                .addOnSuccessListener(unused -> listener.onSuccess())
-                .addOnFailureListener(new OnFailureListener() {
+                .whereEqualTo("name",recipeName)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w("TAG", "Error deleting document", e);
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        Recipe recipe = null;
+                        if (task.isSuccessful() & task.getResult()!= null) {
+                            DocumentSnapshot documentSnapshot = task.getResult().getDocuments().get(0);
+                            String documentId = documentSnapshot.getId();
+                            db.collection(Recipe.COLLECTION_NAME)
+                                    .document(documentId)
+                                    .delete()
+                                    .addOnCompleteListener(unused -> listener.onComplete())
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Log.w("TAG", "Error deleting document", e);
+                                        }
+                                    });
+                        }
                     }
                 });
+
     }
 
     /**

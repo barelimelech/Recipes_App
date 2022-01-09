@@ -96,6 +96,7 @@ public class RecipeDetailsFragment extends Fragment {
         deleteRecipe.setEnabled(false);
 
         Model.instance.deleteRecipe(recipeNameAsId,()->{
+            Navigation.findNavController(recipeName).navigateUp();
 
         });
 

@@ -103,31 +103,6 @@ public class RecipesListFragment extends Fragment {
             }
         });
 
-      // userRecipes = viewModel.getRecipesOfUser(usernameAsId).getValue();
-
-
-//        if(usernameAsId!=null){
-//            viewModel.getRecipesOfUser(usernameAsId).observe(getViewLifecycleOwner(), recipes -> refresh());
-//            swipeRefresh.setRefreshing(Model.instance.getRecipeListLoadingState().getValue() == Model.RecipeListLoadingState.loading);
-//            Model.instance.getRecipeListLoadingState().observe(getViewLifecycleOwner(), recipeListLoadingState -> {
-//                if (recipeListLoadingState == Model.RecipeListLoadingState.loading) {
-//                    swipeRefresh.setRefreshing(true);
-//                } else {
-//                    swipeRefresh.setRefreshing(false);
-//                }
-//            });        }
-
-//        if(category!=null){
-//            viewModel.getRecipesOfCategory(category).observe(getViewLifecycleOwner(), recipes -> refresh());
-//            swipeRefresh.setRefreshing(Model.instance.getRecipeListLoadingState().getValue() == Model.RecipeListLoadingState.loading);
-//            Model.instance.getRecipeListLoadingState().observe(getViewLifecycleOwner(), recipeListLoadingState -> {
-//                if (recipeListLoadingState == Model.RecipeListLoadingState.loading) {
-//                    swipeRefresh.setRefreshing(true);
-//                } else {
-//                    swipeRefresh.setRefreshing(false);
-//                }
-//            });
-//        }
         //refresh();
         setHasOptionsMenu(true);
 
@@ -142,12 +117,20 @@ public class RecipesListFragment extends Fragment {
 
     class MyViewHolder extends RecyclerView.ViewHolder {
         TextView nameTv;
+        TextView usernameBy;
+
         ImageView recipeImage;
 
         public MyViewHolder(@NonNull View itemView, RecipesListFragment.OnItemClickListener listener) {
             super(itemView);
             nameTv = itemView.findViewById(R.id.recipe_listrow_name);
+            usernameBy = itemView.findViewById(R.id.recipe_listrow_username);
             recipeImage = itemView.findViewById(R.id.recipe_listrow_image);
+
+//            if(!usernameAsId.equals("")){
+//
+//                itemView.setVisibility(View.GONE);
+//            }
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -161,13 +144,45 @@ public class RecipesListFragment extends Fragment {
 
         }
         void bind(Recipe recipe){
-            nameTv.setText(recipe.getName());
-
-            recipeImage.setImageResource(R.drawable.cake);
-            if (recipe.getRecipeUrl() != null) {
-                Picasso.get()
-                        .load(recipe.getRecipeUrl())
-                        .into(recipeImage);
+            if(!usernameAsId.equals("")&& recipe.getUsername() != null&&category.equals("")){
+                if(!recipe.getUsername().equals(usernameAsId)){
+                    itemView.setVisibility(View.GONE);
+                    itemView.setLayoutParams(new RecyclerView.LayoutParams(0, 0));
+                }
+                else{
+                    nameTv.setText(recipe.getName());
+                    usernameBy.setText("By:  "+recipe.getUsername());
+                    recipeImage.setImageResource(R.drawable.cake);
+                    if (recipe.getRecipeUrl() != null) {
+                        Picasso.get()
+                                .load(recipe.getRecipeUrl())
+                                .into(recipeImage);
+                    }
+                }
+            }else if(!category.equals("") && recipe.getType() != null){
+                if(!recipe.getType().equals(category)){
+                    itemView.setVisibility(View.GONE);
+                    itemView.setLayoutParams(new RecyclerView.LayoutParams(0, 0));
+                }
+                else{
+                    nameTv.setText(recipe.getName());
+                    usernameBy.setText("By:  "+recipe.getUsername());
+                    recipeImage.setImageResource(R.drawable.cake);
+                    if (recipe.getRecipeUrl() != null) {
+                        Picasso.get()
+                                .load(recipe.getRecipeUrl())
+                                .into(recipeImage);
+                    }
+                }
+            } else{
+                nameTv.setText(recipe.getName());
+                usernameBy.setText("By:  " + recipe.getUsername());
+                recipeImage.setImageResource(R.drawable.cake);
+                if (recipe.getRecipeUrl() != null) {
+                    Picasso.get()
+                            .load(recipe.getRecipeUrl())
+                            .into(recipeImage);
+                }
             }
         }
     }

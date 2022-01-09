@@ -77,6 +77,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 signIn();
+                mGoogleApiClient.clearDefaultAccountAndReconnect();
+
             }
         });
 
@@ -105,6 +107,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void checkUser() {
         FirebaseUser firebaseUser = mAuth.getCurrentUser();
+
         if(firebaseUser != null){
             startActivity(new Intent(this,Profile.class));
 //            NavController navController = Navigation.findNavController(MainActivity.this,R.id.nav_host_fragment_content_main);
@@ -135,8 +138,7 @@ public class MainActivity extends AppCompatActivity {
     private void signIn() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, 0);
-       // if(mGoogleApiClient!=null)
-            mGoogleApiClient.clearDefaultAccountAndReconnect();
+
 
     }
     @Override

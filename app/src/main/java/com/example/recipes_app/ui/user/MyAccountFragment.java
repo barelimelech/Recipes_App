@@ -61,7 +61,7 @@ public class MyAccountFragment extends Fragment {
         });
         Button othersRecipes = view.findViewById(R.id.myaccount_othersrecipes_btn);
         othersRecipes.setOnClickListener((v)->{
-            NavHostFragment.findNavController(this).navigate(MyAccountFragmentDirections.actionMyAccountNavToRecipesListFragment(usernameAsId,""));
+            NavHostFragment.findNavController(this).navigate(MyAccountFragmentDirections.actionMyAccountNavToRecipesListFragment("",""));
 
            // Navigation.findNavController(v).navigate(R.id.action_myAccount_nav_to_recipesListFragment);//TODO
         });
@@ -75,7 +75,7 @@ public class MyAccountFragment extends Fragment {
 
         Button categories = view.findViewById(R.id.myaccount_categories_btn);
         categories.setOnClickListener((v)->{
-            NavHostFragment.findNavController(this).navigate(MyAccountFragmentDirections.actionMyAccountNavToCategoriesListFragment(usernameAsId));
+            NavHostFragment.findNavController(this).navigate(MyAccountFragmentDirections.actionMyAccountNavToCategoriesListFragment(fullNameAsId));
         });
 
 

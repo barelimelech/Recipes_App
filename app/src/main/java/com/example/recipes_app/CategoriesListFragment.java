@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.recipes_app.model.Model;
-import com.example.recipes_app.model.User;
 
 import java.util.List;
 
@@ -35,6 +34,7 @@ public class CategoriesListFragment extends Fragment {
         categories = Model.instance.getAllCategories();
         usernameAsId = CategoriesListFragmentArgs.fromBundle(getArguments()).getUsername();
         headline = view.findViewById(R.id.categorieslist_headline_tv);
+        headline.setText("Welcome " +usernameAsId+" :)"+"\n"+"Please choose category:");
 
         //db = FirebaseFirestore.getInstance();
 
@@ -55,13 +55,13 @@ public class CategoriesListFragment extends Fragment {
             }
         });
 
-        Model.instance.getUserByUsername(usernameAsId, new Model.GetUserByUsername() {
-
-            @Override
-            public void onComplete(User user) {
-                headline.setText("Welcome " +user.getUsername()+" :)"+"\n"+"Please choose category:");
-            }
-        });
+//        Model.instance.getUserByUsername(usernameAsId, new Model.GetUserByUsername() {
+//
+//            @Override
+//            public void onComplete(User user) {
+//                headline.setText("Welcome " +user.getUsername()+" :)"+"\n"+"Please choose category:");
+//            }
+//        });
 
 
 
