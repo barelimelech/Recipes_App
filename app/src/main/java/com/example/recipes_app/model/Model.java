@@ -222,11 +222,13 @@ public class Model {
         });
     }
 
-    public void deleteRecipe(String recipeName,DeleteRecipeListener listener) {
-        modelFirebase.deleteRecipe(recipeName, ()->{
-            listener.onComplete();
-            refreshRecipeList();
-        });
+    public void deleteRecipe(Recipe recipe,DeleteRecipeListener listener) {
+        modelFirebase.deleteRecipe(recipe, listener);
+
+//        modelFirebase.deleteRecipe(recipeName, ()->{
+//            listener.onComplete();
+//            refreshRecipeList();
+//        });
     }
     public interface GetRecipeByRecipeName {
         void onComplete(Recipe recipe);

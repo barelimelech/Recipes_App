@@ -25,33 +25,10 @@ public class RecipesListViewModel extends ViewModel {
         return recipes;
     }
 
-    public LiveData<List<UserRecipe>> getUsersRecipes() {
-        return userRecipes;
+    public void deleteRecipe(Recipe recipe){
+        
     }
 
-    public LiveData<List<Recipe>> getRecipesOfCategory(String category) {
-        //recipes.getValue().clear();
-        for(Recipe rec : Model.instance.getAllRecipes().getValue()){
-            if(rec.getType().equals(category)){
-                recipes.getValue().add(rec);
-            }
-        }
-        return recipes;
-    }
-    public LiveData<List<Recipe>> getRecipesOfUser(String username) {
-        for(Recipe rec : recipes.getValue()){
-            if(rec.getUsername().equals(username)){
-                tmpRecipes.getValue().add(rec);
-            }
-        }
-//        for(UserRecipe rec : Model.instance.getAllUsersRecipes().getValue()){
-//            if(rec.getUsernameAsId().equals(username)){
-//                //userRecipes.getValue().add(rec);
-//            }
-//        }
-        //return userRecipes;
-        return tmpRecipes;
 
-    }
 
 }

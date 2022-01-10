@@ -16,6 +16,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -27,12 +28,16 @@ import com.example.recipes_app.model.Model;
 import com.example.recipes_app.model.Recipe;
 import com.example.recipes_app.model.UserRecipe;
 
+import java.io.IOException;
 import java.util.List;
 
 public class NewRecipeFragment extends Fragment{
 
 
     private static final int REQUEST_CAMERA = 1;
+
+    private static final int SELECT_IMAGE = 1;
+
     EditText recipeName;
     EditText recipeMethod;
     EditText recipeIngredients;
@@ -40,7 +45,7 @@ public class NewRecipeFragment extends Fragment{
     Spinner categoriesSpinner;
     List<String> categories= Model.instance.getAllCategories();
     String selectedCategory;
-    //Button cancelBtn;
+    Button cancelBtn;
     String usernameAsId;
     TextView username;
 
@@ -65,7 +70,7 @@ public class NewRecipeFragment extends Fragment{
         initSpinnerFooter();
         recipeImage = view.findViewById(R.id.newRec_image_recipe);
         username.setText(usernameAsId);
-        //cancelBtn = view.findViewById(R.id.main_cancel_btn);
+        cancelBtn = view.findViewById(R.id.newRec_cancel_btn);
         //progressBar = view.findViewById(R.id.main_progressbar);
         //progressBar.setVisibility(View.GONE);
 
@@ -92,12 +97,22 @@ public class NewRecipeFragment extends Fragment{
                 openGallery();
             }
         });
+        cancelBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Navigation.findNavController(v).navigate(NewRecipeFragmentDirections.actionGlobalMyAccountFragment(usernameAsId));
+
+            }
+        });
 
         return view;
     }
 
     private void openGallery() {
-
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"),SELECT_IMAGE);
     }
 
     private void openCam() {
@@ -114,6 +129,20 @@ public class NewRecipeFragment extends Fragment{
                 imageBitmap = (Bitmap) extras.get("data");
                 recipeImage.setImageBitmap(imageBitmap);
 
+            }
+        }
+
+       else if (requestCode == SELECT_IMAGE) {
+            if (resultCode == Activity.RESULT_OK) {
+                if (data != null) {
+                    try {
+                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), data.getData());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            } else if (resultCode == Activity.RESULT_CANCELED)  {
+                Toast.makeText(getActivity(), "Canceled", Toast.LENGTH_SHORT).show();
             }
         }
     }

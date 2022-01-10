@@ -45,10 +45,18 @@ public class RecipesListFragment extends Fragment {
     List<Recipe> userRecipes = new ArrayList<>();
 
 
+//    public interface OnDeleteClickListener{
+//        void OnDeleteClickListener(Recipe recipe);
+//    }
+//
+//
+//    private OnDeleteClickListener onDeleteClickListener;
+
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         viewModel = new ViewModelProvider(this).get(RecipesListViewModel.class);
+
     }
 
     @Nullable
@@ -198,6 +206,7 @@ public class RecipesListFragment extends Fragment {
             this.listener = listener;
 
         }
+
 
         @NonNull
         @Override

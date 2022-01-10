@@ -95,10 +95,10 @@ public class RecipeDetailsFragment extends Fragment {
     private void delete() {
         deleteRecipe.setEnabled(false);
 
-        Model.instance.deleteRecipe(recipeNameAsId,()->{
-            Navigation.findNavController(recipeName).navigateUp();
-
-        });
+//        Model.instance.deleteRecipe(recipeNameAsId,()->{
+//            Navigation.findNavController(recipeName).navigateUp();
+//
+//        });
 
     }
 

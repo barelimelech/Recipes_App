@@ -135,7 +135,7 @@ public class EditRecipeFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.deleteRecipe){
-            Log.d("TAG","delete...");
+            deleteRecipe();
             //TODO:delete
             // Model.instance.deleteRecipeNew(recipe.getId());
 
@@ -145,6 +145,13 @@ public class EditRecipeFragment extends Fragment {
         }else {
             return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void deleteRecipe() {
+//        AlertDialog.Builder builder= new AlertDialog.Builder(requireContext());
+//        builder.setPositiveButton("yes", ()->{
+//
+//        })
     }
 
 }

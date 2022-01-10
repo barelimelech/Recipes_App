@@ -56,7 +56,6 @@ public class MainActivity extends AppCompatActivity {
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
 
-
         //setContentView(R.layout.activity_main);
         SignInButton authButton = findViewById(R.id.google_signin);
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -77,8 +76,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 signIn();
-                mGoogleApiClient.clearDefaultAccountAndReconnect();
-
             }
         });
 
@@ -103,13 +100,39 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
+        if(!mGoogleApiClient.isConnected()){
+            hideItem();
+        }
+
+
     }
+    NavigationView navigationView;
+
+    private void hideItem()
+    {
+
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        Menu nav_Menu = navigationView.getMenu();
+        nav_Menu.findItem(R.id.newRecipeFragment).setVisible(false);
+        nav_Menu.findItem(R.id.myAccount_nav).setVisible(false);
+
+    }
+
+    private void showItem(){
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        Menu nav_Menu = navigationView.getMenu();
+        nav_Menu.findItem(R.id.newRecipeFragment).setVisible(true);
+        nav_Menu.findItem(R.id.myAccount_nav).setVisible(true);
+
+
+    }
+
 
     private void checkUser() {
         FirebaseUser firebaseUser = mAuth.getCurrentUser();
-
         if(firebaseUser != null){
             startActivity(new Intent(this,Profile.class));
+//            mAuth.signOut();
 //            NavController navController = Navigation.findNavController(MainActivity.this,R.id.nav_host_fragment_content_main);
 //            navController.navigateUp();
 //            navController.navigate(R.id.myAccount_nav);
@@ -138,7 +161,10 @@ public class MainActivity extends AppCompatActivity {
     private void signIn() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, 0);
-
+        mGoogleApiClient.clearDefaultAccountAndReconnect();
+        if(mGoogleApiClient.isConnected()) {
+            showItem();
+        }
 
     }
     @Override

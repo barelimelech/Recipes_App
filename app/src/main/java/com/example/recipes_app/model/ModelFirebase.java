@@ -148,30 +148,32 @@ public class ModelFirebase {
 //                });
     }
 
-    public void deleteRecipe(String recipeName, Model.DeleteRecipeListener listener) {
-        db.collection(Recipe.COLLECTION_NAME)
-                .whereEqualTo("name",recipeName)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        Recipe recipe = null;
-                        if (task.isSuccessful() & task.getResult()!= null) {
-                            DocumentSnapshot documentSnapshot = task.getResult().getDocuments().get(0);
-                            String documentId = documentSnapshot.getId();
-                            db.collection(Recipe.COLLECTION_NAME)
-                                    .document(documentId)
-                                    .delete()
-                                    .addOnCompleteListener(unused -> listener.onComplete())
-                                    .addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception e) {
-                                            Log.w("TAG", "Error deleting document", e);
-                                        }
-                                    });
-                        }
-                    }
-                });
+    public void deleteRecipe(Recipe recipeName, Model.DeleteRecipeListener listener) {
+
+        AppLocalDb.db.recipeDao().delete(recipeName);
+//        db.collection(Recipe.COLLECTION_NAME)
+//                .whereEqualTo("name",recipeName)
+//                .get()
+//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                        Recipe recipe = null;
+//                        if (task.isSuccessful() & task.getResult()!= null) {
+//                            DocumentSnapshot documentSnapshot = task.getResult().getDocuments().get(0);
+//                            String documentId = documentSnapshot.getId();
+//                            db.collection(Recipe.COLLECTION_NAME)
+//                                    .document(documentId)
+//                                    .delete()
+//                                    .addOnCompleteListener(unused -> listener.onComplete())
+//                                    .addOnFailureListener(new OnFailureListener() {
+//                                        @Override
+//                                        public void onFailure(@NonNull Exception e) {
+//                                            Log.w("TAG", "Error deleting document", e);
+//                                        }
+//                                    });
+//                        }
+//                    }
+//                });
 
     }
 
