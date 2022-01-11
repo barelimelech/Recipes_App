@@ -58,7 +58,7 @@ public class Model {
         userListLoadingState.setValue(UserListLoadingState.loaded);
         userRecipeListLoadingState.setValue(UserRecipeListLoadingState.loaded);
 
-        data.add("Deserts");
+        data.add("Desserts");
         data.add("Breakfast");
         data.add("Lunch");
         data.add("Dinner");

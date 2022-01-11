@@ -7,7 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -72,13 +72,14 @@ public class CategoriesListFragment extends Fragment {
 
     class MyViewHolder extends RecyclerView.ViewHolder{
         TextView nameTv;
-        TextView idTv;
-        CheckBox cb;
+        ImageView categoryImage;
+
 
 
         public MyViewHolder(@NonNull View itemView, OnItemClickListener listener) {
             super(itemView);
             nameTv = itemView.findViewById(R.id.category_listrow_name);
+           // categoryImage = itemView.findViewById(R.id.category_listrow_image);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -122,6 +123,7 @@ public class CategoriesListFragment extends Fragment {
 
             String category = categories.get(position);
             holder.nameTv.setText(category);
+            //holder.categoryImage.setImageResource(R.drawable.breakfast);
 
         }
 

@@ -103,6 +103,8 @@ public class NewRecipeFragment extends Fragment{
 
             }
         });
+        setHasOptionsMenu(true);
+
 
         return view;
     }
