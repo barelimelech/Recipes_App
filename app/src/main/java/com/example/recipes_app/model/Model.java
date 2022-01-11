@@ -57,6 +57,12 @@ public class Model {
         recipeListLoadingState.setValue(RecipeListLoadingState.loaded);
         userListLoadingState.setValue(UserListLoadingState.loaded);
         userRecipeListLoadingState.setValue(UserRecipeListLoadingState.loaded);
+
+        data.add("Deserts");
+        data.add("Breakfast");
+        data.add("Lunch");
+        data.add("Dinner");
+        data.add("Holidays");
     }
 
     List<String> data = new LinkedList<String>();
@@ -223,12 +229,12 @@ public class Model {
     }
 
     public void deleteRecipe(Recipe recipe,DeleteRecipeListener listener) {
-        modelFirebase.deleteRecipe(recipe, listener);
+        //modelFirebase.deleteRecipe(recipe, listener);
 
-//        modelFirebase.deleteRecipe(recipeName, ()->{
-//            listener.onComplete();
-//            refreshRecipeList();
-//        });
+        modelFirebase.deleteRecipe(recipe, ()->{
+            listener.onComplete();
+            refreshRecipeList();
+        });
     }
     public interface GetRecipeByRecipeName {
         void onComplete(Recipe recipe);
@@ -249,11 +255,6 @@ public class Model {
 
     public List<String> getAllCategories() {
 
-        data.add("Deserts");
-        data.add("Breakfast");
-        data.add("Lunch");
-        data.add("Dinner");
-        data.add("Holidays");
         return data;
         //return null;
     }

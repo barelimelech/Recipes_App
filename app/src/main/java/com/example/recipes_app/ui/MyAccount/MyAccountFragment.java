@@ -1,15 +1,20 @@
-package com.example.recipes_app.ui.user;
+package com.example.recipes_app.ui.MyAccount;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
+import com.example.recipes_app.MainActivity;
 import com.example.recipes_app.R;
 import com.example.recipes_app.model.Recipe;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -107,17 +112,23 @@ public class MyAccountFragment extends Fragment {
 
     }
 
+    @Override
+    public void onPrepareOptionsMenu(@NonNull Menu menu) {
+        MenuItem item =menu.findItem(R.id.menu_myAccount);
+        item.setVisible(true);
+        super.onPrepareOptionsMenu(menu);
+    }
 
     private void checkUser() {
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
         if(firebaseUser == null){
-            NavHostFragment.findNavController(this).navigate(MyAccountFragmentDirections.actionMyAccountNavToNavHome());
+            //NavHostFragment.findNavController(this).navigate(MyAccountFragmentDirections.actionMyAccountNavToNavHome());
 
             //Navigation.findNavController(view).navigate(R.id.nav_host_fragment_content_main);
            // getActivity().finish();
 
-            //startActivity(new Intent(this, MainActivity.class));
-            //finish();
+            startActivity(new Intent(getActivity(), MainActivity.class));
+            getActivity().finish();
         }else{
             String email=firebaseUser.getEmail();
             String userName = firebaseUser.getDisplayName();

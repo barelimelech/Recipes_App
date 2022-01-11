@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background1"
-    tools:context=".ui.newRecipe.NewRecipeFragment">
+    tools:context=".ui.NewRecipe.NewRecipeFragment">
 
     <TextView
         android:id="@+id/textView5"
@@ -63,7 +63,7 @@
         android:layout_width="163dp"
         android:layout_height="104dp"
         android:layout_marginTop="12dp"
-        android:src="@drawable/cake"
+        android:src="@drawable/empty"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
@@ -197,6 +197,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/newRec_image_recipe"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.584"
+        android:background="#0000"
         app:layout_constraintStart_toEndOf="@+id/newRec_image_recipe" />
 
     <ImageButton
@@ -207,6 +208,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/newRec_image_recipe"
         app:layout_constraintEnd_toStartOf="@+id/newRec_image_recipe"
         app:layout_constraintHorizontal_bias="0.4"
+        android:background="#0000"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button

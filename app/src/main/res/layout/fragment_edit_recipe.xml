@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background1"
-    tools:context=".EditRecipeFragment">
+    tools:context=".ui.EditRecipe.EditRecipeFragment">
 
     <Spinner
         android:id="@+id/editrecipe_spinner"
@@ -181,6 +181,27 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/editrecipe_save_btn"
         app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/editrecipe_delete_btn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:backgroundTint="@android:color/transparent"
+        android:fontFamily="@font/paprika"
+        android:shadowColor="#00FFFFFF"
+        android:text="delete"
+        android:textColor="#5A3914"
+        android:textColorHighlight="#00FFFFFF"
+        android:textColorLink="#00231F1F"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView7"
+        app:layout_constraintVertical_bias="1.0"
+        app:strokeColor="#00FFFFFF" />
 
     <TextView
         android:id="@+id/textView8"

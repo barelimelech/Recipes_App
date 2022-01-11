@@ -3,7 +3,6 @@ import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.FieldValue;
 
 import java.util.HashMap;
@@ -23,6 +22,8 @@ public class Recipe {
     String username;
 
     Long updateDate = new Long(0);
+
+    //boolean isDeleted=false;
 
 
     public Recipe(){}

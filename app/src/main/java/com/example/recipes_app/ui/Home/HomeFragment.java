@@ -1,4 +1,4 @@
-package com.example.recipes_app.ui.home;
+package com.example.recipes_app.ui.Home;
 
 import android.os.Bundle;
 import android.util.Log;

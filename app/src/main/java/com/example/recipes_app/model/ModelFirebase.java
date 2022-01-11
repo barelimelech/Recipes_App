@@ -148,11 +148,13 @@ public class ModelFirebase {
 //                });
     }
 
-    public void deleteRecipe(Recipe recipeName, Model.DeleteRecipeListener listener) {
+    public void deleteRecipe(Recipe recipe, Model.DeleteRecipeListener listener) {
 
-        AppLocalDb.db.recipeDao().delete(recipeName);
+        AppLocalDb.db.recipeDao().delete(recipe);
+//        Map<String, Object> json = recipe.toJson();
+//
 //        db.collection(Recipe.COLLECTION_NAME)
-//                .whereEqualTo("name",recipeName)
+//                .whereEqualTo("name",recipe.getName())
 //                .get()
 //                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
 //                    @Override

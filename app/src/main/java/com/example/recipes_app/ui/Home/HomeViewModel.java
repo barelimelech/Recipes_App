@@ -1,4 +1,4 @@
-package com.example.recipes_app.ui.home;
+package com.example.recipes_app.ui.Home;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

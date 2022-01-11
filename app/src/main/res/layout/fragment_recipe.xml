@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background1"
-    tools:context=".RecipeDetailsFragment">
+    tools:context=".ui.RecipeDetails.RecipeDetailsFragment">
 
 
     <Button
@@ -27,7 +27,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/recipeDetails_delete_btn"
         app:layout_constraintTop_toBottomOf="@+id/recipeDetails_method"
         app:layout_constraintVertical_bias="0.05"
         app:strokeColor="#00FFFFFF" />
@@ -49,34 +48,13 @@
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/recipeDetails_delete_btn"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView7"
         app:layout_constraintVertical_bias="0.647"
         app:strokeColor="#00FFFFFF" />
 
-    <Button
-        android:id="@+id/recipeDetails_delete_btn"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
-        android:backgroundTint="@android:color/transparent"
-        android:fontFamily="@font/paprika"
-        android:shadowColor="#00FFFFFF"
-        android:text="delete"
-        android:textColor="#5A3914"
-        android:textColorHighlight="#00FFFFFF"
-        android:textColorLink="#00231F1F"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/recipeDetails_edit_btn"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/recipeDetails_back_btn"
-        app:layout_constraintTop_toBottomOf="@+id/textView7"
-        app:layout_constraintVertical_bias="0.647"
-        app:strokeColor="#00FFFFFF" />
+
 
     <TextView
         android:id="@+id/textView5"

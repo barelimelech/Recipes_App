@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -21,7 +22,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -31,22 +31,19 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
 public class MainActivity extends AppCompatActivity {
 
-    //private final static int RC_SIGN_IN = 123;
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
     NavController navController;
     private GoogleSignInClient mGoogleSignInClient;
-    private FirebaseAuth mAuth;
-    //private int permission =0;
+    private FirebaseAuth firebaseAuth;
 
     GoogleApiClient mGoogleApiClient;
+    NavigationView navigationView;
 
-    //private static final String TAG = "GOOGLE_SIGN_IN_TAG";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,15 +59,10 @@ public class MainActivity extends AppCompatActivity {
                 .requestIdToken("211609576402-f9ugjpkpljeton1bre8gr98hfj9icerq.apps.googleusercontent.com").requestEmail().build();
 
         mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage(this, new GoogleApiClient.OnConnectionFailedListener() {
-                    @Override
-                    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
-                    }
-                })
+                .enableAutoManage(this, connectionResult -> { })
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
-        mAuth = FirebaseAuth.getInstance();
+        firebaseAuth = FirebaseAuth.getInstance();
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
         authButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,12 +72,12 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        checkUser();
+       // checkUser();
 
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.myAccount_nav, R.id.newRecipeFragment, R.id.searchFragment)
+                R.id.nav_home, R.id.myAccount_nav, R.id.newRecipeFragment)
                 .setOpenableLayout(drawer)
                 .build();
         navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
@@ -93,20 +85,22 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navigationView, navController);
 
 
-        if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
-            // signed in. Show the "sign out" button and explanation.
-            // ...
-        } else {
-
-        }
+//        if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
+//            // signed in. Show the "sign out" button and explanation.
+//            // ...
+//        } else {
+//
+//        }
 
         if(!mGoogleApiClient.isConnected()){
             hideItem();
         }
 
 
+
+
+
     }
-    NavigationView navigationView;
 
     private void hideItem()
     {
@@ -115,6 +109,7 @@ public class MainActivity extends AppCompatActivity {
         Menu nav_Menu = navigationView.getMenu();
         nav_Menu.findItem(R.id.newRecipeFragment).setVisible(false);
         nav_Menu.findItem(R.id.myAccount_nav).setVisible(false);
+
 
     }
 
@@ -127,17 +122,27 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+//
+//    private void checkUser() {
+//        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+//        if(firebaseUser != null){
+//            //startActivity(new Intent(this,Profile.class));
+//            //firebaseAuth.signOut();
+//            //mGoogleApiClient.clearDefaultAccountAndReconnect();
+//
+////            NavController navController = Navigation.findNavController(MainActivity.this,R.id.nav_host_fragment_content_main);
+////            navController.navigateUp();
+////            navController.navigate(R.id.myAccount_nav);
+//            finish();
+//        }
+//    }
 
-    private void checkUser() {
-        FirebaseUser firebaseUser = mAuth.getCurrentUser();
-        if(firebaseUser != null){
-            startActivity(new Intent(this,Profile.class));
-//            mAuth.signOut();
-//            NavController navController = Navigation.findNavController(MainActivity.this,R.id.nav_host_fragment_content_main);
-//            navController.navigateUp();
-//            navController.navigate(R.id.myAccount_nav);
-            finish();
-        }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        MenuItem item =menu.findItem(R.id.menu_myAccount);
+        item.setVisible(false);
+        return super.onPrepareOptionsMenu(menu);
     }
 
     @Override
@@ -145,6 +150,8 @@ public class MainActivity extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.myaccount_menu,menu);
         getMenuInflater().inflate(R.menu.main, menu);
+//        MenuItem item = menu.findItem(R.id.menu_myAccount);
+//        item.setVisible(false);
 
 //        super.onCreateOptionsMenu(menu);
 //        getMenuInflater().inflate(R.menu.base_menu,menu);
@@ -201,7 +208,7 @@ public class MainActivity extends AppCompatActivity {
 //        });
         Log.d("AUTH", "firebaseAuthWithGoogle:" + account.getId());
         AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
-        mAuth.signInWithCredential(credential)
+        firebaseAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {

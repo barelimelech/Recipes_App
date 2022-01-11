@@ -1,4 +1,4 @@
-package com.example.recipes_app;
+package com.example.recipes_app.ui.RecipeDetails;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 
+import com.example.recipes_app.R;
 import com.example.recipes_app.model.Model;
 import com.example.recipes_app.model.Recipe;
 import com.squareup.picasso.Picasso;
@@ -65,10 +66,10 @@ public class RecipeDetailsFragment extends Fragment {
             NavHostFragment.findNavController(this).navigate(RecipeDetailsFragmentDirections.actionRecipeFragmentToEditRecipeFragment(recipeNameAsId));
         });
 
-        deleteRecipe = view.findViewById(R.id.recipeDetails_delete_btn);
-        deleteRecipe.setOnClickListener((v)->{
-            delete();
-        });
+//        deleteRecipe = view.findViewById(R.id.recipeDetails_delete_btn);
+//        deleteRecipe.setOnClickListener((v)->{
+//            delete();
+//        });
 
 
         Button backBtn = view.findViewById(R.id.recipeDetails_back_btn);
@@ -94,7 +95,7 @@ public class RecipeDetailsFragment extends Fragment {
 
     private void delete() {
         deleteRecipe.setEnabled(false);
-
+       // Model.instance.deleteItem();
 //        Model.instance.deleteRecipe(recipeNameAsId,()->{
 //            Navigation.findNavController(recipeName).navigateUp();
 //

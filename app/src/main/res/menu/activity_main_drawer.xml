@@ -19,11 +19,7 @@
             android:icon="@drawable/add"
             android:title="Add"
          />
-        <item
-            android:id="@+id/searchFragment"
-            android:icon="@drawable/search"
-            android:title="Search"
-          />
+
 
     </group>
 </menu>

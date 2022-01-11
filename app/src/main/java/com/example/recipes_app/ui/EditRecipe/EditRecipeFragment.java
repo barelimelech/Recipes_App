@@ -1,4 +1,4 @@
-package com.example.recipes_app;
+package com.example.recipes_app.ui.EditRecipe;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -17,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import com.example.recipes_app.R;
 import com.example.recipes_app.model.Model;
 import com.example.recipes_app.model.Recipe;
 
@@ -29,13 +30,14 @@ public class EditRecipeFragment extends Fragment {
     Recipe recipe;
     Button saveRecipe;
     Button backBtn;
+    Button deleteRecipe;
     //TextView recipeId;
     String recipeNameAsId, usernameAsId, category;
     Spinner categoriesSpinner;
     List<String> categories = Model.instance.getAllCategories();
     String selectedCategory;
     Recipe lastRecipe;
-    //private FirebaseFirestore db;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -46,10 +48,10 @@ public class EditRecipeFragment extends Fragment {
         recipeMethod= view.findViewById(R.id.editrecipe_method_tv);
         recipeIngredients= view.findViewById(R.id.editrecipe_ingredients_yv);
         categoriesSpinner= view.findViewById(R.id.editrecipe_spinner);
-       // categories = Model.instance.getAllCategories();
+
+
         recipe = new Recipe();
         lastRecipe = new Recipe();
-        //db = FirebaseFirestore.getInstance();
         Model.instance.getRecipeByRecipeName(recipeNameAsId, new Model.GetRecipeByRecipeName() {
             @Override
             public void onComplete(Recipe student) {
@@ -77,6 +79,14 @@ public class EditRecipeFragment extends Fragment {
         backBtn.setOnClickListener((v)->{
             Navigation.findNavController(v).navigateUp();
         });
+
+        deleteRecipe = view.findViewById(R.id.editrecipe_delete_btn);
+        deleteRecipe.setOnClickListener((v)->{
+            Model.instance.deleteRecipe(recipe,()->{
+                Navigation.findNavController(recipeName).navigateUp();
+            });
+        });
+
         setHasOptionsMenu(true);
         return view;
     }

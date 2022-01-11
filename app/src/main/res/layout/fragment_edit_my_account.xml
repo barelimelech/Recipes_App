@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/background1"
 
-    tools:context=".EditMyAccountFragment">
+    tools:context=".ui.MyAccount.EditMyAccountFragment">
 
     <TextView
         android:id="@+id/textView110"

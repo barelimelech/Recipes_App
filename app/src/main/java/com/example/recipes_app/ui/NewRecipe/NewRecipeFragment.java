@@ -1,4 +1,4 @@
-package com.example.recipes_app.ui.newRecipe;
+package com.example.recipes_app.ui.NewRecipe;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -26,7 +26,6 @@ import androidx.navigation.Navigation;
 import com.example.recipes_app.R;
 import com.example.recipes_app.model.Model;
 import com.example.recipes_app.model.Recipe;
-import com.example.recipes_app.model.UserRecipe;
 
 import java.io.IOException;
 import java.util.List;
@@ -149,7 +148,7 @@ public class NewRecipeFragment extends Fragment{
 
     private void save() {
         //progressBar.setVisibility(View.VISIBLE);
-        //cancelBtn.setEnabled(false);
+        cancelBtn.setEnabled(false);
         saveBtn.setEnabled(false);
         camBtn.setEnabled(false);
         galleryBtn.setEnabled(false);
@@ -161,16 +160,16 @@ public class NewRecipeFragment extends Fragment{
         String type = selectedCategory;
 
         Recipe recipe = new Recipe(name,method,ingredients,type,usernameAsId);
-        UserRecipe userRecipe = new UserRecipe(usernameAsId,name);
+        //UserRecipe userRecipe = new UserRecipe(usernameAsId,name);
 
         if(imageBitmap == null){
             Model.instance.addRecipe(recipe,()->{
                 Navigation.findNavController(recipeName).navigateUp();
             });
 
-            Model.instance.addUserRecipe(userRecipe,()->{
-
-            });
+//            Model.instance.addUserRecipe(userRecipe,()->{
+//
+//            });
         }
         else{
             Model.instance.saveImage(imageBitmap,recipeName + ".jpg", url->{
@@ -179,9 +178,9 @@ public class NewRecipeFragment extends Fragment{
                     Navigation.findNavController(recipeName).navigateUp();
                 });
 
-                Model.instance.addUserRecipe(userRecipe,()->{
-
-                });
+//                Model.instance.addUserRecipe(userRecipe,()->{
+//
+//                });
             });
         }
 
@@ -190,7 +189,7 @@ public class NewRecipeFragment extends Fragment{
     }
 
     private void initSpinnerFooter() {
-        String[] items = new String[categories.size()];//TODO: why the size is 10?! instead of 5
+        String[] items = new String[categories.size()];
 
         for(int i = 0 ; i<categories.size();i++){
             items[i] = categories.get(i);
@@ -201,10 +200,8 @@ public class NewRecipeFragment extends Fragment{
         categoriesSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                //Log.v("item", (String) parent.getItemAtPosition(position));
                 ((TextView) parent.getChildAt(0)).setTextSize(25);
                 selectedCategory = items[position];
-
             }
 
             @Override

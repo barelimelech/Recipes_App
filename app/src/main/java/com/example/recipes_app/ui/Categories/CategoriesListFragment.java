@@ -1,8 +1,9 @@
-package com.example.recipes_app;
+package com.example.recipes_app.ui.Categories;
 
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,16 +16,16 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.recipes_app.R;
 import com.example.recipes_app.model.Model;
 
 import java.util.List;
 
 public class CategoriesListFragment extends Fragment {
 
-    List<String> categories;
     String usernameAsId;
     //private FirebaseFirestore db;
-
+    List<String> categories;
     TextView headline;
 
 
@@ -74,6 +75,7 @@ public class CategoriesListFragment extends Fragment {
         TextView idTv;
         CheckBox cb;
 
+
         public MyViewHolder(@NonNull View itemView, OnItemClickListener listener) {
             super(itemView);
             nameTv = itemView.findViewById(R.id.category_listrow_name);
@@ -86,7 +88,7 @@ public class CategoriesListFragment extends Fragment {
 
                     NavHostFragment.findNavController(CategoriesListFragment.this)
                             .navigate(CategoriesListFragmentDirections
-                                    .actionCategoriesListFragmentToRecipesListFragment(usernameAsId,Model.instance.getAllCategories().get(pos)));
+                                    .actionCategoriesListFragmentToRecipesListFragment(usernameAsId,categories.get(pos)));
 
 
                 }
@@ -117,6 +119,7 @@ public class CategoriesListFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+
             String category = categories.get(position);
             holder.nameTv.setText(category);
 
@@ -136,10 +139,17 @@ public class CategoriesListFragment extends Fragment {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.menu_myAccount){
             Log.d("TAG","ADD...");
-           // NavHostFragment.findNavController(this).navigate(CategoriesListFragmentDirections.actionGlobalMyAccountFragment(usernameAsId));
+           NavHostFragment.findNavController(this).navigate(CategoriesListFragmentDirections.actionGlobalMyAccountFragment(usernameAsId));
             return true;
         }else {
             return super.onOptionsItemSelected(item);
         }
     }
+    @Override
+    public void onPrepareOptionsMenu(@NonNull Menu menu) {
+        MenuItem item =menu.findItem(R.id.menu_myAccount);
+        item.setVisible(true);
+        super.onPrepareOptionsMenu(menu);
+    }
+
 }
