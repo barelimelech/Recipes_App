@@ -83,42 +83,42 @@ public class EditRecipeFragment extends Fragment {
         });
 
 
-
-        deleteRecipe = view.findViewById(R.id.editrecipe_delete_btn);
-//        viewModel.deleteRecipe(recipe, ()->{
-//            Model.instance.refreshRecipeList();
+//
+//        deleteRecipe = view.findViewById(R.id.editrecipe_delete_btn);
+////        viewModel.deleteRecipe(recipe, ()->{
+////            Model.instance.refreshRecipeList();
+////        });
+//        deleteRecipe.setOnClickListener((v)->{
+//             delete();
+//            Model.instance.deleteRecipe(recipe,()->{
+//                Log.d("TAG", "name: " + recipe);
+//                Model.instance.refreshRecipeList();
+//                NavHostFragment.findNavController(this).navigate(EditRecipeFragmentDirections.actionGlobalRecipesListFragment(usernameAsId,recipeNameAsId));
+//                //NavHostFragment.findNavController(this).navigate(EditRecipeFragmentDirections.actionGlobalMyAccountFragment(recipe.getUsername()));//TODO:!!!!
+//            });
 //        });
-        deleteRecipe.setOnClickListener((v)->{
-             delete();
-            Model.instance.deleteRecipe(recipe,()->{
-                Log.d("TAG", "name: " + recipe);
-                Model.instance.refreshRecipeList();
-                NavHostFragment.findNavController(this).navigate(EditRecipeFragmentDirections.actionGlobalRecipesListFragment(usernameAsId,recipeNameAsId));
-                //NavHostFragment.findNavController(this).navigate(EditRecipeFragmentDirections.actionGlobalMyAccountFragment(recipe.getUsername()));//TODO:!!!!
-            });
-        });
 
         setHasOptionsMenu(true);
         return view;
     }
 
-    private void delete() {
-        deleteRecipe.setEnabled(false);
-
-        String name = recipeName.getText().toString();
-        Log.d("TAG", "name: " + name);
-        String method = recipeMethod.getText().toString();
-        String ingredients = recipeIngredients.getText().toString();
-        String type = selectedCategory;
-        String user = userName.getText().toString();
-        String id = recipeNameAsId;
-
-        Log.d("TAG", "name: " + recipe.getName());
-        Recipe newRecipe = new Recipe(id,name,method,ingredients,type,user);
-        newRecipe.setIsDeleted("true");
-        recipe = newRecipe;
-
-    }
+//    private void delete() {
+//        deleteRecipe.setEnabled(false);
+//
+//        String name = recipeName.getText().toString();
+//        Log.d("TAG", "name: " + name);
+//        String method = recipeMethod.getText().toString();
+//        String ingredients = recipeIngredients.getText().toString();
+//        String type = selectedCategory;
+//        String user = userName.getText().toString();
+//        String id = recipeNameAsId;
+//
+//        Log.d("TAG", "name: " + recipe.getName());
+//        Recipe newRecipe = new Recipe(id,name,method,ingredients,type,user);
+//        newRecipe.setIsDeleted("true");
+//        recipe = newRecipe;
+//
+//    }
 
     //TODO:save..
     private void save() {
