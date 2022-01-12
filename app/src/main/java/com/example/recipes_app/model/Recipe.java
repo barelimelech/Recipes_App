@@ -14,6 +14,7 @@ public class Recipe {
 
     @PrimaryKey
     @NonNull
+    String id = "";
     String name = "";
     String method= "";
     String ingredients= "";
@@ -27,14 +28,23 @@ public class Recipe {
 
 
     public Recipe(){}
-    public Recipe(String name,String method, String ingredients,String type,String username) {
+    public Recipe(String id,String name,String method, String ingredients,String type,String username) {
         this.name = name;
         this.method = method;
         this.ingredients = ingredients;
         this.type = type;
         this.username = username;
+        this.id = id;
     }
 
+    @NonNull
+    public String getId() {
+        return id;
+    }
+
+    public void setId(@NonNull String id) {
+        this.id = id;
+    }
 
     public void setName(String name) {
         this.name = name;
@@ -87,11 +97,12 @@ public class Recipe {
         json.put("updateDate", FieldValue.serverTimestamp());
         json.put("recipeUrl", recipeUrl);
         json.put("username", username);
-
+        json.put("id",id);
         return json;
     }
 
     public static Recipe create(Map<String, Object> json) {
+        String id = (String)json.get("id");
         String name = (String) json.get("name");
         String method = (String) json.get("method");
         String ingredients = (String) json.get("ingredients");
@@ -101,7 +112,7 @@ public class Recipe {
         String recipeUrl = (String) json.get("recipeUrl");
         String username = (String) json.get("username");
 
-        Recipe recipe = new Recipe(name,method,ingredients,type,username);
+        Recipe recipe = new Recipe(id,name,method,ingredients,type,username);
     //    recipe.setUpdateDate(updateDate);
         recipe.setImageUrl(recipeUrl);
         return recipe;

@@ -29,6 +29,7 @@ import com.example.recipes_app.model.Recipe;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
 public class NewRecipeFragment extends Fragment{
 
@@ -155,13 +156,14 @@ public class NewRecipeFragment extends Fragment{
         camBtn.setEnabled(false);
         galleryBtn.setEnabled(false);
 
+        String id = UUID.randomUUID().toString();
         String name = recipeName.getText().toString();
         String method = recipeMethod.getText().toString();
         String ingredients = recipeIngredients.getText().toString();
 
         String type = selectedCategory;
 
-        Recipe recipe = new Recipe(name,method,ingredients,type,usernameAsId);
+        Recipe recipe = new Recipe(id,name,method,ingredients,type,usernameAsId);
         //UserRecipe userRecipe = new UserRecipe(usernameAsId,name);
 
         if(imageBitmap == null){

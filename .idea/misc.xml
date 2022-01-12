@@ -4,6 +4,9 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="../../../layout/custom_preview.xml" value="0.19375" />
+        <entry key="..\:/Users/Liel/AndroidStudioProjects/FinalProject/Recipes_App/app/src/main/res/layout/fragment_edit_recipe.xml" value="0.22" />
+        <entry key="..\:/Users/Liel/AndroidStudioProjects/FinalProject/Recipes_App/app/src/main/res/layout/fragment_recipe.xml" value="0.1431159420289855" />
+        <entry key="..\:/Users/Liel/AndroidStudioProjects/FinalProject/Recipes_App/app/src/main/res/layout/fragment_recipes_list.xml" value="0.10144927536231885" />
         <entry key="app/src/main/res/drawable/ic_baseline_add_circle_outline_24.xml" value="0.26944444444444443" />
         <entry key="app/src/main/res/layout/activity_categories.xml" value="0.12545289855072464" />
         <entry key="app/src/main/res/layout/activity_google_log_in.xml" value="0.19021739130434784" />

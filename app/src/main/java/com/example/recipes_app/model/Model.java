@@ -213,13 +213,6 @@ public class Model {
     public interface DeleteRecipeListener {
         void onComplete();
     }
-    public interface UpdateRecipeListener {
-        void onSuccess();
-    }
-
-    public void UpdateRecipeListener(Recipe recipe, Recipe lastRecipe,UpdateRecipeListener listener) {
-        modelFirebase.updateRecipe(recipe,lastRecipe,listener);
-    }
 
     public void addRecipe(Recipe recipe, AddRecipeListener listener) {
         modelFirebase.addRecipe(recipe, ()->{
@@ -227,6 +220,18 @@ public class Model {
             refreshRecipeList();
         });
     }
+
+    public interface EditRecipeListener {
+        void onComplete();
+    }
+
+    public void editRecipe(Recipe newRecipe, EditRecipeListener listener){
+        modelFirebase.editRecipe(newRecipe, ()->{
+            listener.onComplete();
+            refreshRecipeList();
+        });
+    }
+
 
     public void deleteRecipe(Recipe recipe,DeleteRecipeListener listener) {
         //modelFirebase.deleteRecipe(recipe, listener);

@@ -27,6 +27,8 @@ public class RecipeDetailsFragment extends Fragment {
     TextView recipeMethod;
     TextView recipeIngredients;
     TextView type;
+    TextView userName;
+    String usernameAsId;
     Button deleteRecipe;
     //TextView recipeId;
     String recipeNameAsId;
@@ -37,13 +39,14 @@ public class RecipeDetailsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.fragment_recipe, container, false);
-
+        usernameAsId = RecipeDetailsFragmentArgs.fromBundle(getArguments()).getUsername();
         recipeNameAsId = RecipeDetailsFragmentArgs.fromBundle(getArguments()).getRecipeId();
         recipeName = view.findViewById(R.id.recipeDetails_nameOfRec);
         recipeMethod= view.findViewById(R.id.recipeDetails_method);
         recipeIngredients= view.findViewById(R.id.recipeDetails_ingredients);
         type= view.findViewById(R.id.recipeDetails_type);
-
+        userName = view.findViewById(R.id.recipeDetails_username_tv);
+        userName.setText(usernameAsId);
         recipeImage = view.findViewById(R.id.newRec_image_recipe);
 
         Model.instance.getRecipeByRecipeName(recipeNameAsId, new Model.GetRecipeByRecipeName() {
@@ -56,14 +59,14 @@ public class RecipeDetailsFragment extends Fragment {
                 if(recipe.getRecipeUrl()!=null){
                     Picasso.get().load(recipe.getRecipeUrl()).into(recipeImage);
                 }
-
+                userName.setText(recipe.getUsername());
             }
         });
 
         Button editRecipe = view.findViewById(R.id.recipeDetails_edit_btn);
         editRecipe.setOnClickListener((v)->{
             //Navigation.findNavController(v).navigate(R.id.action_recipeFragment_to_editRecipeFragment);
-            NavHostFragment.findNavController(this).navigate(RecipeDetailsFragmentDirections.actionRecipeFragmentToEditRecipeFragment(recipeNameAsId));
+            NavHostFragment.findNavController(this).navigate(RecipeDetailsFragmentDirections.actionRecipeFragmentToEditRecipeFragment(recipeNameAsId,usernameAsId));
         });
 
 //        deleteRecipe = view.findViewById(R.id.recipeDetails_delete_btn);
@@ -113,7 +116,8 @@ public class RecipeDetailsFragment extends Fragment {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.EditRecipeFragment){
             Log.d("TAG","edit...");
-            NavHostFragment.findNavController(this).navigate(RecipeDetailsFragmentDirections.actionRecipeFragmentToEditRecipeFragment(recipeNameAsId));
+            //NavHostFragment.findNavController(this).navigate(RecipeDetailsFragmentDirections.actionRecipeFragmentToEditRecipeFragment(recipeNameAsId));
+            NavHostFragment.findNavController(this).navigate(RecipeDetailsFragmentDirections.actionRecipeFragmentToEditRecipeFragment(recipeNameAsId,usernameAsId));
             return true;
         }else {
             return super.onOptionsItemSelected(item);

@@ -92,8 +92,10 @@ public class RecipesListFragment extends Fragment {
         adapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(View v, int position) {
-                String recipeNameAsId = viewModel.getRecipes().getValue().get(position).getName();
-                Navigation.findNavController(v).navigate(RecipesListFragmentDirections.actionRecipesListFragmentToRecipeFragment(recipeNameAsId));
+//                String recipeNameAsId = viewModel.getRecipes().getValue().get(position).getName();
+//                Navigation.findNavController(v).navigate(RecipesListFragmentDirections.actionRecipesListFragmentToRecipeFragment(recipeNameAsId));
+                String recipeNameAsId = viewModel.getRecipes().getValue().get(position).getId();
+                Navigation.findNavController(v).navigate(RecipesListFragmentDirections.actionRecipesListFragmentToRecipeFragment(recipeNameAsId,fullNameAsId));
             }
         });
 

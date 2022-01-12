@@ -56,6 +56,9 @@
         <argument
             android:name="recipeId"
             app:argType="string" />
+        <argument
+            android:name="username"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/editRecipeFragment"
@@ -64,6 +67,9 @@
         tools:layout="@layout/fragment_edit_recipe" >
         <argument
             android:name="recipeId"
+            app:argType="string" />
+        <argument
+            android:name="username"
             app:argType="string" />
     </fragment>
     <fragment
@@ -107,5 +113,6 @@
             android:name="username"
             app:argType="string" />
     </fragment>
+    <action android:id="@+id/action_global_recipesListFragment" app:destination="@id/recipesListFragment" />
 
 </navigation>

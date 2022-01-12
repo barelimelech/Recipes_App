@@ -16,6 +16,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.recipes_app.R;
 import com.example.recipes_app.model.Model;
@@ -27,16 +28,15 @@ public class EditRecipeFragment extends Fragment {
     TextView recipeName;
     TextView recipeMethod;
     TextView recipeIngredients;
+    TextView userName;
     Recipe recipe;
     Button saveRecipe;
     Button backBtn;
     Button deleteRecipe;
-    //TextView recipeId;
     String recipeNameAsId, usernameAsId, category;
     Spinner categoriesSpinner;
     List<String> categories = Model.instance.getAllCategories();
     String selectedCategory;
-    Recipe lastRecipe;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -44,21 +44,23 @@ public class EditRecipeFragment extends Fragment {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_edit_recipe, container, false);
         recipeNameAsId = EditRecipeFragmentArgs.fromBundle(getArguments()).getRecipeId();
+        usernameAsId = EditRecipeFragmentArgs.fromBundle(getArguments()).getUsername();
         recipeName = view.findViewById(R.id.editrecipe_name_tv);
         recipeMethod= view.findViewById(R.id.editrecipe_method_tv);
         recipeIngredients= view.findViewById(R.id.editrecipe_ingredients_yv);
         categoriesSpinner= view.findViewById(R.id.editrecipe_spinner);
+        userName = view.findViewById(R.id.editrecipe_username_tv2);
+        userName.setText(usernameAsId);
 
 
         recipe = new Recipe();
-        lastRecipe = new Recipe();
         Model.instance.getRecipeByRecipeName(recipeNameAsId, new Model.GetRecipeByRecipeName() {
             @Override
             public void onComplete(Recipe student) {
                 recipeName.setText(student.getName());
                 recipeMethod.setText(student.getMethod());
                 recipeIngredients.setText(student.getIngredients());
-                lastRecipe.setName(student.getName());
+                userName.setText(student.getUsername());
 
             }
         });
@@ -100,16 +102,15 @@ public class EditRecipeFragment extends Fragment {
         String method = recipeMethod.getText().toString();
         String ingredients = recipeIngredients.getText().toString();
         String type = selectedCategory;
-        recipe.setName(name);
-        recipe.setMethod(method);
-        recipe.setIngredients(ingredients);
-        recipe.setType(type);
-        Log.d("TAG", "name: " + recipe.getName());
-        Log.d("TAG", "Lastname: " + lastRecipe.getName());
-        Model.instance.UpdateRecipeListener(recipe,lastRecipe, ()-> {
+        String user = userName.getText().toString();
+        String id = recipeNameAsId;
 
+        Log.d("TAG", "name: " + recipe.getName());
+        Recipe newRecipe = new Recipe(id,name,method,ingredients,type,user);
+
+        Model.instance.editRecipe(newRecipe,()->{
+            NavHostFragment.findNavController(this).navigate(EditRecipeFragmentDirections.actionGlobalRecipesListFragment(recipeNameAsId,usernameAsId));
         });
-        Navigation.findNavController(recipeName).navigateUp();
 
     //   NavHostFragment.findNavController(this).navigate(EditRecipeFragmentDirections.actionGlobalRecipesListFragment2();//TODO:!!!!
     }
