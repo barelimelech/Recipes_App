@@ -77,7 +77,8 @@ public class RecipeDetailsFragment extends Fragment {
 
         Button backBtn = view.findViewById(R.id.recipeDetails_back_btn);
         backBtn.setOnClickListener((v)->{
-            Navigation.findNavController(v).navigateUp();
+           // Navigation.findNavController(v).navigateUp();
+            NavHostFragment.findNavController(this).navigate(RecipeDetailsFragmentDirections.actionGlobalRecipesListFragment(recipeNameAsId,usernameAsId));
         });
         setHasOptionsMenu(true);
         return view;

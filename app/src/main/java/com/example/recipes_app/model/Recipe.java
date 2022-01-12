@@ -4,7 +4,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 import com.google.firebase.firestore.FieldValue;
-
+import com.google.firebase.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -107,8 +107,8 @@ public class Recipe {
         String method = (String) json.get("method");
         String ingredients = (String) json.get("ingredients");
         String type = (String) json.get("type");
-//        Timestamp ts = (Timestamp)json.get("updateDate");
-//        Long updateDate = ts.getSeconds();
+        Timestamp ts = (Timestamp)json.get("updateDate");
+        Long updateDate = ts.getSeconds();
         String recipeUrl = (String) json.get("recipeUrl");
         String username = (String) json.get("username");
 

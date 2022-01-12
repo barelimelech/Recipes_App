@@ -64,9 +64,8 @@ public class ModelFirebase {
     public void addRecipe(Recipe recipe, Model.AddRecipeListener listener) {
         Map<String, Object> json = recipe.toJson();
         db.collection(Recipe.COLLECTION_NAME)
-                //.document(recipe.getName())
-                //.set(json)
-                .add(json)
+                .document(recipe.getId())
+                .set(json)
                 .addOnSuccessListener(unused -> listener.onComplete())
                 .addOnFailureListener(e -> listener.onComplete());
     }
