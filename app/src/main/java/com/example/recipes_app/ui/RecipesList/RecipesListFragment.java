@@ -45,6 +45,8 @@ public class RecipesListFragment extends Fragment {
     List<Recipe> recipes = new ArrayList<>();
     String fullNameAsId;
     String category;
+    ImageButton deleteRecipe;
+
 
 
     List<Recipe> userRecipes = new ArrayList<>();
@@ -75,6 +77,10 @@ public class RecipesListFragment extends Fragment {
 
         binding = FragmentRecipeBinding.inflate(getLayoutInflater());
 
+        //deleteRecipe = view.findViewById(R.id.recipe_listrow_delete);
+//        viewModel.deleteRecipe(recipe, ()->{
+//            Model.instance.refreshRecipeList();
+//        });
 
         swipeRefresh = view.findViewById(R.id.recipeslist_swiperefresh);
         swipeRefresh.setOnRefreshListener(() -> Model.instance.refreshRecipeList());
@@ -91,12 +97,36 @@ public class RecipesListFragment extends Fragment {
 
         adapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
-            public void onItemClick(View v, int position) {
-//                String recipeNameAsId = viewModel.getRecipes().getValue().get(position).getName();
-//                Navigation.findNavController(v).navigate(RecipesListFragmentDirections.actionRecipesListFragmentToRecipeFragment(recipeNameAsId));
-                String recipeNameAsId = viewModel.getRecipes().getValue().get(position).getId();
-                Navigation.findNavController(v).navigate(RecipesListFragmentDirections.actionRecipesListFragmentToRecipeFragment(recipeNameAsId,fullNameAsId));
+            public void onItemClick(View v, int position, int viewId) {
+                String id = viewModel.recipes.getValue().get(position).getId();
+                String name = viewModel.recipes.getValue().get(position).getName();
+                String method = viewModel.recipes.getValue().get(position).getMethod();
+                String ingredients = viewModel.recipes.getValue().get(position).getIngredients();
+                String url = viewModel.recipes.getValue().get(position).getRecipeUrl();
+                String username = viewModel.recipes.getValue().get(position).getUsername();
+                String type = viewModel.recipes.getValue().get(position).getType();
+
+                if(url==null){
+                    url = "0";
+                }
+                if(v.findViewById(R.id.recipe_listrow_delete).getId()==viewId){
+                    viewModel.deleteRecipe(viewModel.getRecipes().getValue().get(position),()->{
+                        Model.instance.refreshRecipeList();
+                    });
+                }
             }
+
+
+
+//            @Override
+//            public void onItemClick(View v, int position, int viewId) {
+//
+//
+////                String recipeNameAsId = viewModel.getRecipes().getValue().get(position).getName();
+////                Navigation.findNavController(v).navigate(RecipesListFragmentDirections.actionRecipesListFragmentToRecipeFragment(recipeNameAsId));
+//                String recipeNameAsId = viewModel.getRecipes().getValue().get(position).getId();
+//                Navigation.findNavController(v).navigate(RecipesListFragmentDirections.actionRecipesListFragmentToRecipeFragment(recipeNameAsId,fullNameAsId));
+//            }
         });
 
 
@@ -131,11 +161,13 @@ public class RecipesListFragment extends Fragment {
         swipeRefresh.setRefreshing(false);
     }
 
-    class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    class MyViewHolder extends RecyclerView.ViewHolder {
         TextView nameTv;
         TextView usernameBy;
         ImageButton deleteBtn;
         ImageView recipeImage;
+        Recipe tmp;
+
 
         public MyViewHolder(@NonNull View itemView, RecipesListFragment.OnItemClickListener listener) {
             super(itemView);
@@ -143,7 +175,7 @@ public class RecipesListFragment extends Fragment {
             usernameBy = itemView.findViewById(R.id.recipe_listrow_username);
             recipeImage = itemView.findViewById(R.id.recipe_listrow_image);
             deleteBtn = itemView.findViewById(R.id.recipe_listrow_delete);
-            deleteBtn.setOnClickListener(this);
+          //  deleteBtn.setOnClickListener(this);
 
 //            if(!fullNameAsId.equals("")){
 //
@@ -153,10 +185,25 @@ public class RecipesListFragment extends Fragment {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    int viewId = v.getId();
+
                     int pos = getAdapterPosition();
-                    listener.onItemClick(v,pos);
+                    listener.onItemClick(v,pos,viewId);
 
                 }
+            });
+            deleteBtn.setOnClickListener((v)->{
+                int viewId = v.getId();
+                int position = getAdapterPosition();
+                listener.onItemClick(itemView,position,viewId);
+
+
+//                Model.instance.deleteRecipe(tmp,()->{
+//                    Model.instance.refreshRecipeList();
+//                    //Navigation.findNavController(itemView).navigateUp();
+//                    //NavHostFragment.findNavController(this).navigate(EditRecipeFragmentDirections.actionGlobalRecipesListFragment(usernameAsId,recipeNameAsId));
+//                    //NavHostFragment.findNavController(this).navigate(EditRecipeFragmentDirections.actionGlobalMyAccountFragment(recipe.getUsername()));//TODO:!!!!
+//                });
             });
 
 
@@ -207,15 +254,11 @@ public class RecipesListFragment extends Fragment {
             }
         }
 
-        @Override
-        public void onClick(View v) {
-            Recipe recipe = new Recipe();
 
-        }
     }
 
     interface OnItemClickListener {
-        void onItemClick(View v, int position);
+        void onItemClick(View v, int position, int viewId);
     }
     class MyAdapter extends RecyclerView.Adapter<RecipesListFragment.MyViewHolder> implements Filterable {
 
@@ -240,6 +283,7 @@ public class RecipesListFragment extends Fragment {
         @Override
         public void onBindViewHolder(@NonNull RecipesListFragment.MyViewHolder holder, int position) {
             Recipe recipe = viewModel.getRecipes().getValue().get(position);
+            //holder.tmp = recipe;
             //holder.nameTv.setText(recipe.getName());
             holder.bind(recipe);
 

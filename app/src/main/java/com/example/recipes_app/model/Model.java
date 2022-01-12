@@ -89,7 +89,7 @@ public class Model {
 
     public LiveData<List<User>> getAllUsers() {
         if (usersList.getValue() == null) {
-            refreshUserList();
+            //refreshUserList();
         }
         return usersList;
     }
@@ -110,46 +110,46 @@ public class Model {
 //        }
 //        return null;
 //    }
-
-    public void refreshUserList() {
-        userListLoadingState.setValue(UserListLoadingState.loading);
-
-        //get last local update date
-        Long lastUpdateDate = MyApplication.getContext().getSharedPreferences("TAG", Context.MODE_PRIVATE).getLong("UserLastUpdateDate", 0);
-
-        //firebase get all updates since lastLocalUpdateDate
-        modelFirebase.getAllUsers(lastUpdateDate, new ModelFirebase.GetAllUsersListener() {
-            @Override
-            public void onComplete(List<User> list) {
-                //add all records to the local db
-                executor.execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        Long lud = new Long(0);
-                        Log.d("TAG", "fb returned " + list.size());
-                        for (User user : list) {
-                            AppLocalDb.db.userDao().insertAll(user);
-                            if (lud < user.getUpdateDate()) {
-                                lud = user.getUpdateDate();
-                            }
-                        }
-                        //update last local update date
-                        MyApplication.getContext()
-                                .getSharedPreferences("TAG", Context.MODE_PRIVATE)
-                                .edit()
-                                .putLong("UserLastUpdateDate", lud)
-                                .commit();
-
-                        //return all data to caller
-                        List<User> reList = AppLocalDb.db.userDao().getAll();
-                        usersList.postValue(reList);
-                        userListLoadingState.postValue(UserListLoadingState.loaded);
-                        //delete from room
-                    }
-                });
-            }
-        });
-    }
+//
+//    public void refreshUserList() {
+//        userListLoadingState.setValue(UserListLoadingState.loading);
+//
+//        //get last local update date
+//        Long lastUpdateDate = MyApplication.getContext().getSharedPreferences("TAG", Context.MODE_PRIVATE).getLong("UserLastUpdateDate", 0);
+//
+//        //firebase get all updates since lastLocalUpdateDate
+//        modelFirebase.getAllUsers(lastUpdateDate, new ModelFirebase.GetAllUsersListener() {
+//            @Override
+//            public void onComplete(List<User> list) {
+//                //add all records to the local db
+//                executor.execute(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        Long lud = new Long(0);
+//                        Log.d("TAG", "fb returned " + list.size());
+//                        for (User user : list) {
+//                            AppLocalDb.db.userDao().insertAll(user);
+//                            if (lud < user.getUpdateDate()) {
+//                                lud = user.getUpdateDate();
+//                            }
+//                        }
+//                        //update last local update date
+//                        MyApplication.getContext()
+//                                .getSharedPreferences("TAG", Context.MODE_PRIVATE)
+//                                .edit()
+//                                .putLong("UserLastUpdateDate", lud)
+//                                .commit();
+//
+//                        //return all data to caller
+//                        List<User> reList = AppLocalDb.db.userDao().getAll();
+//                        usersList.postValue(reList);
+//                        userListLoadingState.postValue(UserListLoadingState.loaded);
+//                        //delete from room
+//                    }
+//                });
+//            }
+//        });
+//    }
 
     public void refreshRecipeList() {
         recipeListLoadingState.setValue(RecipeListLoadingState.loading);
@@ -169,11 +169,18 @@ public class Model {
                         Long lud = new Long(0);
                         Log.d("TAG", "fb returned " + list.size());
                         for (Recipe recipe : list) {
-                            AppLocalDb.db.recipeDao().insertAll(recipe);
-                            if (lud < recipe.getUpdateDate()) {
-                                lud = recipe.getUpdateDate();
+                            if(recipe.getIsDeleted().equals("true")){
+                                AppLocalDb.db.recipeDao().delete(recipe);
+                            }else {
+                                AppLocalDb.db.recipeDao().insertAll(recipe);
+
+                                if (lud < recipe.getUpdateDate()) {
+                                    lud = recipe.getUpdateDate();
+                                }
                             }
+
                         }
+
                         //update last local update date
                         MyApplication.getContext()
                                 .getSharedPreferences("TAG", Context.MODE_PRIVATE)
@@ -239,8 +246,10 @@ public class Model {
         modelFirebase.deleteRecipe(recipe, ()->{
             listener.onComplete();
             refreshRecipeList();
+
         });
     }
+
     public interface GetRecipeByRecipeName {
         void onComplete(Recipe recipe);
     }

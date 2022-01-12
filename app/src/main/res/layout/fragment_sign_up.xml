@@ -111,9 +111,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="52dp"
-        android:text="Full Name:"
+        android:text="email"
         android:textSize="24sp"
-        app:layout_constraintEnd_toStartOf="@+id/signup_fullname_tv"
+        app:layout_constraintEnd_toStartOf="@+id/signup_email_tv"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView13" />
@@ -132,7 +132,7 @@
         app:layout_constraintTop_toTopOf="@+id/textView13" />
 
     <EditText
-        android:id="@+id/signup_fullname_tv"
+        android:id="@+id/signup_email_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"

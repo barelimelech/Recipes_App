@@ -2,12 +2,10 @@ package com.example.recipes_app.model;
 
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
@@ -15,7 +13,6 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -96,33 +93,13 @@ public class ModelFirebase {
     }
 
     public void deleteRecipe(Recipe recipe, Model.DeleteRecipeListener listener) {
-
-        AppLocalDb.db.recipeDao().delete(recipe);
-//        Map<String, Object> json = recipe.toJson();
-//
-//        db.collection(Recipe.COLLECTION_NAME)
-//                .whereEqualTo("name",recipe.getName())
-//                .get()
-//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                        Recipe recipe = null;
-//                        if (task.isSuccessful() & task.getResult()!= null) {
-//                            DocumentSnapshot documentSnapshot = task.getResult().getDocuments().get(0);
-//                            String documentId = documentSnapshot.getId();
-//                            db.collection(Recipe.COLLECTION_NAME)
-//                                    .document(documentId)
-//                                    .delete()
-//                                    .addOnCompleteListener(unused -> listener.onComplete())
-//                                    .addOnFailureListener(new OnFailureListener() {
-//                                        @Override
-//                                        public void onFailure(@NonNull Exception e) {
-//                                            Log.w("TAG", "Error deleting document", e);
-//                                        }
-//                                    });
-//                        }
-//                    }
-//                });
+        recipe.setIsDeleted("true");
+        Map<String, Object> json = recipe.toJson();
+        db.collection(Recipe.COLLECTION_NAME)
+                .document(recipe.getId())
+                .set(json)
+                .addOnSuccessListener(unused -> listener.onComplete())
+                .addOnFailureListener(e -> listener.onComplete());
 
     }
 

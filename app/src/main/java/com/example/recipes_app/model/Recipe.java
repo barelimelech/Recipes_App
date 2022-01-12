@@ -24,8 +24,7 @@ public class Recipe {
 
     Long updateDate = new Long(0);
 
-    //boolean isDeleted=false;
-
+    String isDeleted="false";
 
     public Recipe(){}
     public Recipe(String id,String name,String method, String ingredients,String type,String username) {
@@ -54,6 +53,7 @@ public class Recipe {
         this.ingredients = ingredients;
     }
 
+
     public void setMethod(String method) {
         this.method = method;
     }
@@ -61,6 +61,8 @@ public class Recipe {
     public void setType(String type) {
         this.type = type;
     }
+
+
 
     public String getName() { return name; }
 
@@ -87,6 +89,13 @@ public class Recipe {
     public void setUsername(String username) {
         this.username = username;
     }
+    public void setIsDeleted(String isDeleted) {
+        this.isDeleted = isDeleted;
+    }
+
+    public String getIsDeleted() {
+        return isDeleted;
+    }
 
     public Map<String, Object> toJson() {
         Map<String, Object> json = new HashMap<String, Object>();
@@ -98,6 +107,7 @@ public class Recipe {
         json.put("recipeUrl", recipeUrl);
         json.put("username", username);
         json.put("id",id);
+        json.put("isDeleted", isDeleted);
         return json;
     }
 
@@ -111,10 +121,14 @@ public class Recipe {
         Long updateDate = ts.getSeconds();
         String recipeUrl = (String) json.get("recipeUrl");
         String username = (String) json.get("username");
+        String delete = (String)json.get("isDeleted");
+
 
         Recipe recipe = new Recipe(id,name,method,ingredients,type,username);
-    //    recipe.setUpdateDate(updateDate);
+        //recipe.setUpdateDate(updateDate);
         recipe.setImageUrl(recipeUrl);
+        recipe.setIsDeleted(delete);
+
         return recipe;
     }
 
