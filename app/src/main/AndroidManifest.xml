@@ -16,7 +16,15 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
         <activity
-            android:name=".SignInActivity"
+            android:name=".ForgotPasswordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SignupActivity"
+            android:exported="false">
+
+    </activity>
+        <activity
+            android:name=".LoginActivity"
             android:exported="false" />
         <activity
             android:name=".GoogleLogInActivity"
@@ -34,6 +42,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
 
         <meta-data

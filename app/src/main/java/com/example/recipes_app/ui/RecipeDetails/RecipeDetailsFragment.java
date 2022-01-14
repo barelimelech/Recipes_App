@@ -63,11 +63,11 @@ public class RecipeDetailsFragment extends Fragment {
             }
         });
 
-        Button editRecipe = view.findViewById(R.id.recipeDetails_edit_btn);
-        editRecipe.setOnClickListener((v)->{
-            //Navigation.findNavController(v).navigate(R.id.action_recipeFragment_to_editRecipeFragment);
-            NavHostFragment.findNavController(this).navigate(RecipeDetailsFragmentDirections.actionRecipeFragmentToEditRecipeFragment(recipeNameAsId,usernameAsId));
-        });
+//        Button editRecipe = view.findViewById(R.id.recipeDetails_edit_btn);
+//        editRecipe.setOnClickListener((v)->{
+//            //Navigation.findNavController(v).navigate(R.id.action_recipeFragment_to_editRecipeFragment);
+//            NavHostFragment.findNavController(this).navigate(RecipeDetailsFragmentDirections.actionRecipeFragmentToEditRecipeFragment(recipeNameAsId,usernameAsId));
+//        });
 
 //        deleteRecipe = view.findViewById(R.id.recipeDetails_delete_btn);
 //        deleteRecipe.setOnClickListener((v)->{
@@ -77,8 +77,10 @@ public class RecipeDetailsFragment extends Fragment {
 
         Button backBtn = view.findViewById(R.id.recipeDetails_back_btn);
         backBtn.setOnClickListener((v)->{
-           // Navigation.findNavController(v).navigateUp();
-            NavHostFragment.findNavController(this).navigate(RecipeDetailsFragmentDirections.actionGlobalRecipesListFragment(recipeNameAsId,usernameAsId));
+            Navigation.findNavController(v).navigateUp();
+            //NavHostFragment.findNavController(this).navigate(RecipeDetailsFragmentDirections.actionGlobalRecipesListFragment(recipeNameAsId,usernameAsId));
+            Model.instance.refreshRecipeList();
+
         });
         setHasOptionsMenu(true);
         return view;

@@ -19,28 +19,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
 
-    <Button
-        android:id="@+id/recipeDetails_edit_btn"
-        android:layout_width="121dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="44dp"
-        android:layout_marginEnd="16dp"
-        android:backgroundTint="@android:color/transparent"
-        android:fontFamily="@font/paprika"
-        android:shadowColor="#00FFFFFF"
-        android:text="Edit"
-        android:textColor="#5A3914"
-        android:textColorHighlight="#00FFFFFF"
-        android:textColorLink="#00231F1F"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintTop_toBottomOf="@+id/recipeDetails_method"
-        app:layout_constraintVertical_bias="0.05"
-        app:strokeColor="#00FFFFFF" />
+
 
     <Button
         android:id="@+id/recipeDetails_back_btn"

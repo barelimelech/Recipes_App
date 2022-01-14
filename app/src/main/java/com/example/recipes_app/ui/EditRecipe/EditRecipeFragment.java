@@ -16,7 +16,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.recipes_app.R;
 import com.example.recipes_app.model.Model;
@@ -136,7 +135,8 @@ public class EditRecipeFragment extends Fragment {
         Recipe newRecipe = new Recipe(id,name,method,ingredients,type,user);
 
         Model.instance.editRecipe(newRecipe,()->{
-            NavHostFragment.findNavController(this).navigate(EditRecipeFragmentDirections.actionGlobalRecipesListFragment(usernameAsId,recipeNameAsId));
+           // NavHostFragment.findNavController(this).navigate(EditRecipeFragmentDirections.actionGlobalRecipesListFragment(usernameAsId,recipeNameAsId));
+            Navigation.findNavController(getView()).navigateUp();
         });
 
     //   NavHostFragment.findNavController(this).navigate(EditRecipeFragmentDirections.actionGlobalRecipesListFragment2();//TODO:!!!!

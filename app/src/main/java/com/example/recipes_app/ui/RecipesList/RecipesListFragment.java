@@ -32,6 +32,8 @@ import com.example.recipes_app.R;
 import com.example.recipes_app.databinding.FragmentRecipeBinding;
 import com.example.recipes_app.model.Model;
 import com.example.recipes_app.model.Recipe;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -47,6 +49,7 @@ public class RecipesListFragment extends Fragment {
     String category;
     ImageButton deleteRecipe;
 
+    private FirebaseAuth firebaseAuth;
 
 
     List<Recipe> userRecipes = new ArrayList<>();
@@ -72,10 +75,12 @@ public class RecipesListFragment extends Fragment {
         //Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_recipes_list, container, false);
 
-        fullNameAsId = RecipesListFragmentArgs.fromBundle(getArguments()).getUsername();//TODO:show recipes cy id
+        fullNameAsId = RecipesListFragmentArgs.fromBundle(getArguments()).getUsername();
         category = RecipesListFragmentArgs.fromBundle(getArguments()).getCategory();
 
         binding = FragmentRecipeBinding.inflate(getLayoutInflater());
+
+        firebaseAuth = FirebaseAuth.getInstance();
 
         //deleteRecipe = view.findViewById(R.id.recipe_listrow_delete);
 //        viewModel.deleteRecipe(recipe, ()->{
@@ -105,7 +110,8 @@ public class RecipesListFragment extends Fragment {
                 String url = viewModel.recipes.getValue().get(position).getRecipeUrl();
                 String username = viewModel.recipes.getValue().get(position).getUsername();
                 String type = viewModel.recipes.getValue().get(position).getType();
-
+                //String recipeNameAsId = viewModel.getRecipes().getValue().get(position).getId();
+                //Navigation.findNavController(v).navigate(RecipesListFragmentDirections.actionRecipesListFragmentToRecipeFragment(recipeNameAsId,fullNameAsId));
                 if(url==null){
                     url = "0";
                 }
@@ -113,6 +119,12 @@ public class RecipesListFragment extends Fragment {
                     viewModel.deleteRecipe(viewModel.getRecipes().getValue().get(position),()->{
                         Model.instance.refreshRecipeList();
                     });
+                }else if(v.findViewById(R.id.recipe_listrow_edit).getId()==viewId){
+                    Navigation.findNavController(v).navigate(RecipesListFragmentDirections.actionRecipesListFragmentToEditRecipeFragment(id,username));
+
+                }else{
+                    String recipeNameAsId = viewModel.getRecipes().getValue().get(position).getId();
+                    Navigation.findNavController(v).navigate(RecipesListFragmentDirections.actionRecipesListFragmentToRecipeFragment(recipeNameAsId,fullNameAsId));
                 }
             }
 
@@ -164,10 +176,11 @@ public class RecipesListFragment extends Fragment {
     class MyViewHolder extends RecyclerView.ViewHolder {
         TextView nameTv;
         TextView usernameBy;
-        ImageButton deleteBtn;
+        ImageButton deleteBtn, editBtn;
         ImageView recipeImage;
         Recipe tmp;
 
+        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
 
         public MyViewHolder(@NonNull View itemView, RecipesListFragment.OnItemClickListener listener) {
             super(itemView);
@@ -175,6 +188,7 @@ public class RecipesListFragment extends Fragment {
             usernameBy = itemView.findViewById(R.id.recipe_listrow_username);
             recipeImage = itemView.findViewById(R.id.recipe_listrow_image);
             deleteBtn = itemView.findViewById(R.id.recipe_listrow_delete);
+            editBtn = itemView.findViewById(R.id.recipe_listrow_edit);
           //  deleteBtn.setOnClickListener(this);
 
 //            if(!fullNameAsId.equals("")){
@@ -206,24 +220,34 @@ public class RecipesListFragment extends Fragment {
 //                });
             });
 
+            editBtn.setOnClickListener((v)->{
+                int viewId = v.getId();
+                int position = getAdapterPosition();
+                listener.onItemClick(itemView,position,viewId);
+            });
+
 
         }
         void bind(Recipe recipe){
+
             if(!fullNameAsId.equals("")&& recipe.getUsername() != null&&category.equals("")){
                 if(!recipe.getUsername().equals(fullNameAsId)){
                     itemView.setVisibility(View.GONE);
                     itemView.setLayoutParams(new RecyclerView.LayoutParams(0, 0));
+
+
                 }
                 else{
                     nameTv.setText(recipe.getName());
                     usernameBy.setText("By:  "+recipe.getUsername());
                    // recipeImage.setImageResource(R.drawable.cake);
-                    binding.recipeDetailsEditBtn.findViewById(R.id.recipeDetails_edit_btn).setVisibility(View.GONE);
+                   // binding.recipeDetailsEditBtn.findViewById(R.id.recipeDetails_edit_btn).setVisibility(View.GONE);
                     if (recipe.getRecipeUrl() != null) {
                         Picasso.get()
                                 .load(recipe.getRecipeUrl())
                                 .into(recipeImage);
                     }
+
                 }
             }else if(!category.equals("") && recipe.getType() != null){
                 if(!recipe.getType().equals(category)){
@@ -241,15 +265,19 @@ public class RecipesListFragment extends Fragment {
                     }
                 }
             } else{
+
                 nameTv.setText(recipe.getName());
                 usernameBy.setText("By:  " + recipe.getUsername());
-               // recipeImage.setImageResource(R.drawable.cake);
-                binding.recipeDetailsEditBtn.findViewById(R.id.recipeDetails_edit_btn).setVisibility(View.GONE);
+               // binding.recipeDetailsEditBtn.findViewById(R.id.recipeDetails_edit_btn).setVisibility(View.GONE);
 
                 if (recipe.getRecipeUrl() != null) {
                     Picasso.get()
                             .load(recipe.getRecipeUrl())
                             .into(recipeImage);
+                }
+                if(!recipe.getUsername().equals(firebaseUser.getDisplayName())){
+                    deleteBtn.setVisibility(View.GONE);
+                    editBtn.setVisibility(View.GONE);
                 }
             }
         }
