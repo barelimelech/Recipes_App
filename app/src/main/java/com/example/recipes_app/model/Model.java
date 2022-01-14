@@ -292,6 +292,10 @@ public class Model {
         modelFirebase.getUserByUsername(username, listener);
         return null;
     }
+
+    public String GetCurrentNameUser(){
+        return modelFirebase.GetCurrentNameUser();
+    }
     //***********************************UserRecipe*************************************//
 
     public void refreshUserRecipeList() {

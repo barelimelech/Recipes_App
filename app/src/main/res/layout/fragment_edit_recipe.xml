@@ -209,4 +209,37 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/newRec_image_recipe" />
 
+    <ImageButton
+        android:id="@+id/editRec_camera_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#0000"
+        android:src="@drawable/ic_menu_camera"
+        app:layout_constraintBottom_toBottomOf="@+id/newRec_image_recipe"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.584"
+        app:layout_constraintStart_toEndOf="@+id/newRec_image_recipe" />
+
+    <ImageButton
+        android:id="@+id/deleteImg_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_baseline_delete_24"
+        app:layout_constraintBottom_toTopOf="@+id/editRec_camera_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/newRec_image_recipe" />
+
+    <ImageButton
+        android:id="@+id/editRec_gallery_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#0000"
+        android:src="@drawable/ic_menu_gallery"
+        app:layout_constraintBottom_toBottomOf="@+id/newRec_image_recipe"
+        app:layout_constraintEnd_toStartOf="@+id/newRec_image_recipe"
+        app:layout_constraintHorizontal_bias="0.4"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

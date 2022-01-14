@@ -16,6 +16,7 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.recipes_app.MainActivity;
 import com.example.recipes_app.R;
+import com.example.recipes_app.model.Model;
 import com.example.recipes_app.model.Recipe;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.auth.FirebaseAuth;
@@ -131,8 +132,9 @@ public class MyAccountFragment extends Fragment {
             getActivity().finish();
         }else{
             String email=firebaseUser.getEmail();
-            String userName = firebaseUser.getDisplayName();
+//            String userName = firebaseUser.getDisplayName();
             //String familyName = firebaseUser.getF
+            String userName = Model.instance.GetCurrentNameUser();
             fullName.setText(userName);
             fullNameAsId = userName;
 
