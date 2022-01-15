@@ -101,7 +101,7 @@ public class NewRecipeFragment extends Fragment{
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Navigation.findNavController(v).navigate(NewRecipeFragmentDirections.actionGlobalMyAccountFragment());
+                Navigation.findNavController(v).navigate(NewRecipeFragmentDirections.actionGlobalMyAccountFragment(Model.instance.getCurrentUsername()));
 
             }
         });

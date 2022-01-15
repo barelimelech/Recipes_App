@@ -141,7 +141,7 @@ public class CategoriesListFragment extends Fragment {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.menu_myAccount){
             Log.d("TAG","ADD...");
-           NavHostFragment.findNavController(this).navigate(CategoriesListFragmentDirections.actionGlobalMyAccountFragment());
+           NavHostFragment.findNavController(this).navigate(CategoriesListFragmentDirections.actionGlobalMyAccountFragment(Model.instance.getCurrentUsername()));
             return true;
         }else {
             return super.onOptionsItemSelected(item);
