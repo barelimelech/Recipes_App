@@ -222,12 +222,12 @@
 
     <ImageButton
         android:id="@+id/deleteImg_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_baseline_delete_24"
+        android:layout_width="95dp"
+        android:layout_height="46dp"
+        android:src="@android:drawable/ic_input_delete"
         app:layout_constraintBottom_toTopOf="@+id/editRec_camera_btn"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.9"
         app:layout_constraintStart_toEndOf="@+id/editmyaccount_image_recipe" />
 
     <ImageButton

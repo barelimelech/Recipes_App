@@ -3,6 +3,7 @@ package com.example.recipes_app.ui.EditRecipe;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -13,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -37,7 +39,7 @@ public class EditRecipeFragment extends Fragment {
 
     private static final int REQUEST_CAMERA = 1;
 
-    private static final int SELECT_IMAGE = 1;
+    private static final int SELECT_IMAGE = 2;
 
     TextView recipeName;
     TextView recipeMethod;
@@ -85,9 +87,11 @@ public class EditRecipeFragment extends Fragment {
                 if(recipe.getRecipeUrl()!=null){
                     Picasso.get().load(recipe.getRecipeUrl()).into(recipeImage);
                 }
+                imageBitmap = ((BitmapDrawable)recipeImage.getDrawable()).getBitmap();
             }
         });
 
+        recipeImage.setImageBitmap(imageBitmap);
         initSpinnerFooter();
 
         saveRecipe = view.findViewById(R.id.editrecipe_save_btn);
@@ -108,15 +112,6 @@ public class EditRecipeFragment extends Fragment {
 
 //        if(recipeImage.getDrawable() == null){
 //            deleteImage.setVisibility(View.GONE);
-//        }
-//        else{
-//           //deleteImage.setVisibility(View.VISIBLE);
-//            deleteImage.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    deleteImage();
-//                }
-//            });
 //        }
 
         camBtn = view.findViewById(R.id.editRec_camera_btn);
@@ -196,7 +191,8 @@ public class EditRecipeFragment extends Fragment {
             if (resultCode == Activity.RESULT_OK) {
                 if (data != null) {
                     try {
-                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), data.getData());
+                        imageBitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), data.getData());
+                        recipeImage.setImageBitmap(imageBitmap);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -272,8 +268,8 @@ public class EditRecipeFragment extends Fragment {
         for(int i = 0 ; i<categories.size();i++){
             items[i] = categories.get(i);
         }
-        //ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, items);
-        //categoriesSpinner.setAdapter(adapter);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, items);
+        categoriesSpinner.setAdapter(adapter);
         categoriesSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {

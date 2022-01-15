@@ -36,7 +36,7 @@ public class NewRecipeFragment extends Fragment{
 
     private static final int REQUEST_CAMERA = 1;
 
-    private static final int SELECT_IMAGE = 1;
+    private static final int SELECT_IMAGE = 2;
 
     EditText recipeName;
     EditText recipeMethod;
@@ -139,7 +139,8 @@ public class NewRecipeFragment extends Fragment{
             if (resultCode == Activity.RESULT_OK) {
                 if (data != null) {
                     try {
-                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), data.getData());
+                        imageBitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), data.getData());
+                        recipeImage.setImageBitmap(imageBitmap);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
