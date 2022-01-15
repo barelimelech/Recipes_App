@@ -41,7 +41,7 @@
         app:layout_constraintEnd_toStartOf="@+id/pe_nameOfRec"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/newRec_image_recipe" />
+        app:layout_constraintTop_toBottomOf="@+id/editmyaccount_image_recipe" />
 
     <EditText
         android:id="@+id/pe_nameOfRec"
@@ -55,11 +55,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/textView4"
-        app:layout_constraintTop_toBottomOf="@+id/newRec_image_recipe"
+        app:layout_constraintTop_toBottomOf="@+id/editmyaccount_image_recipe"
         app:layout_constraintVertical_bias="1.0" />
 
     <ImageView
-        android:id="@+id/newRec_image_recipe"
+        android:id="@+id/editmyaccount_image_recipe"
         android:layout_width="163dp"
         android:layout_height="104dp"
         android:layout_marginTop="12dp"
@@ -161,7 +161,7 @@
         app:layout_constraintEnd_toStartOf="@+id/newRec_spinner"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/newRec_image_recipe"
+        app:layout_constraintTop_toBottomOf="@+id/editmyaccount_image_recipe"
         app:layout_constraintVertical_bias="0.808" />
 
     <Spinner
@@ -184,7 +184,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:text="TextView"
-        app:layout_constraintEnd_toStartOf="@+id/newRec_image_recipe"
+        app:layout_constraintEnd_toStartOf="@+id/editmyaccount_image_recipe"
         app:layout_constraintHorizontal_bias="0.461"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView5" />
@@ -194,19 +194,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_menu_camera"
-        app:layout_constraintBottom_toBottomOf="@+id/newRec_image_recipe"
+        app:layout_constraintBottom_toBottomOf="@+id/editmyaccount_image_recipe"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.584"
         android:background="#0000"
-        app:layout_constraintStart_toEndOf="@+id/newRec_image_recipe" />
+        app:layout_constraintStart_toEndOf="@+id/editmyaccount_image_recipe" />
 
     <ImageButton
         android:id="@+id/newRec_gallery_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_menu_gallery"
-        app:layout_constraintBottom_toBottomOf="@+id/newRec_image_recipe"
-        app:layout_constraintEnd_toStartOf="@+id/newRec_image_recipe"
+        app:layout_constraintBottom_toBottomOf="@+id/editmyaccount_image_recipe"
+        app:layout_constraintEnd_toStartOf="@+id/editmyaccount_image_recipe"
         app:layout_constraintHorizontal_bias="0.4"
         android:background="#0000"
         app:layout_constraintStart_toStartOf="parent" />

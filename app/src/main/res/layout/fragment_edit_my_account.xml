@@ -24,7 +24,7 @@
         tools:layout_editor_absoluteX="1dp" />
 
     <ImageView
-        android:id="@+id/newRec_image_recipe"
+        android:id="@+id/editmyaccount_image_recipe"
         android:layout_width="200dp"
         android:layout_height="0dp"
         android:layout_marginTop="36dp"
@@ -37,11 +37,11 @@
         android:layout_width="158dp"
         android:layout_height="32dp"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="48dp"
-        android:text="Username:"
+        android:layout_marginTop="16dp"
+        android:text="Phone:"
         android:textColor="#3E260B"
         android:textSize="24sp"
-        app:layout_constraintEnd_toStartOf="@+id/editmyaccount_username_tv"
+        app:layout_constraintEnd_toStartOf="@+id/editmyaccount_phone_tv"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView10" />
@@ -65,7 +65,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="16dp"
         android:text="Password:"
         android:textColor="#3E260B"
         android:textSize="24sp"
@@ -75,7 +75,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView16" />
 
     <EditText
-        android:id="@+id/editmyaccount_username_tv"
+        android:id="@+id/editmyaccount_phone_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="24dp"
@@ -93,14 +93,14 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="56dp"
+        android:layout_marginTop="16dp"
         android:text="Full name: "
         android:textColor="#3E260B"
         android:textSize="24sp"
         app:layout_constraintEnd_toStartOf="@+id/editmyaccount_fullname_tv"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/newRec_image_recipe" />
+        app:layout_constraintTop_toBottomOf="@+id/editmyaccount_email_tv" />
 
     <Button
         android:id="@+id/editmyaccount_save_btn"
@@ -132,5 +132,14 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/textView10"
         app:layout_constraintTop_toTopOf="@+id/textView10" />
+
+    <TextView
+        android:id="@+id/editmyaccount_email_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:text="TextView"
+        app:layout_constraintTop_toBottomOf="@+id/editmyaccount_image_recipe"
+        tools:layout_editor_absoluteX="85dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -47,7 +47,7 @@ public class RecipeDetailsFragment extends Fragment {
         type= view.findViewById(R.id.recipeDetails_type);
         userName = view.findViewById(R.id.recipeDetails_username_tv);
         userName.setText(usernameAsId);
-        recipeImage = view.findViewById(R.id.newRec_image_recipe);
+        recipeImage = view.findViewById(R.id.editmyaccount_image_recipe);
 
         Model.instance.getRecipeByRecipeName(recipeNameAsId, new Model.GetRecipeByRecipeName() {
             @Override

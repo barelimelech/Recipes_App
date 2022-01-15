@@ -70,7 +70,7 @@ public class EditRecipeFragment extends Fragment {
         categoriesSpinner= view.findViewById(R.id.editrecipe_spinner);
         userName = view.findViewById(R.id.editrecipe_username_tv2);
         userName.setText(usernameAsId);
-        recipeImage = view.findViewById(R.id.newRec_image_recipe);
+        recipeImage = view.findViewById(R.id.editmyaccount_image_recipe);
 
 
         recipe = new Recipe();

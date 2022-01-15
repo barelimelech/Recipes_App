@@ -14,7 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
-import com.example.recipes_app.MainActivity;
+import com.example.recipes_app.LoginActivity;
 import com.example.recipes_app.R;
 import com.example.recipes_app.model.Model;
 import com.example.recipes_app.model.Recipe;
@@ -71,10 +71,10 @@ public class MyAccountFragment extends Fragment {
            // Navigation.findNavController(v).navigate(R.id.action_myAccount_nav_to_recipesListFragment);//TODO
         });
 
-        Button edit = view.findViewById(R.id.myaccount_edit_btn);
-        edit.setOnClickListener((v)->{
+        Button editMyAccount = view.findViewById(R.id.myaccount_edit_btn);
+        editMyAccount.setOnClickListener((v)->{
             //Navigation.findNavController(v).navigate(R.id.action_myAccount_nav_to_editMyAccountFragment);
-            NavHostFragment.findNavController(this).navigate(MyAccountFragmentDirections.actionMyAccountNavToEditMyAccountFragment(usernameAsId));
+            NavHostFragment.findNavController(this).navigate(MyAccountFragmentDirections.actionMyAccountNavToEditMyAccountFragment(fullNameAsId));
 
         });
 
@@ -127,7 +127,7 @@ public class MyAccountFragment extends Fragment {
             //Navigation.findNavController(view).navigate(R.id.nav_host_fragment_content_main);
            // getActivity().finish();
 
-            startActivity(new Intent(getActivity(), MainActivity.class));
+            startActivity(new Intent(getActivity(), LoginActivity.class));
             getActivity().finish();
         }else{
             String email=Model.instance.getCurrentUserEmail();

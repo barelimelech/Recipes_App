@@ -22,8 +22,8 @@ import java.util.concurrent.Executors;
 public class Model {
     public static final Model instance = new Model();
 
-    Executor executor = Executors.newFixedThreadPool(1);
-    Handler mainThread = HandlerCompat.createAsync(Looper.getMainLooper());
+    public Executor executor = Executors.newFixedThreadPool(1);
+    public Handler mainThread = HandlerCompat.createAsync(Looper.getMainLooper());
 
 
     public enum RecipeListLoadingState {
@@ -69,6 +69,7 @@ public class Model {
 
     List<String> data = new LinkedList<String>();
 
+
 //    public interface GetAllRecipesListener{
 //        void onComplete(List<Recipe> list);
 //    }
@@ -81,6 +82,9 @@ public class Model {
     MutableLiveData<List<User>> usersList = new MutableLiveData<List<User>>();
     MutableLiveData<List<UserRecipe>> userRecipeList = new MutableLiveData<List<UserRecipe>>();
 
+    public boolean isSignedIn() {
+        return modelFirebase.isSignedIn();
+    }
 
     public LiveData<List<Recipe>> getAllRecipes() {
         if (recipesList.getValue() == null) {
@@ -112,46 +116,46 @@ public class Model {
 //        }
 //        return null;
 //    }
-//
-//    public void refreshUserList() {
-//        userListLoadingState.setValue(UserListLoadingState.loading);
-//
-//        //get last local update date
-//        Long lastUpdateDate = MyApplication.getContext().getSharedPreferences("TAG", Context.MODE_PRIVATE).getLong("UserLastUpdateDate", 0);
-//
-//        //firebase get all updates since lastLocalUpdateDate
-//        modelFirebase.getAllUsers(lastUpdateDate, new ModelFirebase.GetAllUsersListener() {
-//            @Override
-//            public void onComplete(List<User> list) {
-//                //add all records to the local db
-//                executor.execute(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        Long lud = new Long(0);
-//                        Log.d("TAG", "fb returned " + list.size());
-//                        for (User user : list) {
-//                            AppLocalDb.db.userDao().insertAll(user);
-//                            if (lud < user.getUpdateDate()) {
-//                                lud = user.getUpdateDate();
-//                            }
-//                        }
-//                        //update last local update date
-//                        MyApplication.getContext()
-//                                .getSharedPreferences("TAG", Context.MODE_PRIVATE)
-//                                .edit()
-//                                .putLong("UserLastUpdateDate", lud)
-//                                .commit();
-//
-//                        //return all data to caller
-//                        List<User> reList = AppLocalDb.db.userDao().getAll();
-//                        usersList.postValue(reList);
-//                        userListLoadingState.postValue(UserListLoadingState.loaded);
-//                        //delete from room
-//                    }
-//                });
-//            }
-//        });
-//    }
+
+    public void refreshUserList() {
+        userListLoadingState.setValue(UserListLoadingState.loading);
+
+        //get last local update date
+        Long lastUpdateDate = MyApplication.getContext().getSharedPreferences("TAG", Context.MODE_PRIVATE).getLong("UserLastUpdateDate", 0);
+
+        //firebase get all updates since lastLocalUpdateDate
+        modelFirebase.getAllUsers(lastUpdateDate, new ModelFirebase.GetAllUsersListener() {
+            @Override
+            public void onComplete(List<User> list) {
+                //add all records to the local db
+                executor.execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        Long lud = new Long(0);
+                        Log.d("TAG", "fb returned " + list.size());
+                        for (User user : list) {
+                            AppLocalDb.db.userDao().insertAll(user);
+                            if (lud < user.getUpdateDate()) {
+                                lud = user.getUpdateDate();
+                            }
+                        }
+                        //update last local update date
+                        MyApplication.getContext()
+                                .getSharedPreferences("TAG", Context.MODE_PRIVATE)
+                                .edit()
+                                .putLong("UserLastUpdateDate", lud)
+                                .commit();
+
+                        //return all data to caller
+                        List<User> reList = AppLocalDb.db.userDao().getAll();
+                        usersList.postValue(reList);
+                        userListLoadingState.postValue(UserListLoadingState.loaded);
+                        //delete from room
+                    }
+                });
+            }
+        });
+    }
 
     public void refreshRecipeList() {
         recipeListLoadingState.setValue(RecipeListLoadingState.loading);
@@ -303,20 +307,34 @@ public class Model {
         void onComplete();
     }
 
-    public void addUser(User user, AddUserListener listener) {
-        modelFirebase.addUser(user, listener);
+    public interface SigninUserListener{
+        void onComplete();
+
     }
 
-    public interface GetUserByUsername {
-        void onComplete(User user);
+    public void addUser(User user,String email, String password, AddUserListener listener) {
+        modelFirebase.addUser(user,email,password, listener);
     }
+
+    public void signIn(String email, String password, SigninUserListener listener){
+        modelFirebase.signIn(email,password,()->{
+            listener.onComplete();
+            //refreshUserList();
+        });
+    }
+
+//    public interface GetUserByUsername {
+//        void onComplete(User user);
+//    }
 
     public interface GetUserById {
         void onComplete(User user);
     }
 
-    public User getUserBId(String username, GetUserById listener) {
-        modelFirebase.getUserById(username, listener);
+
+
+    public User getUserBId(String uId, GetUserById listener) {
+        modelFirebase.getUserById(uId, listener);
         return null;
     }
 

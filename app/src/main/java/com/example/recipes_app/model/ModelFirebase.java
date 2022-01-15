@@ -2,6 +2,7 @@ package com.example.recipes_app.model;
 
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -9,6 +10,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -49,6 +51,10 @@ public class ModelFirebase {
     }
 
 
+    public boolean isSignedIn(){
+        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+        return (currentUser != null);
+    }
     //TODO: fix since
     public void getAllRecipes(Long lastUpdateDate, GetAllRecipesListener listener) {
         db.collection(Recipe.COLLECTION_NAME)
@@ -166,19 +172,70 @@ public class ModelFirebase {
 
     }
 
-    public void addUser(User user, Model.AddUserListener listener) {
-        Map<String, Object> json = user.toJson();
-        db.collection(User.COLLECTION_NAME)
-                .document(user.getUId())
-                .set(json)
-                .addOnSuccessListener(unused -> listener.onComplete())
-                .addOnFailureListener(e -> listener.onComplete());
+//    public void addUser(User user, Model.AddUserListener listener) {
+//        Map<String, Object> json = user.toJson();
+//        db.collection(User.COLLECTION_NAME)
+//                .document(user.getUId())
+//                .set(json)
+//                .addOnSuccessListener(unused -> listener.onComplete())
+//                .addOnFailureListener(e -> listener.onComplete());
+//    }
+    public void addUser(User user,String email, String password, Model.AddUserListener listener) {
+
+        firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()) {
+                    user.setUId(firebaseAuth.getCurrentUser().getUid());
+                    Log.d("TAG", "saved name:" + user.fullName + "user Id:" + user.uId);
+
+                    Map<String, Object> json = user.toJson();
+                    //user.setIsConnected("true");
+                    db.collection(User.COLLECTION_NAME)
+                            .document(user.getUId())
+                            .set(json)
+                            .addOnSuccessListener(unused -> listener.onComplete())
+                            .addOnFailureListener(e -> listener.onComplete());
+                }
+                else {
+                    // If sign in fails, display a message to the user.
+                    Log.w("TAG", "createUserWithEmail:failure", task.getException());
+                    //Toast.makeText(, "Authentication failed.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
-    public void getUserById(String username, Model.GetUserById listener) {
+    public void signIn(String email, String password,Model.SigninUserListener listener) {
+        // [START sign_in_with_email]
+        firebaseAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            //user.setIsConnected("true");
+                            //AppLocalDb.db.userDao().insertAll(user);
+                            listener.onComplete();
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d("TAG", "signInWithEmail:success");
+                           // FirebaseUser user = mAuth.getCurrentUser();
+                           // updateUI(user);
+                          //  startActivity(new Intent(LoginActivity.this, MainActivity.class));
+
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.w("TAG", "signInWithEmail:failure", task.getException());
+                            //Toast.makeText(LoginActivity.this, "User is not exist, please signup first.", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+        // [END sign_in_with_email]
+    }
+
+    public void getUserById(String uId, Model.GetUserById listener) {
 
         db.collection(User.COLLECTION_NAME)
-                .document(username)
+                .document(uId)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
@@ -192,9 +249,28 @@ public class ModelFirebase {
                 });
     }
 
+
     public String getUserId(){
         return firebaseAuth.getCurrentUser().getUid();
     }
+
+//    public void getUserIdByEmail(String email, Model.GetUserByEmail listener){
+//
+//
+//        db.collection(User.COLLECTION_NAME)
+//                .document(uId)
+//                .get()
+//                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                        User user = null;
+//                        if (task.isSuccessful() & task.getResult()!= null) {
+//                            user = User.create(task.getResult().getData());
+//                        }
+//                        listener.onComplete(user);
+//                    }
+//                });
+//    }
 //    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
 //
 //    public String GetCurrentNameUser(){

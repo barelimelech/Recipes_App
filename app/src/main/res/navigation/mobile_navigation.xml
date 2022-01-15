@@ -106,11 +106,6 @@
             app:argType="string" />
     </fragment>
     <action android:id="@+id/action_global_recipesListFragment" app:destination="@id/recipesListFragment" />
-    <activity
-        android:id="@+id/loginActivity"
-        android:name="com.example.recipes_app.LoginActivity"
-        android:label="activity_log_in"
-        tools:layout="@layout/activity_log_in" />
     <action android:id="@+id/action_global_nav_home" app:destination="@id/nav_home" />
 
 </navigation>

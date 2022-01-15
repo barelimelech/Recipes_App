@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:text="TextView"
-        app:layout_constraintEnd_toStartOf="@+id/newRec_image_recipe"
+        app:layout_constraintEnd_toStartOf="@+id/editmyaccount_image_recipe"
         app:layout_constraintHorizontal_bias="0.461"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView5" />
@@ -94,10 +94,10 @@
         app:layout_constraintEnd_toStartOf="@+id/recipeDetails_type"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/newRec_image_recipe" />
+        app:layout_constraintTop_toBottomOf="@+id/editmyaccount_image_recipe" />
 
     <ImageView
-        android:id="@+id/newRec_image_recipe"
+        android:id="@+id/editmyaccount_image_recipe"
         android:layout_width="200dp"
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
