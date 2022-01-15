@@ -95,7 +95,7 @@ public class Model {
 
     public LiveData<List<User>> getAllUsers() {
         if (usersList.getValue() == null) {
-            //refreshUserList();
+            refreshUserList();
         }
         return usersList;
     }
@@ -118,7 +118,7 @@ public class Model {
 //    }
 
     public void refreshUserList() {
-        userListLoadingState.setValue(UserListLoadingState.loading);
+       // userListLoadingState.setValue(UserListLoadingState.loading);
 
         //get last local update date
         Long lastUpdateDate = MyApplication.getContext().getSharedPreferences("TAG", Context.MODE_PRIVATE).getLong("UserLastUpdateDate", 0);
@@ -147,9 +147,9 @@ public class Model {
                                 .commit();
 
                         //return all data to caller
-                        List<User> reList = AppLocalDb.db.userDao().getAll();
-                        usersList.postValue(reList);
-                        userListLoadingState.postValue(UserListLoadingState.loaded);
+//                        List<User> reList = AppLocalDb.db.userDao().getAll();
+//                        usersList.postValue(reList);
+//                        userListLoadingState.postValue(UserListLoadingState.loaded);
                         //delete from room
                     }
                 });
@@ -313,7 +313,10 @@ public class Model {
     }
 
     public void addUser(User user,String email, String password, AddUserListener listener) {
-        modelFirebase.addUser(user,email,password, listener);
+        modelFirebase.addUser(user,email,password, ()->{
+            listener.onComplete();
+            refreshUserList();
+        });
     }
 
     public void signIn(String email, String password, SigninUserListener listener){
@@ -331,7 +334,10 @@ public class Model {
         void onComplete(User user);
     }
 
-
+    public User getUserByEmail(String email, GetUserById listener) {
+        modelFirebase.getUserByEmail(email, listener);
+        return null;
+    }
 
     public User getUserBId(String uId, GetUserById listener) {
         modelFirebase.getUserById(uId, listener);

@@ -86,7 +86,7 @@ public class MyAccountFragment extends Fragment {
 
         logOutBtn = view.findViewById(R.id.myAccount_logout_btn);
         logOutBtn.setOnClickListener((v)->{
-            firebaseAuth.signOut();
+            Model.instance.getFirebaseAuth().signOut();
             checkUser();
         });
         //TODO: edit my account page and fragment
@@ -132,7 +132,7 @@ public class MyAccountFragment extends Fragment {
         }else{
             String email=Model.instance.getCurrentUserEmail();
             String userName = Model.instance.getCurrentUserFullName();
-            if (userName == null) {
+            if (userName == null || userName.equals("")) {
                 userName = Model.instance.getCurrentUsername();
             }
             fullName.setText(userName);

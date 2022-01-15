@@ -1,6 +1,7 @@
 package com.example.recipes_app.ui.RecipesList;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -28,6 +29,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.example.recipes_app.LoginActivity;
 import com.example.recipes_app.R;
 import com.example.recipes_app.databinding.FragmentRecipeBinding;
 import com.example.recipes_app.model.Model;
@@ -386,7 +388,13 @@ public class RecipesListFragment extends Fragment {
             Log.d("TAG", "ADD...");
             NavHostFragment.findNavController(this).navigate(RecipesListFragmentDirections.actionGlobalMyAccountFragment(Model.instance.getCurrentUsername()));
             return true;
-        } else {
+        }else if(item.getItemId() == R.id.logout_menu){
+            Model.instance.getFirebaseAuth().signOut();
+            startActivity(new Intent(getActivity(), LoginActivity.class));
+            getActivity().finish();
+            return true;
+        }
+        else {
             return super.onOptionsItemSelected(item);
         }
     }

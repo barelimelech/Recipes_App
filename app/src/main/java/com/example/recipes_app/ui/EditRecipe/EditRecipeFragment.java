@@ -263,7 +263,7 @@ public class EditRecipeFragment extends Fragment {
     }
 
     private void initSpinnerFooter() {
-        String[] items = new String[categories.size()];//TODO: why the size is 10?! instead of 5
+        String[] items = new String[categories.size()];
 
         for(int i = 0 ; i<categories.size();i++){
             items[i] = categories.get(i);
@@ -311,5 +311,31 @@ public class EditRecipeFragment extends Fragment {
 //
 //        })
     }
+
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//        Model.instance.getUserById(userId, new Model.GetUserById() {
+//            @Override
+//            public void onComplete(User user) {
+//                myLocation = user.getLocation();
+//                switch (myLocation) {
+//                    case "Center":
+//                        locationPos = 0;
+//                        break;
+//
+//                    case "North":
+//                        locationPos = 1;
+//                        break;
+//
+//                    case "South":
+//                        locationPos = 2;
+//                        break;
+//
+//                }
+//                locationSpinner.setSelection(locationPos);
+//            }
+//        });
+//    }
 
 }

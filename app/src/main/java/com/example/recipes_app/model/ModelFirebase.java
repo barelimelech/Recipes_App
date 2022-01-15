@@ -225,7 +225,7 @@ public class ModelFirebase {
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w("TAG", "signInWithEmail:failure", task.getException());
-                            //Toast.makeText(LoginActivity.this, "User is not exist, please signup first.", Toast.LENGTH_LONG).show();
+                            //Toast.makeText(this, "User is not exist, please signup first.", Toast.LENGTH_LONG);
                         }
                     }
                 });
@@ -248,9 +248,12 @@ public class ModelFirebase {
                     }
                 });
     }
+    public void getUserByEmail(String email, Model.GetUserById listener) {
+
+    }
 
 
-    public String getUserId(){
+        public String getUserId(){
         return firebaseAuth.getCurrentUser().getUid();
     }
 

@@ -2,6 +2,7 @@ package com.example.recipes_app;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -55,13 +56,15 @@ public class LoginFragment extends Fragment {
             //TODO - connect to model login function
             String email = emailTv.getText().toString();
             String password = passwordTv.getText().toString();
-            Model.instance.signIn(email, password, new Model.SigninUserListener() {
-                @Override
-                public void onComplete() {
-                    toFeedActivity();
-
-                }
-            });
+            boolean bool = save();
+            if(bool == true) {
+                Model.instance.signIn(email, password, new Model.SigninUserListener() {
+                    @Override
+                    public void onComplete() {
+                        toFeedActivity();
+                    }
+                });
+            }
 
             //            String uId = Model.instance.getUserId();
 //
@@ -182,5 +185,27 @@ public class LoginFragment extends Fragment {
                         }
                     }
                 });
+    }
+
+
+
+
+    private boolean save() {
+        //signUpBtn.setEnabled(false);
+        String email = emailTv.getText().toString();
+        String password = passwordTv.getText().toString();
+        if (TextUtils.isEmpty(email)){
+            emailTv.setError("Please Enter email :)");
+
+        }else if(TextUtils.isEmpty(password)){
+            passwordTv.setError("Please Enter password :)");
+
+        }
+        else {
+
+            return true;
+        }
+        return false;
+
     }
 }

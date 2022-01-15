@@ -1,17 +1,25 @@
 package com.example.recipes_app.ui.MyAccount;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 
+import com.example.recipes_app.LoginActivity;
 import com.example.recipes_app.R;
 import com.example.recipes_app.model.Model;
 import com.example.recipes_app.model.User;
+import com.example.recipes_app.ui.RecipesList.RecipesListFragmentDirections;
 
 
 public class EditMyAccountFragment extends Fragment {
@@ -21,6 +29,7 @@ public class EditMyAccountFragment extends Fragment {
     TextView phone;
 
     Button saveMyAccount;
+    Button cancelBtn;
 
     String usernameAsId;
 
@@ -35,6 +44,7 @@ public class EditMyAccountFragment extends Fragment {
         phone = view.findViewById(R.id.editmyaccount_phone_tv);
         password= view.findViewById(R.id.editmyaccount_password_tv);
         fullName= view.findViewById(R.id.editmyaccount_fullname_tv);
+        cancelBtn = view.findViewById(R.id.editmyaccount_cancel_btn);
         //usernameAsId = EditMyAccountFragmentArgs.fromBundle(getArguments()).getUsername();
 
 
@@ -58,6 +68,13 @@ public class EditMyAccountFragment extends Fragment {
             }
         });
 
+        cancelBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Navigation.findNavController(v).navigateUp();
+
+            }
+        });
 
 //
 //        backBtn = view.findViewById(R.id.editrecipe_back_btn);
@@ -106,5 +123,22 @@ public class EditMyAccountFragment extends Fragment {
        // NavHostFragment.findNavController(this).navigate(EditRecipeFragmentDirections.actionGlobalRecipesListFragment2());
 
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.menu_myAccount) {
+            Log.d("TAG", "ADD...");
+            NavHostFragment.findNavController(this).navigate(RecipesListFragmentDirections.actionGlobalMyAccountFragment(Model.instance.getCurrentUsername()));
+            return true;
+        }else if(item.getItemId() == R.id.logout_menu){
+            Model.instance.getFirebaseAuth().signOut();
+            startActivity(new Intent(getActivity(), LoginActivity.class));
+            getActivity().finish();
+            return true;
+        }
+        else {
+            return super.onOptionsItemSelected(item);
+        }
     }
 }

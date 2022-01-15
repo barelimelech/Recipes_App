@@ -99,8 +99,8 @@
     <fragment
         android:id="@+id/editMyAccountFragment"
         android:name="com.example.recipes_app.ui.MyAccount.EditMyAccountFragment"
-        android:label="fragment_edit_my_account"
-        tools:layout="@layout/fragment_edit_my_account" >
+        android:label="Edit"
+        tools:layout="@layout/fragment_edit_my_account">
         <argument
             android:name="username"
             app:argType="string" />

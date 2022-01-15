@@ -2,6 +2,7 @@ package com.example.recipes_app;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,17 +52,7 @@ public class SignupFragment extends Fragment {
         signUpBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String email = emailTv.getText().toString();
-                String password = passwordTv.getText().toString();
-                String phone1 = phone.getText().toString();
-                String fullName2 = fullName.getText().toString();
-                //createAccount(email,password);
-                User user = new User(fullName2,phone1,email,"0");
-                Model.instance.addUser(user,email,password ,() -> {
-                    //Navigation.findNavController(v).navigate(R.id.);
-                    startActivity(new Intent(getActivity(), LoginActivity.class));
-
-                });
+                save();
             }
         });
 
@@ -76,5 +67,38 @@ public class SignupFragment extends Fragment {
 
 
         return view;
+    }
+
+
+    private void save() {
+        //signUpBtn.setEnabled(false);
+        String email = emailTv.getText().toString();
+        String password = passwordTv.getText().toString();
+        String phone1 = phone.getText().toString();
+        String fullName2 = fullName.getText().toString();
+        if (TextUtils.isEmpty(email)){
+            emailTv.setError("Please Enter email :)");
+
+        }else if(TextUtils.isEmpty(password)){
+            passwordTv.setError("Please Enter password :)");
+
+        }else if(TextUtils.isEmpty(phone1)){
+            phone.setError("Please Enter phone number :)");
+
+        }else if(TextUtils.isEmpty(fullName2)){
+            fullName.setError("Please Enter full name :)");
+
+        }
+        else {
+
+            User user = new User(fullName2,phone1,email,"0");
+            Model.instance.addUser(user,email,password ,() -> {
+                //Navigation.findNavController(v).navigate(R.id.);
+                startActivity(new Intent(getActivity(), LoginActivity.class));
+
+            });
+
+        }
+
     }
 }

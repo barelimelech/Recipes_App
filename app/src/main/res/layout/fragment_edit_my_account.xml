@@ -142,4 +142,17 @@
         app:layout_constraintTop_toBottomOf="@+id/editmyaccount_image_recipe"
         tools:layout_editor_absoluteX="85dp" />
 
+    <Button
+        android:id="@+id/editmyaccount_cancel_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="66dp"
+        android:text="cancel"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/editmyaccount_save_btn"
+        app:layout_constraintHorizontal_bias="0.461"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView71"
+        app:layout_constraintVertical_bias="0.0" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
