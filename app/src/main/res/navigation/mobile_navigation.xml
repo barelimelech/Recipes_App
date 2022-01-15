@@ -5,15 +5,7 @@
     android:id="@+id/mobile_navigation"
     app:startDestination="@+id/nav_home">
 
-    <fragment
-        android:id="@+id/nav_home"
-        android:name="com.example.recipes_app.ui.MyAccount.LogInFragment"
-        android:label="Sign in">
 
-        <action
-            android:id="@+id/action_nav_home_to_categoriesListFragment2"
-            app:destination="@id/categoriesListFragment" />
-    </fragment>
     <fragment
         android:id="@+id/categoriesListFragment"
         android:name="com.example.recipes_app.ui.Categories.CategoriesListFragment"
@@ -76,7 +68,7 @@
             app:argType="string" />
     </fragment>
     <fragment
-        android:id="@+id/myAccount_nav"
+        android:id="@+id/nav_home"
         android:name="com.example.recipes_app.ui.MyAccount.MyAccountFragment"
         android:label="My Account"
         tools:layout="@layout/fragment_my_account">
@@ -92,9 +84,6 @@
         <argument
             android:name="username"
             app:argType="string" />
-        <action
-            android:id="@+id/action_myAccount_nav_to_nav_home"
-            app:destination="@id/nav_home" />
     </fragment>
     <fragment
         android:id="@+id/newRecipeFragment"
@@ -117,5 +106,11 @@
             app:argType="string" />
     </fragment>
     <action android:id="@+id/action_global_recipesListFragment" app:destination="@id/recipesListFragment" />
+    <activity
+        android:id="@+id/loginActivity"
+        android:name="com.example.recipes_app.LoginActivity"
+        android:label="activity_log_in"
+        tools:layout="@layout/activity_log_in" />
+    <action android:id="@+id/action_global_nav_home" app:destination="@id/nav_home" />
 
 </navigation>

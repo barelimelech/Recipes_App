@@ -27,6 +27,7 @@ import java.util.Map;
 public class ModelFirebase {
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
+    FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
 
     public ModelFirebase(){
         FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
@@ -39,6 +40,14 @@ public class ModelFirebase {
     public interface GetAllRecipesListener{
         void onComplete(List<Recipe> list);
     }
+
+    public FirebaseUser getCurrentUser(){
+        return firebaseAuth.getCurrentUser();
+    }
+    public FirebaseAuth getFirebaseAuth(){
+        return firebaseAuth;
+    }
+
 
     //TODO: fix since
     public void getAllRecipes(Long lastUpdateDate, GetAllRecipesListener listener) {
@@ -160,13 +169,13 @@ public class ModelFirebase {
     public void addUser(User user, Model.AddUserListener listener) {
         Map<String, Object> json = user.toJson();
         db.collection(User.COLLECTION_NAME)
-                .document(user.getUsername())
+                .document(user.getUId())
                 .set(json)
                 .addOnSuccessListener(unused -> listener.onComplete())
                 .addOnFailureListener(e -> listener.onComplete());
     }
 
-    public void getUserByUsername(String username, Model.GetUserByUsername listener) {
+    public void getUserById(String username, Model.GetUserById listener) {
 
         db.collection(User.COLLECTION_NAME)
                 .document(username)
@@ -183,12 +192,15 @@ public class ModelFirebase {
                 });
     }
 
-    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
-
-    public String GetCurrentNameUser(){
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        return currentUser.getDisplayName();
+    public String getUserId(){
+        return firebaseAuth.getCurrentUser().getUid();
     }
+//    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
+//
+//    public String GetCurrentNameUser(){
+//        FirebaseUser currentUser = mAuth.getCurrentUser();
+//        return currentUser.getDisplayName();
+//    }
 
 
 

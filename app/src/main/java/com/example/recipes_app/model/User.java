@@ -17,68 +17,112 @@ public class User {
 
     @PrimaryKey
     @NonNull
-    String username;
-    String password;
     String fullName;
+    String email;
+    String phone;
+    String uId;
+    String isConnected = "false";
+    String userUrl;
+
     Long updateDate = new Long(0);
 
     //String userRecipeId;
 
     public User(){}
 
-    public User(String username, String password, String fullName){
-        this.username = username;
-        this.password = password;
+    public User(String fullName, String phone, String email,String uId){
         this.fullName = fullName;
+        this.email = email;
+        this.uId = uId;
+        this.phone = phone;
     }
 
+
+    @NonNull
     public String getFullName() {
         return fullName;
     }
 
-    public String getPassword() {
-        return password;
+    public String getEmail() {
+        return email;
     }
 
-    public String getUsername() {
-        return username;
+    public String getIsConnected() {
+        return isConnected;
     }
 
-    public void setFullName(String fullName) {
+    public String getUId() {
+        return uId;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public String getUserUrl() {
+        return userUrl;
+    }
+
+    public void setFullName(@NonNull String fullName) {
         this.fullName = fullName;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     public void setUpdateDate(Long updateDate) {
         this.updateDate = updateDate;
     }
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setIsConnected(String isConnected) {
+        this.isConnected = isConnected;
+    }
+
+    public void setUId(String uId) {
+        this.uId = uId;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public void setUserUrl(String userUrl) {
+        this.userUrl = userUrl;
+    }
 
     public Map<String, Object> toJson() {
         Map<String, Object> json = new HashMap<String, Object>();
-        json.put("username",username);
-        json.put("password",password);
         json.put("fullName",fullName);
+        json.put("phone",phone);
+
+        json.put("email",email);
+        json.put("uId",uId);
         json.put("updateDate", FieldValue.serverTimestamp());
+        json.put("isConnected",isConnected);
+
+        json.put("updateDate", FieldValue.serverTimestamp());
+        json.put("userUrl", userUrl);
+
+
 
         return json;
     }
     public static User create(Map<String, Object> json) {
         String username = (String) json.get("username");
-        String password = (String) json.get("password");
-        String fullName = (String) json.get("fullName");
+        String email = (String) json.get("email");
+        String uId = (String) json.get("uId");
+        String isConnected = (String) json.get("isConnected");
+        String phone = (String) json.get("phone");
+
         Timestamp ts = (Timestamp)json.get("updateDate");
-        // Long updateDate = ts.getSeconds();//TODO: not working
+        Long updateDate = ts.getSeconds();//TODO: not working
+        String userUrl = (String) json.get("userUrl");
 
 
-        User user = new User(username,password,fullName);
+        User user = new User(username,phone,email,uId);
+        user.setIsConnected(isConnected);
+        user.setUserUrl(userUrl);
         //user.setUpdateDate(updateDate);
         return user;
     }

@@ -20,7 +20,6 @@ import com.example.recipes_app.model.Model;
 import com.example.recipes_app.model.Recipe;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 import java.util.List;
 
@@ -121,8 +120,8 @@ public class MyAccountFragment extends Fragment {
     }
 
     private void checkUser() {
-        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-        if(firebaseUser == null){
+        //FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+        if(Model.instance.getCurrentUser() == null){
             //NavHostFragment.findNavController(this).navigate(MyAccountFragmentDirections.actionMyAccountNavToNavHome());
 
             //Navigation.findNavController(view).navigate(R.id.nav_host_fragment_content_main);
@@ -131,10 +130,11 @@ public class MyAccountFragment extends Fragment {
             startActivity(new Intent(getActivity(), MainActivity.class));
             getActivity().finish();
         }else{
-            String email=firebaseUser.getEmail();
-//            String userName = firebaseUser.getDisplayName();
-            //String familyName = firebaseUser.getF
-            String userName = Model.instance.GetCurrentNameUser();
+            String email=Model.instance.getCurrentUserEmail();
+            String userName = Model.instance.getCurrentUserFullName();
+            if (userName == null) {
+                userName = Model.instance.getCurrentUsername();
+            }
             fullName.setText(userName);
             fullNameAsId = userName;
 

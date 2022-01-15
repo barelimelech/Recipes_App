@@ -59,7 +59,8 @@ public class NewRecipeFragment extends Fragment{
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_new_recipe, container, false);
         //usernameAsId = NewRecipeFragmentArgs.fromBundle(getArguments()).getUsername();
-        usernameAsId = Model.instance.GetCurrentNameUser();
+        //usernameAsId = Model.instance.GetCurrentNameUser();
+        usernameAsId = Model.instance.getCurrentUsername();
         recipeName= view.findViewById(R.id.pe_nameOfRec);
         recipeMethod= view.findViewById(R.id.newRec_method);
         recipeIngredients= view.findViewById(R.id.newRec_ingredients);
@@ -100,7 +101,7 @@ public class NewRecipeFragment extends Fragment{
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Navigation.findNavController(v).navigate(NewRecipeFragmentDirections.actionGlobalMyAccountFragment(usernameAsId));
+                Navigation.findNavController(v).navigate(NewRecipeFragmentDirections.actionGlobalMyAccountFragment());
 
             }
         });

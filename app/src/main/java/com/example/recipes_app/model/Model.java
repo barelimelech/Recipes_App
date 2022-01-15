@@ -11,6 +11,8 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.recipes_app.MyApplication;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -272,6 +274,27 @@ public class Model {
         return data;
         //return null;
     }
+    public FirebaseUser getCurrentUser(){
+        return modelFirebase.getCurrentUser();
+    }
+    public FirebaseAuth getFirebaseAuth(){
+        return modelFirebase.getFirebaseAuth();
+    }
+    public String getCurrentUserFullName(){
+        return modelFirebase.getCurrentUser().getDisplayName();
+    }
+    public String getCurrentUsername(){
+        String email = getCurrentUserEmail();
+        int index = email.indexOf('@');
+        return email.substring(0,index);
+    }
+
+    public String getCurrentUserId(){
+        return modelFirebase.getCurrentUser().getUid();
+    }
+    public String getCurrentUserEmail(){
+        return modelFirebase.getCurrentUser().getEmail();
+    }
 
 
     //***********************************USER*************************************//
@@ -288,13 +311,17 @@ public class Model {
         void onComplete(User user);
     }
 
-    public User getUserByUsername(String username, GetUserByUsername listener) {
-        modelFirebase.getUserByUsername(username, listener);
+    public interface GetUserById {
+        void onComplete(User user);
+    }
+
+    public User getUserBId(String username, GetUserById listener) {
+        modelFirebase.getUserById(username, listener);
         return null;
     }
 
-    public String GetCurrentNameUser(){
-        return modelFirebase.GetCurrentNameUser();
+    public String getUserId(){
+        return modelFirebase.getUserId();
     }
     //***********************************UserRecipe*************************************//
 
