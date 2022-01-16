@@ -35,6 +35,7 @@ public class MyAccountFragment extends Fragment {
     View view;
     String fullNameAsId;
     GoogleApiClient mGoogleApiClient;
+    String currentUserEmail;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -86,6 +87,7 @@ public class MyAccountFragment extends Fragment {
 
         logOutBtn = view.findViewById(R.id.myAccount_logout_btn);
         logOutBtn.setOnClickListener((v)->{
+            currentUserEmail = Model.instance.getCurrentUserEmail();
             Model.instance.getFirebaseAuth().signOut();
             checkUser();
         });
@@ -126,9 +128,14 @@ public class MyAccountFragment extends Fragment {
 
             //Navigation.findNavController(view).navigate(R.id.nav_host_fragment_content_main);
            // getActivity().finish();
+             Model.instance.logout(currentUserEmail, new Model.LogoutUserListener() {
+                 @Override
+                 public void onComplete() {
+                     startActivity(new Intent(getActivity(), LoginActivity.class));
+                     getActivity().finish();
+                 }
+             });
 
-            startActivity(new Intent(getActivity(), LoginActivity.class));
-            getActivity().finish();
         }else{
             String email=Model.instance.getCurrentUserEmail();
             String userName = Model.instance.getCurrentUserFullName();

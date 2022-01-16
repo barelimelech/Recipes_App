@@ -1,5 +1,6 @@
 package com.example.recipes_app.ui.RecipeDetails;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,6 +18,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 
+import com.example.recipes_app.LoginActivity;
 import com.example.recipes_app.R;
 import com.example.recipes_app.model.Model;
 import com.example.recipes_app.model.Recipe;
@@ -121,6 +123,18 @@ public class RecipeDetailsFragment extends Fragment {
             Log.d("TAG","edit...");
             //NavHostFragment.findNavController(this).navigate(RecipeDetailsFragmentDirections.actionRecipeFragmentToEditRecipeFragment(recipeNameAsId));
             NavHostFragment.findNavController(this).navigate(RecipeDetailsFragmentDirections.actionRecipeFragmentToEditRecipeFragment(recipeNameAsId,usernameAsId));
+            return true;
+        }else if(item.getItemId() == R.id.logout_menu){
+            String currentUserEmail = Model.instance.getCurrentUserEmail();
+            Model.instance.getFirebaseAuth().signOut();
+            Model.instance.logout(currentUserEmail, new Model.LogoutUserListener() {
+                @Override
+                public void onComplete() {
+                    startActivity(new Intent(getActivity(), LoginActivity.class));
+                    getActivity().finish();
+                }
+            });
+
             return true;
         }else {
             return super.onOptionsItemSelected(item);

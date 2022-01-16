@@ -101,7 +101,6 @@ public class User {
         json.put("updateDate", FieldValue.serverTimestamp());
         json.put("isConnected",isConnected);
 
-        json.put("updateDate", FieldValue.serverTimestamp());
         json.put("userUrl", userUrl);
 
 
@@ -109,7 +108,7 @@ public class User {
         return json;
     }
     public static User create(Map<String, Object> json) {
-        String username = (String) json.get("username");
+        String fullName = (String) json.get("fullName");
         String email = (String) json.get("email");
         String uId = (String) json.get("uId");
         String isConnected = (String) json.get("isConnected");
@@ -120,7 +119,7 @@ public class User {
         String userUrl = (String) json.get("userUrl");
 
 
-        User user = new User(username,phone,email,uId);
+        User user = new User(fullName,phone,email,uId);
         user.setIsConnected(isConnected);
         user.setUserUrl(userUrl);
         //user.setUpdateDate(updateDate);

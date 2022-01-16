@@ -134,7 +134,9 @@ public class Model {
                         Long lud = new Long(0);
                         Log.d("TAG", "fb returned " + list.size());
                         for (User user : list) {
-                            AppLocalDb.db.userDao().insertAll(user);
+                            if(user.getIsConnected().equals("true")) {
+                                AppLocalDb.db.userDao().insertAll(user);
+                            }
                             if (lud < user.getUpdateDate()) {
                                 lud = user.getUpdateDate();
                             }
@@ -198,7 +200,6 @@ public class Model {
                         List<Recipe> reList = AppLocalDb.db.recipeDao().getAll();
                         recipesList.postValue(reList);
                         recipeListLoadingState.postValue(RecipeListLoadingState.loaded);
-                        //delete from room //TODO
                     }
                 });
             }
@@ -311,7 +312,20 @@ public class Model {
         void onComplete();
 
     }
+    public interface LogoutUserListener{
+        void onComplete();
 
+    }
+
+    public interface EditUserListener{
+        void onComplete();
+    }
+    public void editUser(User newUser, EditUserListener listener){
+        modelFirebase.editUser(newUser, ()->{
+            listener.onComplete();
+            refreshUserList();
+        });
+    }
     public void addUser(User user,String email, String password, AddUserListener listener) {
         modelFirebase.addUser(user,email,password, ()->{
             listener.onComplete();
@@ -319,22 +333,31 @@ public class Model {
         });
     }
 
-    public void signIn(String email, String password, SigninUserListener listener){
-        modelFirebase.signIn(email,password,()->{
+    public void signIn(User user,String email, String password, SigninUserListener listener){
+        modelFirebase.signIn(user,email,password,()->{
+            user.setIsConnected("true");
             listener.onComplete();
-            //refreshUserList();
+            refreshUserList();
         });
     }
 
-//    public interface GetUserByUsername {
-//        void onComplete(User user);
-//    }
+    public void logout(String currentUserEmail , LogoutUserListener listener){
+        modelFirebase.logout(currentUserEmail, new LogoutUserListener() {
+            @Override
+            public void onComplete() {
+                listener.onComplete();
+            }
+        });
+    }
+    public interface GetUserByEmail {
+        void onComplete(User user);
+    }
 
     public interface GetUserById {
         void onComplete(User user);
     }
 
-    public User getUserByEmail(String email, GetUserById listener) {
+    public User getUserByEmail(String email, GetUserByEmail listener) {
         modelFirebase.getUserByEmail(email, listener);
         return null;
     }

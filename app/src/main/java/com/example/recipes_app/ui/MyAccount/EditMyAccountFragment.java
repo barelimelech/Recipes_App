@@ -42,10 +42,19 @@ public class EditMyAccountFragment extends Fragment {
         email = view.findViewById(R.id.editmyaccount_email_tv);
 
         phone = view.findViewById(R.id.editmyaccount_phone_tv);
-        password= view.findViewById(R.id.editmyaccount_password_tv);
+        password= view.findViewById(R.id.editmyaccount_newpassword_tv);
         fullName= view.findViewById(R.id.editmyaccount_fullname_tv);
         cancelBtn = view.findViewById(R.id.editmyaccount_cancel_btn);
         //usernameAsId = EditMyAccountFragmentArgs.fromBundle(getArguments()).getUsername();
+
+        Model.instance.getUserByEmail(Model.instance.getCurrentUserEmail(), new Model.GetUserByEmail() {
+            @Override
+            public void onComplete(User user) {
+                fullName.setText(user.getFullName());
+                phone.setText(user.getPhone());
+                email.setText(user.getEmail());
+            }
+        });
 
 
 //        Model.instance.getUserByUsername(usernameAsId, new Model.GetUserByUsername() {
@@ -92,14 +101,15 @@ public class EditMyAccountFragment extends Fragment {
         String password1 = password.getText().toString();
         String fullName1 = fullName.getText().toString();
         String phone1 = phone.getText().toString();
-        Model.instance.getUserBId(usernameAsId, new Model.GetUserById() {
-
-
+        Model.instance.getCurrentUser().updatePassword(password1);
+        User newUser = new User(fullName1,phone1,email1,Model.instance.getUserId());
+        Model.instance.editUser(newUser, new Model.EditUserListener() {
             @Override
-            public void onComplete(User user) {
-
+            public void onComplete() {
+                Navigation.findNavController(getView()).navigateUp();
             }
         });
+
 
        // NavHostFragment.findNavController(this).navigate(EditMyAccountFragmentDirections.actionGlobalMyAccountFragment(usernameAsId));
 
@@ -132,9 +142,16 @@ public class EditMyAccountFragment extends Fragment {
             NavHostFragment.findNavController(this).navigate(RecipesListFragmentDirections.actionGlobalMyAccountFragment(Model.instance.getCurrentUsername()));
             return true;
         }else if(item.getItemId() == R.id.logout_menu){
+            String currentUserEmail = Model.instance.getCurrentUserEmail();
             Model.instance.getFirebaseAuth().signOut();
-            startActivity(new Intent(getActivity(), LoginActivity.class));
-            getActivity().finish();
+            Model.instance.logout(currentUserEmail, new Model.LogoutUserListener() {
+                @Override
+                public void onComplete() {
+                    startActivity(new Intent(getActivity(), LoginActivity.class));
+                    getActivity().finish();
+                }
+            });
+
             return true;
         }
         else {

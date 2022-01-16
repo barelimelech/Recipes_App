@@ -47,7 +47,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
     <EditText
-        android:id="@+id/editmyaccount_password_tv"
+        android:id="@+id/editmyaccount_newpassword_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="24dp"
@@ -66,10 +66,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
-        android:text="Password:"
+        android:text="New password:"
         android:textColor="#3E260B"
         android:textSize="24sp"
-        app:layout_constraintEnd_toStartOf="@+id/editmyaccount_password_tv"
+        app:layout_constraintEnd_toStartOf="@+id/editmyaccount_newpassword_tv"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView16" />
@@ -118,7 +118,7 @@
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editmyaccount_password_tv" />
+        app:layout_constraintTop_toBottomOf="@+id/editmyaccount_newpassword_tv" />
 
     <EditText
         android:id="@+id/editmyaccount_fullname_tv"

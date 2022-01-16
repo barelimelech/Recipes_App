@@ -389,9 +389,16 @@ public class RecipesListFragment extends Fragment {
             NavHostFragment.findNavController(this).navigate(RecipesListFragmentDirections.actionGlobalMyAccountFragment(Model.instance.getCurrentUsername()));
             return true;
         }else if(item.getItemId() == R.id.logout_menu){
+            String currentUserEmail = Model.instance.getCurrentUserEmail();
             Model.instance.getFirebaseAuth().signOut();
-            startActivity(new Intent(getActivity(), LoginActivity.class));
-            getActivity().finish();
+            Model.instance.logout(currentUserEmail, new Model.LogoutUserListener() {
+                @Override
+                public void onComplete() {
+                    startActivity(new Intent(getActivity(), LoginActivity.class));
+                    getActivity().finish();
+                }
+            });
+
             return true;
         }
         else {

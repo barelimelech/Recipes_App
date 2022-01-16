@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
 import com.example.recipes_app.model.Model;
+import com.example.recipes_app.model.User;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -56,15 +57,30 @@ public class LoginFragment extends Fragment {
             //TODO - connect to model login function
             String email = emailTv.getText().toString();
             String password = passwordTv.getText().toString();
-            boolean bool = save();
-            if(bool == true) {
-                Model.instance.signIn(email, password, new Model.SigninUserListener() {
-                    @Override
-                    public void onComplete() {
-                        toFeedActivity();
-                    }
-                });
-            }
+            Model.instance.getUserByEmail(email, new Model.GetUserByEmail() {
+                @Override
+                public void onComplete(User user) {
+                    User newUser = user;
+                    newUser.setIsConnected("true");
+                    Model.instance.editUser(newUser, new Model.EditUserListener() {
+                        @Override
+                        public void onComplete() {
+                            Log.d("TAG" , "bbbbbbbbbbb user:  "+ user.getIsConnected() + user.getFullName() + user.getPhone() + user.getEmail()+ user.getUId());
+                            boolean bool = save();
+                            if(bool == true) {
+                                Model.instance.signIn(user,email, password, new Model.SigninUserListener() {
+                                    @Override
+                                    public void onComplete() {
+                                        toFeedActivity();
+                                    }
+                                });
+                            }
+                        }
+                    });
+
+                }
+            });
+
 
             //            String uId = Model.instance.getUserId();
 //

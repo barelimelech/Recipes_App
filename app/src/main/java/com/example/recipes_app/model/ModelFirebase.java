@@ -17,6 +17,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -120,6 +121,23 @@ public class ModelFirebase {
 
     }
 
+    public void logout(String currentUserEmail, Model.LogoutUserListener listener){
+        Model.instance.getUserByEmail(currentUserEmail, new Model.GetUserByEmail() {
+            @Override
+            public void onComplete(User user) {
+                User newUser = user;
+                newUser.setIsConnected("false");
+                Model.instance.editUser(newUser, new Model.EditUserListener() {
+                    @Override
+                    public void onComplete() {
+                        listener.onComplete();
+                    }
+                });
+
+            }
+        });
+    }
+
     /**
      * Firebase Storage
      */
@@ -206,14 +224,15 @@ public class ModelFirebase {
         });
     }
 
-    public void signIn(String email, String password,Model.SigninUserListener listener) {
+    public void signIn(User user,String email, String password,Model.SigninUserListener listener) {
         // [START sign_in_with_email]
         firebaseAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            //user.setIsConnected("true");
+                            user.setIsConnected("true");
+
                             //AppLocalDb.db.userDao().insertAll(user);
                             listener.onComplete();
                             // Sign in success, update UI with the signed-in user's information
@@ -248,8 +267,42 @@ public class ModelFirebase {
                     }
                 });
     }
-    public void getUserByEmail(String email, Model.GetUserById listener) {
+    public void getUserByEmail(String email, Model.GetUserByEmail listener) {
+        //Map<String, Object> json = recipe.toJson();
+        db.collection(User.COLLECTION_NAME)
+                .whereEqualTo("email",email)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful() & task.getResult()!= null) {
+                            DocumentSnapshot documentSnapshot = task.getResult().getDocuments().get(0);
+                            String documentId = documentSnapshot.getId();
+                            db.collection(User.COLLECTION_NAME)
+                                    .document(documentId).get()
+                                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                            User user= null;
+                                            if (task.isSuccessful() & task.getResult() != null) {
+                                                user = User.create(task.getResult().getData());
+                                            }
+                                            listener.onComplete(user);
+                                        }
+                                    });
+                        }
+                    }
+                });
 
+    }
+
+    public void editUser(User user, Model.EditUserListener listener) {
+        Map<String, Object> json = user.toJson();
+        db.collection(User.COLLECTION_NAME)
+                .document(user.getUId())
+                .set(json)
+                .addOnSuccessListener(unused -> listener.onComplete())
+                .addOnFailureListener(e -> listener.onComplete());
     }
 
 
