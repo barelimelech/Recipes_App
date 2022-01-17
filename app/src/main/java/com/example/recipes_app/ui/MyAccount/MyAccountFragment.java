@@ -1,6 +1,7 @@
 package com.example.recipes_app.ui.MyAccount;
 
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -8,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -18,8 +20,10 @@ import com.example.recipes_app.LoginActivity;
 import com.example.recipes_app.R;
 import com.example.recipes_app.model.Model;
 import com.example.recipes_app.model.Recipe;
+import com.example.recipes_app.model.User;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.auth.FirebaseAuth;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -36,11 +40,24 @@ public class MyAccountFragment extends Fragment {
     String fullNameAsId;
     GoogleApiClient mGoogleApiClient;
     String currentUserEmail;
+    ImageView userImage;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view= inflater.inflate(R.layout.fragment_my_account, container, false);
         firebaseAuth = FirebaseAuth.getInstance();
+        userImage = view.findViewById(R.id.myAccount_image_user);
+
+        Model.instance.getUserByEmail(Model.instance.getCurrentUserEmail(), new Model.GetUserByEmail() {
+            @Override
+            public void onComplete(User user) {
+                fullName.setText(user.getFullName());
+                if(user.getUserUrl()!=null) {
+                    Picasso.get().load(user.getUserUrl()).into(userImage);
+                }
+            }
+        });
 
 
         //usernameAsId = MyAccountFragmentArgs.fromBundle(getArguments()).getUsername();

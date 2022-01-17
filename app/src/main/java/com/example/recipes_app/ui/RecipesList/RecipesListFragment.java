@@ -48,6 +48,7 @@ public class RecipesListFragment extends Fragment {
     SwipeRefreshLayout swipeRefresh;
     List<Recipe> recipes = new ArrayList<>();
     String fullNameAsId;
+    String fullNameAsIdnew;
     String category;
     ImageButton deleteRecipe;
 
@@ -76,10 +77,16 @@ public class RecipesListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         //Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_recipes_list, container, false);
-
+        String name = Model.instance.getCurrentUserFullName();
+//        String name = Model.instance.getCurrentUsername();
         fullNameAsId = RecipesListFragmentArgs.fromBundle(getArguments()).getUsername();
         category = RecipesListFragmentArgs.fromBundle(getArguments()).getCategory();
-
+        //name = Model.instance.getCurrentUsername();
+//        if (name == null || name.equals("")) {
+//            name = Model.instance.getCurrentUsername();
+//        }
+        //fullNameAsId = name;
+        Log.d("TAG", "lllllll " + fullNameAsId);
         binding = FragmentRecipeBinding.inflate(getLayoutInflater());
 
         firebaseAuth = FirebaseAuth.getInstance();
@@ -190,13 +197,20 @@ public class RecipesListFragment extends Fragment {
             usernameBy = itemView.findViewById(R.id.recipe_listrow_username);
             recipeImage = itemView.findViewById(R.id.recipe_listrow_image);
             deleteBtn = itemView.findViewById(R.id.recipe_listrow_delete);
-            editBtn = itemView.findViewById(R.id.recipe_listrow_edit);
+            editBtn = itemView.findViewById(R.id.recipe_listrow_edit);;
           //  deleteBtn.setOnClickListener(this);
 
 //            if(!fullNameAsId.equals("")){
 //
 //                itemView.setVisibility(View.GONE);
 //            }
+            String userName = Model.instance.getCurrentUsername();
+            if (userName == null || userName.equals("")) {
+                userName = Model.instance.getCurrentUsername();
+            }
+            fullNameAsIdnew = userName;
+            Log.d("TAG", "fullNameAsId " +  fullNameAsId );
+
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -222,6 +236,7 @@ public class RecipesListFragment extends Fragment {
 //                });
             });
 
+   //         recipeImage.setImageBitmap(null);
             editBtn.setOnClickListener((v)->{
                 int viewId = v.getId();
                 int position = getAdapterPosition();
@@ -231,7 +246,10 @@ public class RecipesListFragment extends Fragment {
 
         }
         void bind(Recipe recipe){
-
+//            Log.d("TAG", "recipe user name " + recipe.getUsername());
+//            Log.d("TAG", "firebaseuser " + firebaseUser.getDisplayName());
+//            Log.d("TAG", "fullNameAsId " +  fullNameAsId );
+//            Log.d("TAG", "equal " + recipe.getUsername().equals(fullNameAsId));
             if(!fullNameAsId.equals("")&& recipe.getUsername() != null&&category.equals("")){
                 if(!recipe.getUsername().equals(fullNameAsId)){
                     itemView.setVisibility(View.GONE);
@@ -249,6 +267,8 @@ public class RecipesListFragment extends Fragment {
                                 .load(recipe.getRecipeUrl())
                                 .into(recipeImage);
                     }
+                    else
+                        recipeImage.setImageBitmap(null);
 
                 }
             }else if(!category.equals("") && recipe.getType() != null){
@@ -265,6 +285,8 @@ public class RecipesListFragment extends Fragment {
                                 .load(recipe.getRecipeUrl())
                                 .into(recipeImage);
                     }
+                    else
+                        recipeImage.setImageBitmap(null);
                 }
             } else{
 
@@ -277,9 +299,16 @@ public class RecipesListFragment extends Fragment {
                             .load(recipe.getRecipeUrl())
                             .into(recipeImage);
                 }
-                if(!recipe.getUsername().equals(firebaseUser.getDisplayName())){
+                else
+                    recipeImage.setImageBitmap(null);
+//                if(!recipe.getUsername().equals(firebaseUser.getDisplayName())){
+                if(!recipe.getUsername().equals(fullNameAsIdnew)){
                     deleteBtn.setVisibility(View.GONE);
                     editBtn.setVisibility(View.GONE);
+                }
+                else{
+                    deleteBtn.setVisibility(View.VISIBLE);
+                    editBtn.setVisibility(View.VISIBLE);
                 }
             }
         }
