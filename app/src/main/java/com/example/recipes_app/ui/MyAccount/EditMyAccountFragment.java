@@ -201,7 +201,9 @@ public class EditMyAccountFragment extends Fragment {
         String password1 = password.getText().toString();
         String fullName1 = fullName.getText().toString();
         String phone1 = phone.getText().toString();
-        Model.instance.getCurrentUser().updatePassword(password1);
+        if(!password1.equals("")) {
+            Model.instance.getCurrentUser().updatePassword(password1);
+        }
         User newUser = new User(fullName1,phone1,email1,Model.instance.getUserId());
 
         if(imageBitmap == null){

@@ -162,6 +162,7 @@ public class EditRecipeFragment extends Fragment {
     private void deleteImage() {
         imageBitmap = null;
         recipeImage.setImageBitmap(null);
+        Model.instance.refreshRecipeList();
     }
 
     private void openGallery() {

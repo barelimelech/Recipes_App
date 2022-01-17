@@ -10,13 +10,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
-import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.SearchView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -34,8 +31,8 @@ import com.example.recipes_app.R;
 import com.example.recipes_app.databinding.FragmentRecipeBinding;
 import com.example.recipes_app.model.Model;
 import com.example.recipes_app.model.Recipe;
+import com.example.recipes_app.ui.MyAccount.UsersListViewModel;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -53,9 +50,8 @@ public class RecipesListFragment extends Fragment {
     ImageButton deleteRecipe;
 
     private FirebaseAuth firebaseAuth;
+    UsersListViewModel usersListViewModel;
 
-
-    List<Recipe> userRecipes = new ArrayList<>();
     private FragmentRecipeBinding binding;
 
 //    public interface OnDeleteClickListener{
@@ -151,13 +147,14 @@ public class RecipesListFragment extends Fragment {
         });
 
 
-        Button addRecipe = view.findViewById(R.id.myaccount_add_btn);
-        addRecipe.setOnClickListener((v)->{
-            //Navigation.findNavController(v).navigate(R.id.action_global_newRecipeFragment);
-            Navigation.findNavController(v).navigate(RecipesListFragmentDirections.actionRecipesListFragmentToNewRecipeFragment(fullNameAsId));//the user that make the new recipe
+//        Button addRecipe = view.findViewById(R.id.myaccount_add_btn);
+//        addRecipe.setOnClickListener((v)->{
+//            //Navigation.findNavController(v).navigate(R.id.action_global_newRecipeFragment);
+//            Navigation.findNavController(v).navigate(RecipesListFragmentDirections.actionRecipesListFragmentToNewRecipeFragment(fullNameAsId));//the user that make the new recipe
+//
+//        });
 
-        });
-
+        setHasOptionsMenu(true);
 
         //when data update
         viewModel.getRecipes().observe(getViewLifecycleOwner(), recipes -> refresh());
@@ -171,7 +168,6 @@ public class RecipesListFragment extends Fragment {
         });
 
         //refresh();
-        setHasOptionsMenu(true);
 
         return view;
 
@@ -179,8 +175,10 @@ public class RecipesListFragment extends Fragment {
 
     private void refresh() {
         adapter.notifyDataSetChanged();
-        swipeRefresh.setRefreshing(false);
+       // swipeRefresh.setRefreshing(false);
     }
+
+
 
     class MyViewHolder extends RecyclerView.ViewHolder {
         TextView nameTv;
@@ -189,7 +187,7 @@ public class RecipesListFragment extends Fragment {
         ImageView recipeImage;
         Recipe tmp;
 
-        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+
 
         public MyViewHolder(@NonNull View itemView, RecipesListFragment.OnItemClickListener listener) {
             super(itemView);
@@ -197,7 +195,7 @@ public class RecipesListFragment extends Fragment {
             usernameBy = itemView.findViewById(R.id.recipe_listrow_username);
             recipeImage = itemView.findViewById(R.id.recipe_listrow_image);
             deleteBtn = itemView.findViewById(R.id.recipe_listrow_delete);
-            editBtn = itemView.findViewById(R.id.recipe_listrow_edit);;
+            editBtn = itemView.findViewById(R.id.recipe_listrow_edit);
           //  deleteBtn.setOnClickListener(this);
 
 //            if(!fullNameAsId.equals("")){
@@ -236,7 +234,6 @@ public class RecipesListFragment extends Fragment {
 //                });
             });
 
-   //         recipeImage.setImageBitmap(null);
             editBtn.setOnClickListener((v)->{
                 int viewId = v.getId();
                 int position = getAdapterPosition();
@@ -246,10 +243,15 @@ public class RecipesListFragment extends Fragment {
 
         }
         void bind(Recipe recipe){
-//            Log.d("TAG", "recipe user name " + recipe.getUsername());
-//            Log.d("TAG", "firebaseuser " + firebaseUser.getDisplayName());
-//            Log.d("TAG", "fullNameAsId " +  fullNameAsId );
-//            Log.d("TAG", "equal " + recipe.getUsername().equals(fullNameAsId));
+//            nameTv.setText(recipe.getName());
+//            usernameBy.setText("By:  "+recipe.getUsername());
+//            if (recipe.getRecipeUrl() != null) {
+//                Picasso.get()
+//                        .load(recipe.getRecipeUrl())
+//                        .into(recipeImage);
+//            }
+
+
             if(!fullNameAsId.equals("")&& recipe.getUsername() != null&&category.equals("")){
                 if(!recipe.getUsername().equals(fullNameAsId)){
                     itemView.setVisibility(View.GONE);
@@ -267,8 +269,10 @@ public class RecipesListFragment extends Fragment {
                                 .load(recipe.getRecipeUrl())
                                 .into(recipeImage);
                     }
-                    else
-                        recipeImage.setImageBitmap(null);
+                    deleteBtn.setVisibility(View.VISIBLE);
+                    editBtn.setVisibility(View.VISIBLE);
+//                    else
+//                        recipeImage.setImageBitmap(null);
 
                 }
             }else if(!category.equals("") && recipe.getType() != null){
@@ -284,9 +288,10 @@ public class RecipesListFragment extends Fragment {
                         Picasso.get()
                                 .load(recipe.getRecipeUrl())
                                 .into(recipeImage);
+                    }else{
+                        recipeImage.setImageResource(R.drawable.empty);
+//                        recipeImage.setImageBitmap(null);
                     }
-                    else
-                        recipeImage.setImageBitmap(null);
                 }
             } else{
 
@@ -298,18 +303,20 @@ public class RecipesListFragment extends Fragment {
                     Picasso.get()
                             .load(recipe.getRecipeUrl())
                             .into(recipeImage);
-                }
-                else
+                }else{
+                    recipeImage.setImageResource(R.drawable.empty);
                     recipeImage.setImageBitmap(null);
+                }
 //                if(!recipe.getUsername().equals(firebaseUser.getDisplayName())){
-                if(!recipe.getUsername().equals(fullNameAsIdnew)){
+//                if(!recipe.getUsername().equals(fullNameAsIdnew)){
+                if(!recipe.getUsername().equals(Model.instance.getCurrentUsername())){
                     deleteBtn.setVisibility(View.GONE);
                     editBtn.setVisibility(View.GONE);
                 }
-                else{
-                    deleteBtn.setVisibility(View.VISIBLE);
-                    editBtn.setVisibility(View.VISIBLE);
-                }
+//                else{
+//                    deleteBtn.setVisibility(View.VISIBLE);
+//                    editBtn.setVisibility(View.VISIBLE);
+//                }
             }
         }
 
@@ -321,7 +328,7 @@ public class RecipesListFragment extends Fragment {
     }
     class MyAdapter extends RecyclerView.Adapter<RecipesListFragment.MyViewHolder> implements Filterable {
 
-        RecipesListFragment.OnItemClickListener listener;
+        OnItemClickListener listener;
 
         public void setOnItemClickListener(OnItemClickListener listener) {
             this.listener = listener;
@@ -344,6 +351,7 @@ public class RecipesListFragment extends Fragment {
             Recipe recipe = viewModel.getRecipes().getValue().get(position);
             //holder.tmp = recipe;
             //holder.nameTv.setText(recipe.getName());
+
             holder.bind(recipe);
 
         }
@@ -403,12 +411,17 @@ public class RecipesListFragment extends Fragment {
 //        }
 
     }
-    @Override
-    public void onPrepareOptionsMenu(@NonNull Menu menu) {
-        MenuItem item =menu.findItem(R.id.menu_myAccount);
-        item.setVisible(true);
-        super.onPrepareOptionsMenu(menu);
-    }
+//    @Override
+//    public void onPrepareOptionsMenu(@NonNull Menu menu) {
+//        MenuItem item =menu.findItem(R.id.menu_myAccount);
+//        item.setVisible(true);
+//        super.onPrepareOptionsMenu(menu);
+//    }
+//@Override
+//public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+//    super.onCreateOptionsMenu(menu, inflater);
+//    inflater.inflate(R.menu.search_menu,menu);
+//}
 
 
     @Override
@@ -438,46 +451,47 @@ public class RecipesListFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater)
     {
+        super.onCreateOptionsMenu(menu,inflater);
+
         inflater.inflate(R.menu.search_menu, menu);
 
 
-        MenuItem searchViewItem = menu.findItem(R.id.search_bar_menu);
-        SearchView searchView = (SearchView) searchViewItem.getActionView();
-        searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
-
-
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-
-
-            @Override
-            public boolean onQueryTextSubmit(String query)
-            {
-
-//                if (recipes.contains(query)) {
-//                    adapter.getFilter().filter(query);
+//        MenuItem searchViewItem = menu.findItem(R.id.search_bar_menu);
+//        SearchView searchView = (SearchView) searchViewItem.getActionView();
+//        searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
+//
+//
+//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+//
+//
+//            @Override
+//            public boolean onQueryTextSubmit(String query)
+//            {
+//
+////                if (recipes.contains(query)) {
+////                    adapter.getFilter().filter(query);
+////                }
+////                else {
+////                    // Search query not found in List View
+////                    Toast.makeText(RecipesListFragment.this, "Not found", Toast.LENGTH_LONG).show();
+////                }
+//
+//                return false;
+//            }
+//
+//            @Override
+//            public boolean onQueryTextChange(String newText)
+//            {
+//                adapter.getFilter().filter(newText);
+//
+//                if(newText.length()==0){
+//                    //list.addAll(viewModel.recipes.getValue());
+//
 //                }
-//                else {
-//                    // Search query not found in List View
-//                    Toast.makeText(RecipesListFragment.this, "Not found", Toast.LENGTH_LONG).show();
-//                }
+//                return false;
+//            }
+//        });
 
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText)
-            {
-                adapter.getFilter().filter(newText);
-
-                if(newText.length()==0){
-                    //list.addAll(viewModel.recipes.getValue());
-
-                }
-                return false;
-            }
-        });
-
-        super.onCreateOptionsMenu(menu,inflater);
     }
 }
 
