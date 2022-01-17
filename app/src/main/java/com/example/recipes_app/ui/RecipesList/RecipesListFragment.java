@@ -313,10 +313,10 @@ public class RecipesListFragment extends Fragment {
                     deleteBtn.setVisibility(View.GONE);
                     editBtn.setVisibility(View.GONE);
                 }
-//                else{
-//                    deleteBtn.setVisibility(View.VISIBLE);
-//                    editBtn.setVisibility(View.VISIBLE);
-//                }
+                else{
+                    deleteBtn.setVisibility(View.VISIBLE);
+                    editBtn.setVisibility(View.VISIBLE);
+                }
             }
         }
 
