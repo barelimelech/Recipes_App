@@ -7,47 +7,22 @@ android:layout_height="match_parent"
 tools:context=".ui.RecipesList.RecipesListFragment">
 
 
-    <Button
-        android:id="@+id/myaccount_add_btn"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="8dp"
-        android:backgroundTint="@android:color/transparent"
-
-        android:fontFamily="@font/boogaloo"
-        android:shadowColor="#00FFFFFF"
-        android:text="Add Recipe"
-        android:textColor="#3E260B"
-        android:textColorHighlight="#00FFFFFF"
-        android:textColorLink="#00231F1F"
-        app:layout_constraintBottom_toTopOf="@+id/recipeslist_swiperefresh"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.727" />
-
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/recipeslist_swiperefresh"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="90dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0">
+     >
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recipeslist_rv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:clipToPadding="false"
-            android:paddingBottom="60dp" />
+
+            />
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

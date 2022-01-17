@@ -55,14 +55,14 @@ public class MyAccountFragment extends Fragment {
         newRecipe = view.findViewById(R.id.myaccount_addrecipe_btn);
         newRecipe.setOnClickListener((v)->{
              //Navigation.findNavController(v).navigate(R.id.action_global_newRecipeFragment);
-            NavHostFragment.findNavController(this).navigate(MyAccountFragmentDirections.actionGlobalNewRecipeFragment(fullNameAsId));
+            NavHostFragment.findNavController(this).navigate(MyAccountFragmentDirections.actionGlobalNewRecipeFragment(Model.instance.getCurrentUsername()));
 
         });
 
         Button myRecipes = view.findViewById(R.id.myaccount_myrecipes_btn);
         myRecipes.setOnClickListener((v)->{
            // Navigation.findNavController(v).navigate(R.id.action_myAccount_nav_to_recipesListFragment);
-            NavHostFragment.findNavController(this).navigate(MyAccountFragmentDirections.actionMyAccountNavToRecipesListFragment(fullNameAsId,""));
+            NavHostFragment.findNavController(this).navigate(MyAccountFragmentDirections.actionMyAccountNavToRecipesListFragment(Model.instance.getCurrentUsername(), ""));
 
         });
         Button othersRecipes = view.findViewById(R.id.myaccount_othersrecipes_btn);
@@ -121,6 +121,24 @@ public class MyAccountFragment extends Fragment {
         super.onPrepareOptionsMenu(menu);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == R.id.logout_menu){
+            String currentUserEmail = Model.instance.getCurrentUserEmail();
+            Model.instance.getFirebaseAuth().signOut();
+            Model.instance.logout(currentUserEmail, new Model.LogoutUserListener() {
+                @Override
+                public void onComplete() {
+                    startActivity(new Intent(getActivity(), LoginActivity.class));
+                    getActivity().finish();
+                }
+            });
+
+            return true;
+        }else {
+            return super.onOptionsItemSelected(item);
+        }
+    }
     private void checkUser() {
         //FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
         if(Model.instance.getCurrentUser() == null){
