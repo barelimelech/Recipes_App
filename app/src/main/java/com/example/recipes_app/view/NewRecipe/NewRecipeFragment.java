@@ -1,4 +1,4 @@
-package com.example.recipes_app.ui.NewRecipe;
+package com.example.recipes_app.view.NewRecipe;
 
 import android.app.Activity;
 import android.content.Intent;

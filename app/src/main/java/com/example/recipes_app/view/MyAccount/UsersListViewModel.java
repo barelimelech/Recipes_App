@@ -1,4 +1,4 @@
-package com.example.recipes_app.ui.MyAccount;
+package com.example.recipes_app.view.MyAccount;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel;
 import com.example.recipes_app.model.Model;
 import com.example.recipes_app.model.Recipe;
 import com.example.recipes_app.model.User;
-import com.example.recipes_app.ui.RecipesList.RecipesListViewModel;
+import com.example.recipes_app.view.RecipesList.RecipesListViewModel;
 
 import java.util.ArrayList;
 import java.util.List;

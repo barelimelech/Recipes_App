@@ -1,4 +1,4 @@
-package com.example.recipes_app.ui.MyAccount;
+package com.example.recipes_app.view.MyAccount;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -27,7 +27,7 @@ import com.example.recipes_app.LoginActivity;
 import com.example.recipes_app.R;
 import com.example.recipes_app.model.Model;
 import com.example.recipes_app.model.User;
-import com.example.recipes_app.ui.RecipesList.RecipesListFragmentDirections;
+import com.example.recipes_app.view.RecipesList.RecipesListFragmentDirections;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;

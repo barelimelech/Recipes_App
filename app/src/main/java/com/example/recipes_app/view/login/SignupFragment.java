@@ -1,4 +1,4 @@
-package com.example.recipes_app;
+package com.example.recipes_app.view.login;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -18,6 +18,8 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.recipes_app.LoginActivity;
+import com.example.recipes_app.R;
 import com.example.recipes_app.model.Model;
 import com.example.recipes_app.model.User;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;

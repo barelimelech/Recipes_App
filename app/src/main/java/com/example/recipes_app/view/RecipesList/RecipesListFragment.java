@@ -1,4 +1,4 @@
-package com.example.recipes_app.ui.RecipesList;
+package com.example.recipes_app.view.RecipesList;
 
 import android.content.Context;
 import android.content.Intent;
@@ -31,8 +31,7 @@ import com.example.recipes_app.R;
 import com.example.recipes_app.databinding.FragmentRecipeBinding;
 import com.example.recipes_app.model.Model;
 import com.example.recipes_app.model.Recipe;
-import com.example.recipes_app.ui.MyAccount.UsersListViewModel;
-import com.google.firebase.auth.FirebaseAuth;
+import com.example.recipes_app.view.MyAccount.UsersListViewModel;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -49,8 +48,7 @@ public class RecipesListFragment extends Fragment {
     String category;
     ImageButton deleteRecipe;
 
-    private FirebaseAuth firebaseAuth;
-    UsersListViewModel usersListViewModel;
+    public UsersListViewModel usersListViewModel;
 
     private FragmentRecipeBinding binding;
 
@@ -65,6 +63,7 @@ public class RecipesListFragment extends Fragment {
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         viewModel = new ViewModelProvider(this).get(RecipesListViewModel.class);
+        usersListViewModel = new ViewModelProvider(this).get(UsersListViewModel.class);
 
     }
 
@@ -82,15 +81,7 @@ public class RecipesListFragment extends Fragment {
 //            name = Model.instance.getCurrentUsername();
 //        }
         //fullNameAsId = name;
-        Log.d("TAG", "lllllll " + fullNameAsId);
         binding = FragmentRecipeBinding.inflate(getLayoutInflater());
-
-        firebaseAuth = FirebaseAuth.getInstance();
-
-        //deleteRecipe = view.findViewById(R.id.recipe_listrow_delete);
-//        viewModel.deleteRecipe(recipe, ()->{
-//            Model.instance.refreshRecipeList();
-//        });
 
         swipeRefresh = view.findViewById(R.id.recipeslist_swiperefresh);
         swipeRefresh.setOnRefreshListener(() -> Model.instance.refreshRecipeList());
@@ -185,7 +176,7 @@ public class RecipesListFragment extends Fragment {
         TextView usernameBy;
         ImageButton deleteBtn, editBtn;
         ImageView recipeImage;
-        Recipe tmp;
+        List<Recipe> recipesL = usersListViewModel.getAllUserRecipes(Model.instance.getCurrentUsername());
 
 
 
@@ -196,7 +187,8 @@ public class RecipesListFragment extends Fragment {
             recipeImage = itemView.findViewById(R.id.recipe_listrow_image);
             deleteBtn = itemView.findViewById(R.id.recipe_listrow_delete);
             editBtn = itemView.findViewById(R.id.recipe_listrow_edit);
-          //  deleteBtn.setOnClickListener(this);
+
+            //  deleteBtn.setOnClickListener(this);
 
 //            if(!fullNameAsId.equals("")){
 //
@@ -251,7 +243,19 @@ public class RecipesListFragment extends Fragment {
 //                        .into(recipeImage);
 //            }
             recipeImage.setImageResource(R.drawable.cake);
-
+            if(!fullNameAsId.equals("")){
+                for(Recipe r: recipesL){
+                   if(r.equals(recipe)){
+                       nameTv.setText(recipe.getName());
+                       usernameBy.setText("By:  "+recipe.getUsername());
+                       if (recipe.getRecipeUrl() != null) {
+                           Picasso.get()
+                                   .load(recipe.getRecipeUrl())
+                                   .into(recipeImage);
+                       }
+                   }
+                }
+            }
 
             if(!fullNameAsId.equals("")&& recipe.getUsername() != null&&category.equals("")){
                 if(!recipe.getUsername().equals(fullNameAsId)){
@@ -265,11 +269,8 @@ public class RecipesListFragment extends Fragment {
                     usernameBy.setText("By:  "+recipe.getUsername());
                    // recipeImage.setImageResource(R.drawable.cake);
                    // binding.recipeDetailsEditBtn.findViewById(R.id.recipeDetails_edit_btn).setVisibility(View.GONE);
-                    if (recipe.getRecipeUrl() != null) {
-                        Picasso.get()
-                                .load(recipe.getRecipeUrl())
-                                .into(recipeImage);
-                    }
+                    nameTv.setText(recipe.getName());
+                    usernameBy.setText("By:  "+recipe.getUsername());
                     deleteBtn.setVisibility(View.VISIBLE);
                     editBtn.setVisibility(View.VISIBLE);
 //                    else
@@ -352,9 +353,6 @@ public class RecipesListFragment extends Fragment {
         @Override
         public void onBindViewHolder(@NonNull RecipesListFragment.MyViewHolder holder, int position) {
             Recipe recipe = viewModel.getRecipes().getValue().get(position);
-            //holder.tmp = recipe;
-            //holder.nameTv.setText(recipe.getName());
-
             holder.bind(recipe);
 
         }
@@ -459,8 +457,8 @@ public class RecipesListFragment extends Fragment {
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater)
     {
         super.onCreateOptionsMenu(menu,inflater);
+        inflater.inflate(R.menu.myaccount_menu,menu);
 
-        inflater.inflate(R.menu.search_menu, menu);
         inflater.inflate(R.menu.add_recipe_menu,menu);
 
 

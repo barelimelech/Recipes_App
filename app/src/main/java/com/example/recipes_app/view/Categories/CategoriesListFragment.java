@@ -1,4 +1,4 @@
-package com.example.recipes_app.ui.Categories;
+package com.example.recipes_app.view.Categories;
 
 import android.os.Bundle;
 import android.util.Log;

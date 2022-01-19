@@ -1,4 +1,4 @@
-package com.example.recipes_app.ui.MyAccount;
+package com.example.recipes_app.view.MyAccount;
 
 import android.content.Intent;
 import android.os.Bundle;

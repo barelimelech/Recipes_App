@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background1"
-    tools:context=".ui.EditRecipe.EditRecipeFragment">
+    tools:context=".view.EditRecipe.EditRecipeFragment">
 
     <TextView
         android:id="@+id/editrecipe_username_tv2"

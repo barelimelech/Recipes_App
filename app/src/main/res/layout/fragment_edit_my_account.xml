@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/background1"
 
-    tools:context=".ui.MyAccount.EditMyAccountFragment">
+    tools:context=".view.MyAccount.EditMyAccountFragment">
 
     <ImageView
         android:id="@+id/editmyaccount_image_recipe"
@@ -23,12 +23,14 @@
         android:id="@+id/deleteImg_btn3"
         android:layout_width="21dp"
         android:layout_height="24dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="20dp"
 
         android:background="#0000"
         android:src="@android:drawable/ic_menu_delete"
         app:layout_constraintBottom_toTopOf="@+id/editUser_camera_btn"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.505"
+        app:layout_constraintStart_toEndOf="@+id/editmyaccount_image_recipe" />
 
     <ImageButton
         android:id="@+id/editUser_gallery_btn"
@@ -39,17 +41,24 @@
         app:layout_constraintBottom_toBottomOf="@+id/editmyaccount_image_recipe"
         app:layout_constraintEnd_toStartOf="@+id/editmyaccount_image_recipe"
         app:layout_constraintHorizontal_bias="0.4"
-        app:layout_constraintStart_toStartOf="parent" />/>
+        app:layout_constraintStart_toStartOf="parent" /><![CDATA[/>
+
+
+
+
+
+    ]]>
 
     <ImageButton
         android:id="@+id/editUser_camera_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:background="#0000"
         android:src="@drawable/ic_menu_camera"
         app:layout_constraintBottom_toBottomOf="@+id/editmyaccount_image_recipe"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.584"
+        app:layout_constraintHorizontal_bias="0.524"
         app:layout_constraintStart_toEndOf="@+id/editmyaccount_image_recipe" />
 
     <TextView
@@ -66,7 +75,6 @@
         android:textStyle="bold"
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="1dp" />
-
 
 
     <TextView
@@ -130,7 +138,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="28dp"
         android:text="Full name: "
         android:textColor="#3E260B"
         android:textSize="24sp"
@@ -170,15 +178,6 @@
         app:layout_constraintStart_toEndOf="@+id/textView10"
         app:layout_constraintTop_toTopOf="@+id/textView10" />
 
-    <TextView
-        android:id="@+id/editmyaccount_email_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
-        android:text="TextView"
-        app:layout_constraintTop_toBottomOf="@+id/editmyaccount_image_recipe"
-        tools:layout_editor_absoluteX="85dp" />
-
     <Button
         android:id="@+id/editmyaccount_cancel_btn"
         android:layout_width="wrap_content"
@@ -191,5 +190,31 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView71"
         app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="Email:"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toStartOf="@+id/editmyaccount_email_tv"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editmyaccount_image_recipe" />
+
+    <TextView
+        android:id="@+id/editmyaccount_email_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="TextView"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/textView2"
+        app:layout_constraintTop_toTopOf="@+id/textView2"
+        app:layout_constraintVertical_bias="1.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

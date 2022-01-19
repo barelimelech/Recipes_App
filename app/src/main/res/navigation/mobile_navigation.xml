@@ -8,7 +8,7 @@
 
     <fragment
         android:id="@+id/categoriesListFragment"
-        android:name="com.example.recipes_app.ui.Categories.CategoriesListFragment"
+        android:name="com.example.recipes_app.view.Categories.CategoriesListFragment"
         android:label="Categories List"
         tools:layout="@layout/fragment_categories_list" >
 
@@ -21,7 +21,7 @@
     </fragment>
     <fragment
         android:id="@+id/recipesListFragment"
-        android:name="com.example.recipes_app.ui.RecipesList.RecipesListFragment"
+        android:name="com.example.recipes_app.view.RecipesList.RecipesListFragment"
         android:label="Recipes List"
         tools:layout="@layout/fragment_recipes_list">
         <action
@@ -42,7 +42,7 @@
     </fragment>
     <fragment
         android:id="@+id/recipeFragment"
-        android:name="com.example.recipes_app.ui.RecipeDetails.RecipeDetailsFragment"
+        android:name="com.example.recipes_app.view.RecipeDetails.RecipeDetailsFragment"
         android:label="Recipe"
         tools:layout="@layout/fragment_recipe">
         <action
@@ -57,7 +57,7 @@
     </fragment>
     <fragment
         android:id="@+id/editRecipeFragment"
-        android:name="com.example.recipes_app.ui.EditRecipe.EditRecipeFragment"
+        android:name="com.example.recipes_app.view.EditRecipe.EditRecipeFragment"
         android:label="Edit Recipe"
         tools:layout="@layout/fragment_edit_recipe" >
         <argument
@@ -69,7 +69,7 @@
     </fragment>
     <fragment
         android:id="@+id/myAccount_nav"
-        android:name="com.example.recipes_app.ui.MyAccount.MyAccountFragment"
+        android:name="com.example.recipes_app.view.MyAccount.MyAccountFragment"
         android:label="My Account"
         tools:layout="@layout/fragment_my_account">
         <action
@@ -87,7 +87,7 @@
     </fragment>
     <fragment
         android:id="@+id/newRecipeFragment"
-        android:name="com.example.recipes_app.ui.NewRecipe.NewRecipeFragment"
+        android:name="com.example.recipes_app.view.NewRecipe.NewRecipeFragment"
         android:label="New Recipe"
         tools:layout="@layout/fragment_new_recipe" >
         <argument
@@ -98,7 +98,7 @@
     <action android:id="@+id/action_global_newRecipeFragment" app:destination="@id/newRecipeFragment" />
     <fragment
         android:id="@+id/editMyAccountFragment"
-        android:name="com.example.recipes_app.ui.MyAccount.EditMyAccountFragment"
+        android:name="com.example.recipes_app.view.MyAccount.EditMyAccountFragment"
         android:label="Edit"
         tools:layout="@layout/fragment_edit_my_account">
         <argument
