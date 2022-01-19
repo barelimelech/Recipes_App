@@ -1,7 +1,6 @@
 package com.example.recipes_app.ui.MyAccount;
 
 import android.content.Intent;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -56,6 +55,11 @@ public class MyAccountFragment extends Fragment {
                 if(user.getUserUrl()!=null) {
                     Picasso.get().load(user.getUserUrl()).into(userImage);
                 }
+            }
+
+            @Override
+            public void onFailure() {
+
             }
         });
 

@@ -16,7 +16,7 @@
            />
         <item
             android:id="@+id/newRecipeFragment"
-            android:icon="@drawable/add"
+            android:icon="@drawable/plus"
             android:title="Add"
          />
 

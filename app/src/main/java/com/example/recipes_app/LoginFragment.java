@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
@@ -43,28 +44,43 @@ public class LoginFragment extends Fragment {
             //TODO - connect to model login function
             String email = emailTv.getText().toString();
             String password = passwordTv.getText().toString();
-            Model.instance.getUserByEmail(email, new Model.GetUserByEmail() {
-                @Override
-                public void onComplete(User user) {
-                    User newUser = user;
-                    newUser.setIsConnected("true");
-                    Model.instance.editUser(newUser, new Model.EditUserListener() {
-                        @Override
-                        public void onComplete() {
-                            boolean bool = save();
-                            if(bool == true) {
-                                Model.instance.signIn(user,email, password, new Model.SigninUserListener() {
-                                    @Override
-                                    public void onComplete() {
-                                        toFeedActivity();
-                                    }
-                                });
-                            }
-                        }
-                    });
+            boolean b = check();
+            if(b) {
+                Model.instance.getUserByEmail(email, new Model.GetUserByEmail() {
+                    @Override
+                    public void onComplete(User user) {
+                        User newUser = user;
+                        newUser.setIsConnected("true");
+                        Model.instance.editUser(newUser, new Model.EditUserListener() {
+                            @Override
+                            public void onComplete() {
+                                boolean bool = save();
+                                if (bool == true) {
+                                    Model.instance.signIn(user, email, password, new Model.SigninUserListener() {
+                                        @Override
+                                        public void onComplete() {
+                                            toFeedActivity();
+                                        }
 
-                }
-            });
+                                        @Override
+                                        public void onFailure() {
+                                            Toast.makeText(getActivity(), "Email or password is not correct.", Toast.LENGTH_LONG).show();
+
+                                        }
+                                    });
+                                }
+                            }
+                        });
+
+                    }
+
+                    @Override
+                    public void onFailure() {
+                        Toast.makeText(getActivity(), "Email or password is not correct.", Toast.LENGTH_LONG).show();
+
+                    }
+                });
+            }
 
 
             //            String uId = Model.instance.getUserId();
@@ -190,7 +206,25 @@ public class LoginFragment extends Fragment {
 //
 //
 
+    private boolean check(){
+        String email = emailTv.getText().toString();
+        String password = passwordTv.getText().toString();
+        if (TextUtils.isEmpty(email)){
+            emailTv.setError("Please Enter email :)");
+            return false;
 
+        }else if(!email.contains("@")){
+            emailTv.setError("Email must contain '@' :)");
+
+            return false;
+
+        }else if(TextUtils.isEmpty(password)){
+            passwordTv.setError("Please Enter password :)");
+            return false;
+
+        }
+        return true;
+    }
     private boolean save() {
         //signUpBtn.setEnabled(false);
         String email = emailTv.getText().toString();

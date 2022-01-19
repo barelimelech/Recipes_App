@@ -414,16 +414,16 @@ public class RecipesListFragment extends Fragment {
 //        }
 
     }
-//    @Override
-//    public void onPrepareOptionsMenu(@NonNull Menu menu) {
-//        MenuItem item =menu.findItem(R.id.menu_myAccount);
-//        item.setVisible(true);
-//        super.onPrepareOptionsMenu(menu);
-//    }
+    @Override
+    public void onPrepareOptionsMenu(@NonNull Menu menu) {
+        MenuItem item =menu.findItem(R.id.newRecipeFragment_menu);
+        item.setVisible(true);
+        super.onPrepareOptionsMenu(menu);
+    }
 //@Override
 //public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
 //    super.onCreateOptionsMenu(menu, inflater);
-//    inflater.inflate(R.menu.search_menu,menu);
+//    inflater.inflate(R.menu.add_recipe_menu,menu);
 //}
 
 
@@ -445,6 +445,10 @@ public class RecipesListFragment extends Fragment {
             });
 
             return true;
+        }else if(item.getItemId() == R.id.newRecipeFragment_menu){
+            NavHostFragment.findNavController(this).navigate(RecipesListFragmentDirections.actionRecipesListFragmentToNewRecipeFragment(Model.instance.getCurrentUsername()));
+
+            return true;
         }
         else {
             return super.onOptionsItemSelected(item);
@@ -457,6 +461,7 @@ public class RecipesListFragment extends Fragment {
         super.onCreateOptionsMenu(menu,inflater);
 
         inflater.inflate(R.menu.search_menu, menu);
+        inflater.inflate(R.menu.add_recipe_menu,menu);
 
 
 //        MenuItem searchViewItem = menu.findItem(R.id.search_bar_menu);

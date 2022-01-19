@@ -314,7 +314,7 @@ public class Model {
 
     public interface SigninUserListener{
         void onComplete();
-
+        void onFailure();
     }
     public interface LogoutUserListener{
         void onComplete();
@@ -338,10 +338,18 @@ public class Model {
     }
 
     public void signIn(User user,String email, String password, SigninUserListener listener){
-        modelFirebase.signIn(user,email,password,()->{
-            user.setIsConnected("true");
-            listener.onComplete();
-            refreshUserList();
+        modelFirebase.signIn(user, email, password, new SigninUserListener() {
+            @Override
+            public void onComplete() {
+                user.setIsConnected("true");
+                listener.onComplete();
+                refreshUserList();
+            }
+
+            @Override
+            public void onFailure() {
+                listener.onFailure();
+            }
         });
     }
 
@@ -355,6 +363,7 @@ public class Model {
     }
     public interface GetUserByEmail {
         void onComplete(User user);
+        void onFailure();
     }
 
     public interface GetUserById {

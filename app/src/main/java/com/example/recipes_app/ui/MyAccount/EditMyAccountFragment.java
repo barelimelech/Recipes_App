@@ -82,6 +82,11 @@ public class EditMyAccountFragment extends Fragment {
                 }
                 imageBitmap = ((BitmapDrawable)userImage.getDrawable()).getBitmap();
             }
+
+            @Override
+            public void onFailure() {
+
+            }
         });
 
         userImage.setImageBitmap(imageBitmap);
