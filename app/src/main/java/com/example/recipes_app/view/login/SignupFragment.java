@@ -41,7 +41,7 @@ public class SignupFragment extends Fragment {
     EditText phone;
 
     Bitmap imageBitmap;
-    ImageView recipeImage;
+    ImageView userImage;
     ImageButton galleryBtn;
     ImageButton camBtn;
 
@@ -69,7 +69,7 @@ public class SignupFragment extends Fragment {
        // loginBtn =view.findViewById(R.id.signup22_login_btn);
         fullName = view.findViewById(R.id.signup22_fullname_tv);
         phone = view.findViewById(R.id.signup22_phone_tv);
-        recipeImage = view.findViewById(R.id.singup_image_user);
+        userImage = view.findViewById(R.id.singup_image_user);
 
         signUpBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,7 +128,7 @@ public class SignupFragment extends Fragment {
             if(resultCode== Activity.RESULT_OK){
                 Bundle extras = data.getExtras();
                 imageBitmap = (Bitmap) extras.get("data");
-                recipeImage.setImageBitmap(imageBitmap);
+                userImage.setImageBitmap(imageBitmap);
 
             }
         }
@@ -138,7 +138,7 @@ public class SignupFragment extends Fragment {
                 if (data != null) {
                     try {
                         imageBitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), data.getData());
-                        recipeImage.setImageBitmap(imageBitmap);
+                        userImage.setImageBitmap(imageBitmap);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }

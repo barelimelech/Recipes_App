@@ -446,6 +446,12 @@ public class RecipesListFragment extends Fragment {
 
             return true;
         }
+        else if(item.getItemId() == R.id.newRecipeFragment_menu){
+            Log.d("TAG", "ADD...");
+            NavHostFragment.findNavController(this).navigate(RecipesListFragmentDirections.actionRecipesListFragmentToNewRecipeFragment(Model.instance.getCurrentUsername()));
+            return true;
+        }
+
         else {
             return super.onOptionsItemSelected(item);
         }

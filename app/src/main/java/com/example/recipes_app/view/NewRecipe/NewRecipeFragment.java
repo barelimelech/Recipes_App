@@ -69,12 +69,12 @@ public class NewRecipeFragment extends Fragment{
         username = view.findViewById(R.id.newRec_username_tv);
         //categories = Model.instance.getAllCategories();
         initSpinnerFooter();
-        recipeImage = view.findViewById(R.id.editmyaccount_image_recipe);
+        recipeImage = view.findViewById(R.id.newRecipe_image_recipe);
         username.setText(usernameAsId);
         cancelBtn = view.findViewById(R.id.newRec_cancel_btn);
         //progressBar = view.findViewById(R.id.main_progressbar);
         //progressBar.setVisibility(View.GONE);
-
+        recipeImage.setImageResource(R.drawable.cake);
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
