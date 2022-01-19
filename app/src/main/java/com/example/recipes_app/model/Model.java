@@ -163,8 +163,12 @@ public class Model {
         recipeListLoadingState.setValue(RecipeListLoadingState.loading);
 
         //get last local update date
-        //צריך לשבת בRecipe
         Long lastUpdateDate = MyApplication.getContext().getSharedPreferences("TAG", Context.MODE_PRIVATE).getLong("RecipeLastUpdateDate", 0);
+//
+//        executor.execute(() -> {
+//            List<Recipe> stList = AppLocalDb.db.recipeDao().getAll();
+//            recipesList.postValue(stList);
+//        });
 
         //firebase get all updates since lastLocalUpdateDate
         modelFirebase.getAllRecipes(lastUpdateDate, new ModelFirebase.GetAllRecipesListener() {

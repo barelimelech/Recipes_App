@@ -250,6 +250,7 @@ public class RecipesListFragment extends Fragment {
 //                        .load(recipe.getRecipeUrl())
 //                        .into(recipeImage);
 //            }
+            recipeImage.setImageResource(R.drawable.cake);
 
 
             if(!fullNameAsId.equals("")&& recipe.getUsername() != null&&category.equals("")){
@@ -288,10 +289,11 @@ public class RecipesListFragment extends Fragment {
                         Picasso.get()
                                 .load(recipe.getRecipeUrl())
                                 .into(recipeImage);
-                    }else{
-                        recipeImage.setImageResource(R.drawable.empty);
-//                        recipeImage.setImageBitmap(null);
                     }
+//                    else{
+//                        recipeImage.setImageResource(R.drawable.empty);
+////                        recipeImage.setImageBitmap(null);
+//                    }
                 }
             } else{
 
@@ -303,10 +305,11 @@ public class RecipesListFragment extends Fragment {
                     Picasso.get()
                             .load(recipe.getRecipeUrl())
                             .into(recipeImage);
-                }else{
-                    recipeImage.setImageResource(R.drawable.empty);
-                    recipeImage.setImageBitmap(null);
                 }
+//                else{
+//                    recipeImage.setImageResource(R.drawable.empty);
+//                    recipeImage.setImageBitmap(null);
+//                }
 //                if(!recipe.getUsername().equals(firebaseUser.getDisplayName())){
 //                if(!recipe.getUsername().equals(fullNameAsIdnew)){
                 if(!recipe.getUsername().equals(Model.instance.getCurrentUsername())){
