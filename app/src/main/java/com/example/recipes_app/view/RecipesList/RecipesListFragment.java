@@ -32,6 +32,7 @@ import com.example.recipes_app.databinding.FragmentRecipeBinding;
 import com.example.recipes_app.model.Model;
 import com.example.recipes_app.model.Recipe;
 import com.example.recipes_app.view.MyAccount.UsersListViewModel;
+import com.google.firebase.auth.FirebaseAuth;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -48,7 +49,8 @@ public class RecipesListFragment extends Fragment {
     String category;
     ImageButton deleteRecipe;
 
-    public UsersListViewModel usersListViewModel;
+    private FirebaseAuth firebaseAuth;
+    UsersListViewModel usersListViewModel;
 
     private FragmentRecipeBinding binding;
 
@@ -63,7 +65,6 @@ public class RecipesListFragment extends Fragment {
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         viewModel = new ViewModelProvider(this).get(RecipesListViewModel.class);
-        usersListViewModel = new ViewModelProvider(this).get(UsersListViewModel.class);
 
     }
 
@@ -81,7 +82,15 @@ public class RecipesListFragment extends Fragment {
 //            name = Model.instance.getCurrentUsername();
 //        }
         //fullNameAsId = name;
+        Log.d("TAG", "lllllll " + fullNameAsId);
         binding = FragmentRecipeBinding.inflate(getLayoutInflater());
+
+        firebaseAuth = FirebaseAuth.getInstance();
+
+        //deleteRecipe = view.findViewById(R.id.recipe_listrow_delete);
+//        viewModel.deleteRecipe(recipe, ()->{
+//            Model.instance.refreshRecipeList();
+//        });
 
         swipeRefresh = view.findViewById(R.id.recipeslist_swiperefresh);
         swipeRefresh.setOnRefreshListener(() -> Model.instance.refreshRecipeList());
@@ -166,7 +175,7 @@ public class RecipesListFragment extends Fragment {
 
     private void refresh() {
         adapter.notifyDataSetChanged();
-       // swipeRefresh.setRefreshing(false);
+        // swipeRefresh.setRefreshing(false);
     }
 
 
@@ -176,7 +185,7 @@ public class RecipesListFragment extends Fragment {
         TextView usernameBy;
         ImageButton deleteBtn, editBtn;
         ImageView recipeImage;
-        List<Recipe> recipesL = usersListViewModel.getAllUserRecipes(Model.instance.getCurrentUsername());
+        Recipe tmp;
 
 
 
@@ -187,7 +196,6 @@ public class RecipesListFragment extends Fragment {
             recipeImage = itemView.findViewById(R.id.recipe_listrow_image);
             deleteBtn = itemView.findViewById(R.id.recipe_listrow_delete);
             editBtn = itemView.findViewById(R.id.recipe_listrow_edit);
-
             //  deleteBtn.setOnClickListener(this);
 
 //            if(!fullNameAsId.equals("")){
@@ -243,19 +251,7 @@ public class RecipesListFragment extends Fragment {
 //                        .into(recipeImage);
 //            }
             recipeImage.setImageResource(R.drawable.cake);
-            if(!fullNameAsId.equals("")){
-                for(Recipe r: recipesL){
-                   if(r.equals(recipe)){
-                       nameTv.setText(recipe.getName());
-                       usernameBy.setText("By:  "+recipe.getUsername());
-                       if (recipe.getRecipeUrl() != null) {
-                           Picasso.get()
-                                   .load(recipe.getRecipeUrl())
-                                   .into(recipeImage);
-                       }
-                   }
-                }
-            }
+
 
             if(!fullNameAsId.equals("")&& recipe.getUsername() != null&&category.equals("")){
                 if(!recipe.getUsername().equals(fullNameAsId)){
@@ -267,10 +263,13 @@ public class RecipesListFragment extends Fragment {
                 else{
                     nameTv.setText(recipe.getName());
                     usernameBy.setText("By:  "+recipe.getUsername());
-                   // recipeImage.setImageResource(R.drawable.cake);
-                   // binding.recipeDetailsEditBtn.findViewById(R.id.recipeDetails_edit_btn).setVisibility(View.GONE);
-                    nameTv.setText(recipe.getName());
-                    usernameBy.setText("By:  "+recipe.getUsername());
+                    // recipeImage.setImageResource(R.drawable.cake);
+                    // binding.recipeDetailsEditBtn.findViewById(R.id.recipeDetails_edit_btn).setVisibility(View.GONE);
+                    if (recipe.getRecipeUrl() != null) {
+                        Picasso.get()
+                                .load(recipe.getRecipeUrl())
+                                .into(recipeImage);
+                    }
                     deleteBtn.setVisibility(View.VISIBLE);
                     editBtn.setVisibility(View.VISIBLE);
 //                    else
@@ -300,7 +299,7 @@ public class RecipesListFragment extends Fragment {
 
                 nameTv.setText(recipe.getName());
                 usernameBy.setText("By:  " + recipe.getUsername());
-               // binding.recipeDetailsEditBtn.findViewById(R.id.recipeDetails_edit_btn).setVisibility(View.GONE);
+                // binding.recipeDetailsEditBtn.findViewById(R.id.recipeDetails_edit_btn).setVisibility(View.GONE);
 
                 if (recipe.getRecipeUrl() != null) {
                     Picasso.get()
@@ -353,6 +352,9 @@ public class RecipesListFragment extends Fragment {
         @Override
         public void onBindViewHolder(@NonNull RecipesListFragment.MyViewHolder holder, int position) {
             Recipe recipe = viewModel.getRecipes().getValue().get(position);
+            //holder.tmp = recipe;
+            //holder.nameTv.setText(recipe.getName());
+
             holder.bind(recipe);
 
         }
@@ -412,16 +414,16 @@ public class RecipesListFragment extends Fragment {
 //        }
 
     }
-    @Override
-    public void onPrepareOptionsMenu(@NonNull Menu menu) {
-        MenuItem item =menu.findItem(R.id.newRecipeFragment_menu);
-        item.setVisible(true);
-        super.onPrepareOptionsMenu(menu);
-    }
+//    @Override
+//    public void onPrepareOptionsMenu(@NonNull Menu menu) {
+//        MenuItem item =menu.findItem(R.id.menu_myAccount);
+//        item.setVisible(true);
+//        super.onPrepareOptionsMenu(menu);
+//    }
 //@Override
 //public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
 //    super.onCreateOptionsMenu(menu, inflater);
-//    inflater.inflate(R.menu.add_recipe_menu,menu);
+//    inflater.inflate(R.menu.search_menu,menu);
 //}
 
 
@@ -443,10 +445,6 @@ public class RecipesListFragment extends Fragment {
             });
 
             return true;
-        }else if(item.getItemId() == R.id.newRecipeFragment_menu){
-            NavHostFragment.findNavController(this).navigate(RecipesListFragmentDirections.actionRecipesListFragmentToNewRecipeFragment(Model.instance.getCurrentUsername()));
-
-            return true;
         }
         else {
             return super.onOptionsItemSelected(item);
@@ -457,9 +455,9 @@ public class RecipesListFragment extends Fragment {
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater)
     {
         super.onCreateOptionsMenu(menu,inflater);
-        inflater.inflate(R.menu.myaccount_menu,menu);
 
-        inflater.inflate(R.menu.add_recipe_menu,menu);
+        inflater.inflate(R.menu.myaccount_menu, menu);
+        inflater.inflate(R.menu.add_recipe_menu, menu);
 
 
 //        MenuItem searchViewItem = menu.findItem(R.id.search_bar_menu);
@@ -500,5 +498,3 @@ public class RecipesListFragment extends Fragment {
 
     }
 }
-
-
