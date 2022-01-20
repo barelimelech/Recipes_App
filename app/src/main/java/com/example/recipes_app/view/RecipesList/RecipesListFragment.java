@@ -125,7 +125,7 @@ public class RecipesListFragment extends Fragment {
                         Model.instance.refreshRecipeList();
                     });
                 }else if(v.findViewById(R.id.recipe_listrow_edit).getId()==viewId){
-                    Navigation.findNavController(v).navigate(RecipesListFragmentDirections.actionRecipesListFragmentToEditRecipeFragment(id,username));
+                    Navigation.findNavController(v).navigate(RecipesListFragmentDirections.actionRecipesListFragmentToEditRecipeFragment(id,username,type));
 
                 }else{
                     String recipeNameAsId = viewModel.getRecipes().getValue().get(position).getId();

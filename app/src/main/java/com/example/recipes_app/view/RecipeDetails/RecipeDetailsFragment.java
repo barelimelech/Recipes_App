@@ -16,7 +16,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.recipes_app.LoginActivity;
 import com.example.recipes_app.R;
@@ -122,7 +121,7 @@ public class RecipeDetailsFragment extends Fragment {
         if (item.getItemId() == R.id.EditRecipeFragment){
             Log.d("TAG","edit...");
             //NavHostFragment.findNavController(this).navigate(RecipeDetailsFragmentDirections.actionRecipeFragmentToEditRecipeFragment(recipeNameAsId));
-            NavHostFragment.findNavController(this).navigate(RecipeDetailsFragmentDirections.actionRecipeFragmentToEditRecipeFragment(recipeNameAsId,usernameAsId));
+            //NavHostFragment.findNavController(this).navigate(RecipeDetailsFragmentDirections.actionRecipeFragmentToEditRecipeFragment(recipeNameAsId,usernameAsId,""));
             return true;
         }else if(item.getItemId() == R.id.logout_menu){
             String currentUserEmail = Model.instance.getCurrentUserEmail();

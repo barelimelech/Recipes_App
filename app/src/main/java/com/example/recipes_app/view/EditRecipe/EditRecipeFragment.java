@@ -67,6 +67,7 @@ public class EditRecipeFragment extends Fragment {
         View view =  inflater.inflate(R.layout.fragment_edit_recipe, container, false);
         recipeNameAsId = EditRecipeFragmentArgs.fromBundle(getArguments()).getRecipeId();
         usernameAsId = EditRecipeFragmentArgs.fromBundle(getArguments()).getUsername();
+        selectedCategory = EditRecipeFragmentArgs.fromBundle(getArguments()).getCategory();
         recipeName = view.findViewById(R.id.editrecipe_name_tv);
         recipeMethod= view.findViewById(R.id.editrecipe_method_tv);
         recipeIngredients= view.findViewById(R.id.editrecipe_ingredients_yv);
@@ -326,30 +327,38 @@ public class EditRecipeFragment extends Fragment {
 //        })
     }
 
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        Model.instance.getUserById(userId, new Model.GetUserById() {
-//            @Override
-//            public void onComplete(User user) {
-//                myLocation = user.getLocation();
-//                switch (myLocation) {
-//                    case "Center":
-//                        locationPos = 0;
-//                        break;
-//
-//                    case "North":
-//                        locationPos = 1;
-//                        break;
-//
-//                    case "South":
-//                        locationPos = 2;
-//                        break;
-//
-//                }
-//                locationSpinner.setSelection(locationPos);
-//            }
-//        });
-//    }
+    @Override
+    public void onResume() {
+      super.onResume();
+        String  myCategory;
+        int categoryPos = -1;
+
+        myCategory = selectedCategory;
+        if(myCategory != null) {
+            switch (myCategory) {
+                case "Desserts":
+                    categoryPos = 0;
+                    break;
+
+                case "Breakfast":
+                    categoryPos = 1;
+                    break;
+
+                case "Lunch":
+                    categoryPos = 2;
+                    break;
+
+                case "Dinner":
+                    categoryPos = 3;
+                    break;
+
+                case "Holidays":
+                    categoryPos = 4;
+                    break;
+
+            }
+        }
+        categoriesSpinner.setSelection(categoryPos);
+    }
 
 }

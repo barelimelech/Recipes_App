@@ -66,6 +66,9 @@
         <argument
             android:name="username"
             app:argType="string" />
+        <argument
+            android:name="category"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/myAccount_nav"
