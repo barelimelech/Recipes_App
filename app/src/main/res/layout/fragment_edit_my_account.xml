@@ -10,14 +10,15 @@
 
     <ImageView
         android:id="@+id/editmyaccount_image_recipe"
-        android:layout_width="200dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="36dp"
-        android:src="@drawable/empty"
+        android:layout_width="163dp"
+        android:layout_height="104dp"
+        android:layout_marginTop="12dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView110" />
+        app:layout_constraintTop_toBottomOf="@+id/textView110"
+        app:srcCompat="@drawable/avatar"
+        />
 
     <ImageButton
         android:id="@+id/deleteImg_btn3"
@@ -61,20 +62,26 @@
         app:layout_constraintHorizontal_bias="0.524"
         app:layout_constraintStart_toEndOf="@+id/editmyaccount_image_recipe" />
 
+
     <TextView
         android:id="@+id/textView110"
         android:layout_width="408dp"
-        android:layout_height="100dp"
+        android:layout_height="136dp"
 
-        android:layout_marginTop="44dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="595dp"
         android:fontFamily="@font/paprika"
         android:gravity="center"
         android:text="Edit My Account"
         android:textColor="#3E260B"
-        android:textSize="34sp"
+        android:textSize="45sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.333"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="1dp" />
+        app:layout_constraintVertical_bias="0.0" />
 
 
     <TextView

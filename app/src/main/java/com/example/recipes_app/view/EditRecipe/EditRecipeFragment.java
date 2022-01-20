@@ -89,6 +89,9 @@ public class EditRecipeFragment extends Fragment {
                 if(recipe.getRecipeUrl()!=null){
                     Picasso.get().load(recipe.getRecipeUrl()).into(recipeImage);
                 }
+                else{
+                    recipeImage.setImageResource(R.drawable.cake);
+                }
                 imageBitmap = ((BitmapDrawable)recipeImage.getDrawable()).getBitmap();
             }
         });
@@ -163,6 +166,7 @@ public class EditRecipeFragment extends Fragment {
     private void deleteImage() {
         imageBitmap = null;
         recipeImage.setImageBitmap(null);
+        recipeImage.setImageResource(R.drawable.cake);
         Model.instance.refreshRecipeList();
     }
 

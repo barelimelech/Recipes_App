@@ -79,8 +79,13 @@ public class EditMyAccountFragment extends Fragment {
                 email.setText(user.getEmail());
                 if(user.getUserUrl()!=null){
                     Picasso.get().load(user.getUserUrl()).into(userImage);
+                    imageBitmap = ((BitmapDrawable)userImage.getDrawable()).getBitmap();
                 }
-                imageBitmap = ((BitmapDrawable)userImage.getDrawable()).getBitmap();
+                else{
+                    userImage.setImageResource(R.drawable.avatar);
+                }
+
+
             }
 
             @Override
@@ -156,6 +161,7 @@ public class EditMyAccountFragment extends Fragment {
     private void deleteImage() {
         imageBitmap = null;
         userImage.setImageBitmap(null);
+        userImage.setImageResource(R.drawable.avatar);
     }
 
     private void openGallery() {
