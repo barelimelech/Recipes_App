@@ -155,20 +155,22 @@ public class SignupFragment extends Fragment {
         String password = passwordTv.getText().toString();
         String phone1 = phone.getText().toString();
         String fullName2 = fullName.getText().toString();
-        if (TextUtils.isEmpty(email)){
-            emailTv.setError("Please Enter email :)");
 
+        if(TextUtils.isEmpty(fullName2)) {
+            fullName.setError("Please Enter full name :)");
+        }else if(TextUtils.isEmpty(phone1)) {
+            phone.setError("Please Enter phone number :)");
+        }else if (phone1.length() < 10) {
+            phone.setError("Phone must be 10 or more characters");
+        } else if (TextUtils.isEmpty(email)){
+            emailTv.setError("Please Enter email :)");
+        }else if(!email.contains("@")){
+            emailTv.setError("Email must contain '@' :)");
         }else if(TextUtils.isEmpty(password)){
             passwordTv.setError("Please Enter password :)");
-
-        }else if(TextUtils.isEmpty(phone1)){
-            phone.setError("Please Enter phone number :)");
-
-        }else if(TextUtils.isEmpty(fullName2)){
-            fullName.setError("Please Enter full name :)");
-
-        }
-        else {
+        }else if (password.length() < 6) {
+            passwordTv.setError("Password must be 6 or more characters");
+        } else {
             User user = new User(fullName2, phone1, email, "0");
             if (imageBitmap == null) {
                 Model.instance.addUser(user, email, password, () -> {
