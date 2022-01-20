@@ -7,7 +7,6 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
@@ -279,16 +278,10 @@ public class ModelFirebase {
         db.collection(User.COLLECTION_NAME)
                 .whereEqualTo("email",email)
                 .get()
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-
-                    }
-                })
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful() & task.getResult()!= null) {
+                        if (task.isSuccessful() & task.getResult()!= null && task.getResult().getDocuments().size()!=0) {
                             DocumentSnapshot documentSnapshot = task.getResult().getDocuments().get(0);
                             String documentId = documentSnapshot.getId();
                             db.collection(User.COLLECTION_NAME)
@@ -303,6 +296,9 @@ public class ModelFirebase {
                                             listener.onComplete(user);
                                         }
                                     });
+                        }
+                        else{
+                            listener.onFailure();
                         }
                     }
                 });
