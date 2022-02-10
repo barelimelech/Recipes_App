@@ -1,11 +1,13 @@
 package com.example.recipes_app.view.NewRecipe;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -21,11 +23,14 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
+import com.example.recipes_app.LoginActivity;
 import com.example.recipes_app.R;
 import com.example.recipes_app.model.Model;
 import com.example.recipes_app.model.Recipe;
+import com.example.recipes_app.view.MyAccount.UserViewModel;
 
 import java.io.IOException;
 import java.util.List;
@@ -54,13 +59,26 @@ public class NewRecipeFragment extends Fragment{
     ImageButton galleryBtn;
     ImageButton camBtn;
 
+    NewRecipeViewModel viewModel;
+    UserViewModel userViewModel;
+
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        viewModel = new ViewModelProvider(this).get(NewRecipeViewModel.class);
+        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
+
+    }
+
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_new_recipe, container, false);
         //usernameAsId = NewRecipeFragmentArgs.fromBundle(getArguments()).getUsername();
         //usernameAsId = Model.instance.GetCurrentNameUser();
-        usernameAsId = Model.instance.getCurrentUsername();
+        usernameAsId = viewModel.getCurrentUser();
         recipeName= view.findViewById(R.id.pe_nameOfRec);
         recipeMethod= view.findViewById(R.id.newRec_method);
         recipeIngredients= view.findViewById(R.id.newRec_ingredients);
@@ -169,25 +187,33 @@ public class NewRecipeFragment extends Fragment{
         //UserRecipe userRecipe = new UserRecipe(usernameAsId,name);
 
         if(imageBitmap == null){
-            Model.instance.addRecipe(recipe,()->{
+            viewModel.addRecipe(recipe,()->{
                 Navigation.findNavController(recipeName).navigateUp();
             });
-
-//            Model.instance.addUserRecipe(userRecipe,()->{
-//
+//            Model.instance.addRecipe(recipe,()->{
+//                Navigation.findNavController(recipeName).navigateUp();
 //            });
+
+
         }
         else{
-            Model.instance.saveImage(imageBitmap,recipeName + ".jpg", url->{
+
+            viewModel.saveImage(imageBitmap,recipeName + ".jpg", url -> {
                 recipe.setImageUrl(url);
-                Model.instance.addRecipe(recipe,()->{
+                viewModel.addRecipe(recipe,()->{
                     Navigation.findNavController(recipeName).navigateUp();
                 });
-
-//                Model.instance.addUserRecipe(userRecipe,()->{
-//
-//                });
             });
+//            Model.instance.saveImage(imageBitmap,recipeName + ".jpg", url->{
+//                recipe.setImageUrl(url);
+//                Model.instance.addRecipe(recipe,()->{
+//                    Navigation.findNavController(recipeName).navigateUp();
+//                });
+//
+////                Model.instance.addUserRecipe(userRecipe,()->{
+////
+////                });
+//            });
         }
 
 
@@ -214,5 +240,24 @@ public class NewRecipeFragment extends Fragment{
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+         if(item.getItemId() == R.id.logout_menu){
+            String currentUserEmail = userViewModel.getCurrentUserEmail();
+            userViewModel.signOut();
+            userViewModel.logout(currentUserEmail, new Model.LogoutUserListener() {
+                @Override
+                public void onComplete() {
+                    startActivity(new Intent(getActivity(), LoginActivity.class));
+                    getActivity().finish();
+                }
+            });
+
+            return true;
+        }else {
+            return super.onOptionsItemSelected(item);
+        }
     }
 }

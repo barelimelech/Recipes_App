@@ -31,6 +31,7 @@ import com.example.recipes_app.R;
 import com.example.recipes_app.databinding.FragmentRecipeBinding;
 import com.example.recipes_app.model.Model;
 import com.example.recipes_app.model.Recipe;
+import com.example.recipes_app.view.MyAccount.UserViewModel;
 import com.example.recipes_app.view.MyAccount.UsersListViewModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.squareup.picasso.Picasso;
@@ -51,6 +52,7 @@ public class RecipesListFragment extends Fragment {
 
     private FirebaseAuth firebaseAuth;
     UsersListViewModel usersListViewModel;
+    UserViewModel userViewModel;
 
     private FragmentRecipeBinding binding;
 
@@ -65,6 +67,7 @@ public class RecipesListFragment extends Fragment {
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         viewModel = new ViewModelProvider(this).get(RecipesListViewModel.class);
+        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
 
     }
 
@@ -434,9 +437,9 @@ public class RecipesListFragment extends Fragment {
             NavHostFragment.findNavController(this).navigate(RecipesListFragmentDirections.actionGlobalMyAccountFragment(Model.instance.getCurrentUsername()));
             return true;
         }else if(item.getItemId() == R.id.logout_menu){
-            String currentUserEmail = Model.instance.getCurrentUserEmail();
-            Model.instance.getFirebaseAuth().signOut();
-            Model.instance.logout(currentUserEmail, new Model.LogoutUserListener() {
+            String currentUserEmail = userViewModel.getCurrentUserEmail();
+            userViewModel.signOut();
+            userViewModel.logout(currentUserEmail, new Model.LogoutUserListener() {
                 @Override
                 public void onComplete() {
                     startActivity(new Intent(getActivity(), LoginActivity.class));

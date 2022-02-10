@@ -1,5 +1,6 @@
 package com.example.recipes_app.view.RecipeDetails;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,12 +16,14 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
 import com.example.recipes_app.LoginActivity;
 import com.example.recipes_app.R;
 import com.example.recipes_app.model.Model;
 import com.example.recipes_app.model.Recipe;
+import com.example.recipes_app.view.MyAccount.UserViewModel;
 import com.squareup.picasso.Picasso;
 
 public class RecipeDetailsFragment extends Fragment {
@@ -34,7 +37,19 @@ public class RecipeDetailsFragment extends Fragment {
     //TextView recipeId;
     String recipeNameAsId;
 
+    RecipeDetailsViewModel viewModel;
+    UserViewModel userViewModel;
+
     ImageView recipeImage;
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        viewModel = new ViewModelProvider(this).get(RecipeDetailsViewModel.class);
+        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
+
+
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -50,7 +65,7 @@ public class RecipeDetailsFragment extends Fragment {
         userName.setText(usernameAsId);
         recipeImage = view.findViewById(R.id.editmyaccount_image_recipe);
 
-        Model.instance.getRecipeByRecipeName(recipeNameAsId, new Model.GetRecipeByRecipeName() {
+        viewModel.getRecipeByRecipeName(recipeNameAsId, new Model.GetRecipeByRecipeName() {
             @Override
             public void onComplete(Recipe recipe) {
                 recipeName.setText(recipe.getName());
@@ -63,6 +78,20 @@ public class RecipeDetailsFragment extends Fragment {
                 userName.setText(recipe.getUsername());
             }
         });
+
+//        Model.instance.getRecipeByRecipeName(recipeNameAsId, new Model.GetRecipeByRecipeName() {
+//            @Override
+//            public void onComplete(Recipe recipe) {
+//                recipeName.setText(recipe.getName());
+//                recipeMethod.setText(recipe.getMethod());
+//                recipeIngredients.setText(recipe.getIngredients());
+//                type.setText(recipe.getType());
+//                if(recipe.getRecipeUrl()!=null){
+//                    Picasso.get().load(recipe.getRecipeUrl()).into(recipeImage);
+//                }
+//                userName.setText(recipe.getUsername());
+//            }
+//        });
 
 //        Button editRecipe = view.findViewById(R.id.recipeDetails_edit_btn);
 //        editRecipe.setOnClickListener((v)->{
@@ -80,7 +109,7 @@ public class RecipeDetailsFragment extends Fragment {
         backBtn.setOnClickListener((v)->{
             Navigation.findNavController(v).navigateUp();
             //NavHostFragment.findNavController(this).navigate(RecipeDetailsFragmentDirections.actionGlobalRecipesListFragment(recipeNameAsId,usernameAsId));
-            Model.instance.refreshRecipeList();
+            viewModel.refreshRecipesList();
 
         });
         setHasOptionsMenu(true);
@@ -124,9 +153,9 @@ public class RecipeDetailsFragment extends Fragment {
             //NavHostFragment.findNavController(this).navigate(RecipeDetailsFragmentDirections.actionRecipeFragmentToEditRecipeFragment(recipeNameAsId,usernameAsId,""));
             return true;
         }else if(item.getItemId() == R.id.logout_menu){
-            String currentUserEmail = Model.instance.getCurrentUserEmail();
-            Model.instance.getFirebaseAuth().signOut();
-            Model.instance.logout(currentUserEmail, new Model.LogoutUserListener() {
+            String currentUserEmail = userViewModel.getCurrentUserEmail();
+            userViewModel.signOut();
+            userViewModel.logout(currentUserEmail, new Model.LogoutUserListener() {
                 @Override
                 public void onComplete() {
                     startActivity(new Intent(getActivity(), LoginActivity.class));

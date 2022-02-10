@@ -1,5 +1,6 @@
 package com.example.recipes_app.view.login;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -10,15 +11,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
 import com.example.recipes_app.MainActivity;
 import com.example.recipes_app.R;
 import com.example.recipes_app.model.Model;
 import com.example.recipes_app.model.User;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.common.api.GoogleApiClient;
+import com.example.recipes_app.view.MyAccount.UserViewModel;
 
 
 public class LoginFragment extends Fragment {
@@ -26,10 +28,17 @@ public class LoginFragment extends Fragment {
     EditText emailTv,passwordTv;
     Button signUpBtn,loginBtn;
 
+    UserViewModel viewModel;
 
-    private GoogleSignInClient mGoogleSignInClient;
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        viewModel = new ViewModelProvider(this).get(UserViewModel.class);
+    }
 
-    GoogleApiClient mGoogleApiClient;
+//    private GoogleSignInClient mGoogleSignInClient;
+//
+//    GoogleApiClient mGoogleApiClient;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -48,22 +57,22 @@ public class LoginFragment extends Fragment {
             String password = passwordTv.getText().toString();
             boolean b = check();
             if(b) {
-                Model.instance.getUserByEmail(email, new Model.GetUserByEmail() {
+                viewModel.getUserByEmail(email, new Model.GetUserByEmail() {
                     @Override
                     public void onComplete(User user) {
                         User newUser = user;
                         newUser.setIsConnected("true");
-                        Model.instance.editUser(newUser, new Model.EditUserListener() {
+
+                        viewModel.editUser(newUser, new Model.EditUserListener() {
                             @Override
                             public void onComplete() {
                                 boolean bool = save();
                                 if (bool == true) {
-                                    Model.instance.signIn(user, email, password, new Model.SigninUserListener() {
+                                    viewModel.signIn(user, email, password, new Model.SigninUserListener(){
                                         @Override
                                         public void onComplete() {
                                             toFeedActivity();
                                         }
-
                                         @Override
                                         public void onFailure() {
                                             Toast.makeText(getActivity(), "Email or password is not correct.", Toast.LENGTH_LONG).show();
@@ -73,7 +82,6 @@ public class LoginFragment extends Fragment {
                                 }
                             }
                         });
-
                     }
 
                     @Override
@@ -82,7 +90,40 @@ public class LoginFragment extends Fragment {
 
                     }
                 });
-            }
+//                Model.instance.getUserByEmail(email, new Model.GetUserByEmail() {
+//                    @Override
+//                    public void onComplete(User user) {
+//                        User newUser = user;
+//                        newUser.setIsConnected("true");
+//                        Model.instance.editUser(newUser, new Model.EditUserListener() {
+//                            @Override
+//                            public void onComplete() {
+//                                boolean bool = save();
+//                                if (bool == true) {
+//                                    Model.instance.signIn(user, email, password, new Model.SigninUserListener() {
+//                                        @Override
+//                                        public void onComplete() {
+//                                            toFeedActivity();
+//                                        }
+//                                        @Override
+//                                        public void onFailure() {
+//                                            Toast.makeText(getActivity(), "Email or password is not correct.", Toast.LENGTH_LONG).show();
+//
+//                                        }
+//                                    });
+//                                }
+//                            }
+//                        });
+//
+//                    }
+//
+//                    @Override
+//                    public void onFailure() {
+//                        Toast.makeText(getActivity(), "Email or password is not correct.", Toast.LENGTH_LONG).show();
+//
+//                    }
+//                });
+           }
 
 
             //            String uId = Model.instance.getUserId();

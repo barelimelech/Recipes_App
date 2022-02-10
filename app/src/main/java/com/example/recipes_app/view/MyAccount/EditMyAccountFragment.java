@@ -1,6 +1,7 @@
 package com.example.recipes_app.view.MyAccount;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -20,6 +21,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 
@@ -56,6 +58,15 @@ public class EditMyAccountFragment extends Fragment {
 
     String usernameAsId;
 
+    UserViewModel viewModel;
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        viewModel = new ViewModelProvider(this).get(UserViewModel.class);
+    }
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -71,7 +82,7 @@ public class EditMyAccountFragment extends Fragment {
         userImage = view.findViewById(R.id.editmyaccount_image_recipe);
         //usernameAsId = EditMyAccountFragmentArgs.fromBundle(getArguments()).getUsername();
 
-        Model.instance.getUserByEmail(Model.instance.getCurrentUserEmail(), new Model.GetUserByEmail() {
+        viewModel.getUserByEmail(viewModel.getCurrentUserEmail(), new Model.GetUserByEmail() {
             @Override
             public void onComplete(User user) {
                 fullName.setText(user.getFullName());
@@ -84,8 +95,6 @@ public class EditMyAccountFragment extends Fragment {
                 else{
                     userImage.setImageResource(R.drawable.avatar);
                 }
-
-
             }
 
             @Override
@@ -93,6 +102,29 @@ public class EditMyAccountFragment extends Fragment {
 
             }
         });
+
+//        Model.instance.getUserByEmail(Model.instance.getCurrentUserEmail(), new Model.GetUserByEmail() {
+//            @Override
+//            public void onComplete(User user) {
+//                fullName.setText(user.getFullName());
+//                phone.setText(user.getPhone());
+//                email.setText(user.getEmail());
+//                if(user.getUserUrl()!=null){
+//                    Picasso.get().load(user.getUserUrl()).into(userImage);
+//                    imageBitmap = ((BitmapDrawable)userImage.getDrawable()).getBitmap();
+//                }
+//                else{
+//                    userImage.setImageResource(R.drawable.avatar);
+//                }
+//
+//
+//            }
+//
+//            @Override
+//            public void onFailure() {
+//
+//            }
+//        });
 
         userImage.setImageBitmap(imageBitmap);
 //        Model.instance.getUserByUsername(usernameAsId, new Model.GetUserByUsername() {
@@ -213,28 +245,33 @@ public class EditMyAccountFragment extends Fragment {
         String fullName1 = fullName.getText().toString();
         String phone1 = phone.getText().toString();
         if(!password1.equals("")) {
-            Model.instance.getCurrentUser().updatePassword(password1);
+            viewModel.updatePassword(password1);
         }
-        User newUser = new User(fullName1,phone1,email1,Model.instance.getUserId());
+        User newUser = new User(fullName1,phone1,email1,viewModel.getUserId());
 
         if(imageBitmap == null){
-            Model.instance.editUser(newUser,new Model.EditUserListener(){
-                @Override
-                public void onComplete() {
-                    Navigation.findNavController(getView()).navigateUp();
-                }
-            });
+            viewModel.editUser(newUser, () -> Navigation.findNavController(getView()).navigateUp());
+//            Model.instance.editUser(newUser,new Model.EditUserListener(){
+//                @Override
+//                public void onComplete() {
+//                    Navigation.findNavController(getView()).navigateUp();
+//                }
+//            });
         }
         else {
-            Model.instance.saveImage(imageBitmap,fullName + ".jpg", url-> {
+            viewModel.saveImage(imageBitmap,fullName + ".jpg", url -> {
                 newUser.setUserUrl(url);
-                Model.instance.editUser(newUser, new Model.EditUserListener() {
-                    @Override
-                    public void onComplete() {
-                        Navigation.findNavController(getView()).navigateUp();
-                    }
-                });
-            });
+                viewModel.editUser(newUser, () -> Navigation.findNavController(getView()).navigateUp());
+            } );
+//            Model.instance.saveImage(imageBitmap,fullName + ".jpg", url-> {
+//                newUser.setUserUrl(url);
+//                Model.instance.editUser(newUser, new Model.EditUserListener() {
+//                    @Override
+//                    public void onComplete() {
+//                        Navigation.findNavController(getView()).navigateUp();
+//                    }
+//                });
+//            });
         }
 
 

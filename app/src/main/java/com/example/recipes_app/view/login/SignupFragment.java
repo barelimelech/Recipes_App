@@ -1,6 +1,7 @@
 package com.example.recipes_app.view.login;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -15,15 +16,15 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.recipes_app.LoginActivity;
 import com.example.recipes_app.R;
-import com.example.recipes_app.model.Model;
 import com.example.recipes_app.model.User;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.common.api.GoogleApiClient;
+import com.example.recipes_app.view.MyAccount.UserViewModel;
 
 import java.io.IOException;
 
@@ -45,10 +46,17 @@ public class SignupFragment extends Fragment {
     ImageButton galleryBtn;
     ImageButton camBtn;
 
-    private GoogleSignInClient mGoogleSignInClient;
+//    private GoogleSignInClient mGoogleSignInClient;
+//
+//    GoogleApiClient mGoogleApiClient;
 
-    GoogleApiClient mGoogleApiClient;
+    UserViewModel viewModel;
 
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        viewModel = new ViewModelProvider(this).get(UserViewModel.class);
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -173,20 +181,28 @@ public class SignupFragment extends Fragment {
         } else {
             User user = new User(fullName2, phone1, email, "0");
             if (imageBitmap == null) {
-                Model.instance.addUser(user, email, password, () -> {
+
+                viewModel.addUser(user,email,password, () -> {
                     //Navigation.findNavController(v).navigate(R.id.);
                     startActivity(new Intent(getActivity(), LoginActivity.class));
 
                 });
+//                Model.instance.addUser(user, email, password, () -> {
+//                    //Navigation.findNavController(v).navigate(R.id.);
+//                    startActivity(new Intent(getActivity(), LoginActivity.class));
+//
+//                });
             }
             else{
-                Model.instance.saveImage(imageBitmap,fullName + ".jpg", url-> {
+
+                viewModel.saveImage(imageBitmap,fullName + ".jpg", url-> {
                     user.setUserUrl(url);
-                    Model.instance.addUser(user, email, password, () -> {
+                    viewModel.addUser(user, email, password, () -> {
                         //Navigation.findNavController(v).navigate(R.id.);
                         startActivity(new Intent(getActivity(), LoginActivity.class));
                     });
                 });
+
             }
         }
     }

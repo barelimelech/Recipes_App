@@ -39,24 +39,5 @@ public class RecipesListViewModel extends ViewModel {
     }
 
 
-//    public void deleteRecipe(Recipe recipe, Model.DeleteRecipeListener listener) {
-//        for(Recipe rec:recipes.getValue()){
-//            if(!rec.equals(recipe)){
-//                tmpRecipes.add(rec);
-//            }
-//        }
-//        recipes.getValue().addAll(tmpRecipes);
-//    }
-
-//    public void deleteRecipe(Recipe recipe){
-//        for(Recipe rec:recipes.getValue()){
-//            if(!rec.isDeleted()){
-//                tmpRecipes.getValue().add(rec);
-//            }
-//        }
-//        recipes = tmpRecipes;
-//    }
-
-
 
 }

@@ -1,6 +1,7 @@
 package com.example.recipes_app.view.EditRecipe;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -25,12 +26,14 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
 import com.example.recipes_app.LoginActivity;
 import com.example.recipes_app.R;
 import com.example.recipes_app.model.Model;
 import com.example.recipes_app.model.Recipe;
+import com.example.recipes_app.view.MyAccount.UserViewModel;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
@@ -60,6 +63,19 @@ public class EditRecipeFragment extends Fragment {
     ImageButton galleryBtn;
     ImageButton camBtn;
 
+    EditRecipeViewModel viewModel;
+    UserViewModel userViewModel;
+
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        viewModel = new ViewModelProvider(this).get(EditRecipeViewModel.class);
+        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
+
+    }
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -79,7 +95,7 @@ public class EditRecipeFragment extends Fragment {
 
         recipe = new Recipe();
 
-        Model.instance.getRecipeByRecipeName(recipeNameAsId, new Model.GetRecipeByRecipeName() {
+        viewModel.getRecipeByRecipeName(recipeNameAsId, new Model.GetRecipeByRecipeName() {
             @Override
             public void onComplete(Recipe recipe) {
                 recipeName.setText(recipe.getName());
@@ -95,6 +111,24 @@ public class EditRecipeFragment extends Fragment {
                 imageBitmap = ((BitmapDrawable)recipeImage.getDrawable()).getBitmap();
             }
         });
+
+
+//        Model.instance.getRecipeByRecipeName(recipeNameAsId, new Model.GetRecipeByRecipeName() {
+//            @Override
+//            public void onComplete(Recipe recipe) {
+//                recipeName.setText(recipe.getName());
+//                recipeMethod.setText(recipe.getMethod());
+//                recipeIngredients.setText(recipe.getIngredients());
+//                userName.setText(recipe.getUsername());
+//                if(recipe.getRecipeUrl()!=null){
+//                    Picasso.get().load(recipe.getRecipeUrl()).into(recipeImage);
+//                }
+//                else{
+//                    recipeImage.setImageResource(R.drawable.cake);
+//                }
+//                imageBitmap = ((BitmapDrawable)recipeImage.getDrawable()).getBitmap();
+//            }
+//        });
 
         recipeImage.setImageBitmap(imageBitmap);
         initSpinnerFooter();
@@ -167,7 +201,7 @@ public class EditRecipeFragment extends Fragment {
         imageBitmap = null;
         recipeImage.setImageBitmap(null);
         recipeImage.setImageResource(R.drawable.cake);
-        Model.instance.refreshRecipeList();
+        viewModel.refreshRecipesList();
     }
 
     private void openGallery() {
@@ -248,17 +282,27 @@ public class EditRecipeFragment extends Fragment {
         Recipe newRecipe = new Recipe(id,name,method,ingredients,type,user);
 
         if(imageBitmap == null){
-            Model.instance.editRecipe(newRecipe,()->{
+            viewModel.editRecipe(newRecipe,()->{
                 Navigation.findNavController(getView()).navigateUp();
             });
+
         }
         else{
-            Model.instance.saveImage(imageBitmap,recipeName + ".jpg", url->{
+
+            viewModel.saveImage(imageBitmap,recipeName + ".jpg",url->{
                 newRecipe.setImageUrl(url);
-                Model.instance.editRecipe(newRecipe,()->{
+                viewModel.editRecipe(newRecipe, ()->{
                     Navigation.findNavController(getView()).navigateUp();
+
                 });
-            });
+            } );
+//            Model.instance.saveImage(imageBitmap,recipeName + ".jpg", url->{
+//                newRecipe.setImageUrl(url);
+//                viewModel.editRecipe(newRecipe, ()->{
+//                    Navigation.findNavController(getView()).navigateUp();
+//
+//                });
+//            });
         }
 
 //        Model.instance.editRecipe(newRecipe,()->{
@@ -308,9 +352,9 @@ public class EditRecipeFragment extends Fragment {
            // NavHostFragment.findNavController(this).navigate(EditRecipeFragmentDirections.actionGlobalMyAccountFragment(usernameAsId));
             return true;
         }else if(item.getItemId() == R.id.logout_menu){
-            String currentUserEmail = Model.instance.getCurrentUserEmail();
-            Model.instance.getFirebaseAuth().signOut();
-            Model.instance.logout(currentUserEmail, new Model.LogoutUserListener() {
+            String currentUserEmail = userViewModel.getCurrentUserEmail();
+            userViewModel.signOut();
+            userViewModel.logout(currentUserEmail, new Model.LogoutUserListener() {
                 @Override
                 public void onComplete() {
                     startActivity(new Intent(getActivity(), LoginActivity.class));

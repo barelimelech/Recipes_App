@@ -1,5 +1,6 @@
 package com.example.recipes_app.view.Categories;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -28,11 +30,20 @@ public class CategoriesListFragment extends Fragment {
     List<String> categories;
     TextView headline;
 
+    CategoriesListViewModel viewModel;
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        viewModel = new ViewModelProvider(this).get(CategoriesListViewModel.class);
+
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_categories_list,container,false);
-        categories = Model.instance.getAllCategories();
+        categories = viewModel.getAllCategories();
         usernameAsId = CategoriesListFragmentArgs.fromBundle(getArguments()).getUsername();
         headline = view.findViewById(R.id.categorieslist_headline_tv);
         headline.setText("Welcome " +usernameAsId+" :)"+"\n"+"Please choose category:");

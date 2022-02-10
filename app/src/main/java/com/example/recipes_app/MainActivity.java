@@ -67,25 +67,6 @@ public class MainActivity extends AppCompatActivity{
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
-
-//        if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
-//            // signed in. Show the "sign out" button and explanation.
-//            // ...
-//        } else {
-//
-//        }
-
-//        if(!mGoogleApiClient.isConnected()){
-//            hideItem();//TODO!!!!!!!!!!!!!!!!!!
-//        }
-
-
-
-        /////////new ahu
-
-
-
-
     }
 
     private void hideItem()
@@ -108,21 +89,6 @@ public class MainActivity extends AppCompatActivity{
 
     }
 
-//
-//    private void checkUser() {
-//        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-//        if(firebaseUser != null){
-//            //startActivity(new Intent(this,Profile.class));
-//            //firebaseAuth.signOut();
-//            //mGoogleApiClient.clearDefaultAccountAndReconnect();
-//
-////            NavController navController = Navigation.findNavController(MainActivity.this,R.id.nav_host_fragment_content_main);
-////            navController.navigateUp();
-////            navController.navigate(R.id.myAccount_nav);
-//            finish();
-//        }
-//    }
-
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
@@ -137,12 +103,6 @@ public class MainActivity extends AppCompatActivity{
         getMenuInflater().inflate(R.menu.myaccount_menu,menu);
         getMenuInflater().inflate(R.menu.logout_menu,menu);
 
-        //getMenuInflater().inflate(R.menu.main, menu);
-//        MenuItem item = menu.findItem(R.id.menu_myAccount);
-//        item.setVisible(false);
-
-//        super.onCreateOptionsMenu(menu);
-//        getMenuInflater().inflate(R.menu.base_menu,menu);
         return true;
     }
 
