@@ -21,8 +21,9 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.recipes_app.LoginActivity;
+import com.example.recipes_app.MainActivity;
 import com.example.recipes_app.R;
+import com.example.recipes_app.model.Model;
 import com.example.recipes_app.model.User;
 import com.example.recipes_app.view.MyAccount.UserViewModel;
 
@@ -37,7 +38,6 @@ public class SignupFragment extends Fragment {
     EditText emailTv;
     EditText passwordTv;
     Button signUpBtn;
-    Button loginBtn;
     EditText fullName;
     EditText phone;
 
@@ -45,10 +45,6 @@ public class SignupFragment extends Fragment {
     ImageView userImage;
     ImageButton galleryBtn;
     ImageButton camBtn;
-
-//    private GoogleSignInClient mGoogleSignInClient;
-//
-//    GoogleApiClient mGoogleApiClient;
 
     UserViewModel viewModel;
 
@@ -74,7 +70,6 @@ public class SignupFragment extends Fragment {
         passwordTv = view.findViewById(R.id.signup22_password_tv);
 
         signUpBtn =view.findViewById(R.id.signup22_signup_btn);
-       // loginBtn =view.findViewById(R.id.signup22_login_btn);
         fullName = view.findViewById(R.id.signup22_fullname_tv);
         phone = view.findViewById(R.id.signup22_phone_tv);
         userImage = view.findViewById(R.id.singup_image_user);
@@ -86,31 +81,13 @@ public class SignupFragment extends Fragment {
             }
         });
 
-//        loginBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                startActivity(new Intent(getActivity(), LoginActivity.class));
-//
-//            }
-//        });
-
         camBtn = view.findViewById(R.id.signup_camera_btn);
 
         galleryBtn = view.findViewById(R.id.signup_gallery_btn);
 
-        camBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openCam();
-            }
-        });
+        camBtn.setOnClickListener(v -> openCam());
 
-        galleryBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openGallery();
-            }
-        });
+        galleryBtn.setOnClickListener(v -> openGallery());
 
 
 
@@ -156,6 +133,12 @@ public class SignupFragment extends Fragment {
             }
         }
     }
+    private void toFeedActivity() {
+        Intent intent = new Intent(getContext(), MainActivity.class);
+        startActivity(intent);
+        getActivity().finish();
+    }
+
 
     private void save() {
         //signUpBtn.setEnabled(false);
@@ -182,24 +165,28 @@ public class SignupFragment extends Fragment {
             User user = new User(fullName2, phone1, email, "0");
             if (imageBitmap == null) {
 
-                viewModel.addUser(user,email,password, () -> {
-                    //Navigation.findNavController(v).navigate(R.id.);
-                    startActivity(new Intent(getActivity(), LoginActivity.class));
+                viewModel.addUser(user, email, password, new Model.AddUserListener() {
+                    @Override
+                    public void onComplete() { toFeedActivity(); }
+                    @Override
+                    public void onFailure() {
+                        Toast.makeText(getActivity(), "Email is already exist.", Toast.LENGTH_LONG).show();
 
+                    }
                 });
-//                Model.instance.addUser(user, email, password, () -> {
-//                    //Navigation.findNavController(v).navigate(R.id.);
-//                    startActivity(new Intent(getActivity(), LoginActivity.class));
-//
-//                });
             }
             else{
 
                 viewModel.saveImage(imageBitmap,fullName + ".jpg", url-> {
                     user.setUserUrl(url);
-                    viewModel.addUser(user, email, password, () -> {
-                        //Navigation.findNavController(v).navigate(R.id.);
-                        startActivity(new Intent(getActivity(), LoginActivity.class));
+                    viewModel.addUser(user, email, password, new Model.AddUserListener() {
+                        @Override
+                        public void onComplete() { toFeedActivity(); }
+                        @Override
+                        public void onFailure() {
+                            Toast.makeText(getActivity(), "Email is already exist.", Toast.LENGTH_LONG).show();
+
+                        }
                     });
                 });
 

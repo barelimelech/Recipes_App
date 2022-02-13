@@ -195,14 +195,6 @@ public class ModelFirebase {
 
     }
 
-//    public void addUser(User user, Model.AddUserListener listener) {
-//        Map<String, Object> json = user.toJson();
-//        db.collection(User.COLLECTION_NAME)
-//                .document(user.getUId())
-//                .set(json)
-//                .addOnSuccessListener(unused -> listener.onComplete())
-//                .addOnFailureListener(e -> listener.onComplete());
-//    }
     public void addUser(User user,String email, String password, Model.AddUserListener listener) {
 
         firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -213,7 +205,6 @@ public class ModelFirebase {
                     Log.d("TAG", "saved name:" + user.fullName + "user Id:" + user.uId);
 
                     Map<String, Object> json = user.toJson();
-                    //user.setIsConnected("true");
                     db.collection(User.COLLECTION_NAME)
                             .document(user.getUId())
                             .set(json)
@@ -222,8 +213,8 @@ public class ModelFirebase {
                 }
                 else {
                     // If sign in fails, display a message to the user.
+                    listener.onFailure();
                     Log.w("TAG", "createUserWithEmail:failure", task.getException());
-                    //Toast.makeText(, "Authentication failed.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -237,24 +228,17 @@ public class ModelFirebase {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             user.setIsConnected("true");
-
-                            //AppLocalDb.db.userDao().insertAll(user);
                             listener.onComplete();
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("TAG", "signInWithEmail:success");
-                           // FirebaseUser user = mAuth.getCurrentUser();
-                           // updateUI(user);
-                          //  startActivity(new Intent(LoginActivity.this, MainActivity.class));
 
                         } else {
                             listener.onFailure();
                             // If sign in fails, display a message to the user.
                             Log.w("TAG", "signInWithEmail:failure", task.getException());
-                            //Toast.makeText(this, "User is not exist, please signup first.", Toast.LENGTH_LONG);
                         }
                     }
                 });
-        // [END sign_in_with_email]
     }
 
     public void getUserById(String uId, Model.GetUserById listener) {
@@ -274,7 +258,6 @@ public class ModelFirebase {
                 });
     }
     public void getUserByEmail(String email, Model.GetUserByEmail listener) {
-        //Map<String, Object> json = recipe.toJson();
         db.collection(User.COLLECTION_NAME)
                 .whereEqualTo("email",email)
                 .get()
@@ -318,31 +301,6 @@ public class ModelFirebase {
         public String getUserId(){
         return firebaseAuth.getCurrentUser().getUid();
     }
-
-//    public void getUserIdByEmail(String email, Model.GetUserByEmail listener){
-//
-//
-//        db.collection(User.COLLECTION_NAME)
-//                .document(uId)
-//                .get()
-//                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//                        User user = null;
-//                        if (task.isSuccessful() & task.getResult()!= null) {
-//                            user = User.create(task.getResult().getData());
-//                        }
-//                        listener.onComplete(user);
-//                    }
-//                });
-//    }
-//    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
-//
-//    public String GetCurrentNameUser(){
-//        FirebaseUser currentUser = mAuth.getCurrentUser();
-//        return currentUser.getDisplayName();
-//    }
-
 
 
     //*******************************UserRecipe*******************************//

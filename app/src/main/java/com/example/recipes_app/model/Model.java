@@ -106,20 +106,8 @@ public class Model {
         }
         return userRecipeList;
     }
-//
-//    public User getUser(String username){
-//        List<User> users =AppLocalDb.db.userDao().getAll();
-//        for(User u : users){
-//            if(u.getUsername().equals(username)){
-//                return u;
-//            }
-//        }
-//        return null;
-//    }
 
     public void refreshUserList() {
-       // userListLoadingState.setValue(UserListLoadingState.loading);
-
         //get last local update date
         Long lastUpdateDate = MyApplication.getContext().getSharedPreferences("TAG", Context.MODE_PRIVATE).getLong("UserLastUpdateDate", 0);
 
@@ -127,7 +115,6 @@ public class Model {
         modelFirebase.getAllUsers(lastUpdateDate, new ModelFirebase.GetAllUsersListener() {
             @Override
             public void onComplete(List<User> list) {
-                //add all records to the local db
                 executor.execute(new Runnable() {
                     @Override
                     public void run() {
@@ -141,18 +128,11 @@ public class Model {
                                 lud = user.getUpdateDate();
                             }
                         }
-                        //update last local update date
                         MyApplication.getContext()
                                 .getSharedPreferences("TAG", Context.MODE_PRIVATE)
                                 .edit()
                                 .putLong("UserLastUpdateDate", lud)
                                 .commit();
-
-                        //return all data to caller
-//                        List<User> reList = AppLocalDb.db.userDao().getAll();
-//                        usersList.postValue(reList);
-//                        userListLoadingState.postValue(UserListLoadingState.loaded);
-                        //delete from room
                     }
                 });
             }
@@ -164,11 +144,6 @@ public class Model {
 
         //get last local update date
         Long lastUpdateDate = MyApplication.getContext().getSharedPreferences("TAG", Context.MODE_PRIVATE).getLong("RecipeLastUpdateDate", 0);
-//
-//        executor.execute(() -> {
-//            List<Recipe> stList = AppLocalDb.db.recipeDao().getAll();
-//            recipesList.postValue(stList);
-//        });
 
         //firebase get all updates since lastLocalUpdateDate
         modelFirebase.getAllRecipes(lastUpdateDate, new ModelFirebase.GetAllRecipesListener() {
@@ -208,15 +183,6 @@ public class Model {
                 });
             }
         });
-
-
-//        modelFirebase.getAllRecipes(lastUpdateDate, new ModelFirebase.GetAllRecipesListener() {
-//            @Override
-//            public void onComplete(List<Recipe> list) {
-//                recipesList.setValue(list);
-//                recipeListLoadingState.setValue(RecipeListLoadingState.loaded);
-//            }
-//        });
     }
     public interface SaveImageListener{
         void onComplete(String url);
@@ -252,8 +218,6 @@ public class Model {
 
 
     public void deleteRecipe(Recipe recipe,DeleteRecipeListener listener) {
-        //modelFirebase.deleteRecipe(recipe, listener);
-
         modelFirebase.deleteRecipe(recipe, ()->{
             listener.onComplete();
             refreshRecipeList();
@@ -270,19 +234,7 @@ public class Model {
         return null;
     }
 
-//    public interface ConnectWithGoogle{
-//        void onComplete();
-//    }
-
-//    public void connectWithGoogle(GoogleSignInAccount account , ConnectWithGoogle listener){
-//        modelFirebaseAuth.firebaseAuthWithGoogle(account,listener);
-//    }
-
-    public List<String> getAllCategories() {
-
-        return data;
-        //return null;
-    }
+    public List<String> getAllCategories() { return data; }
     public FirebaseUser getCurrentUser(){
         return modelFirebase.getCurrentUser();
     }
@@ -310,6 +262,7 @@ public class Model {
 
     public interface AddUserListener {
         void onComplete();
+        void onFailure();
     }
 
     public interface SigninUserListener{
@@ -331,9 +284,17 @@ public class Model {
         });
     }
     public void addUser(User user,String email, String password, AddUserListener listener) {
-        modelFirebase.addUser(user,email,password, ()->{
-            listener.onComplete();
-            refreshUserList();
+        modelFirebase.addUser(user, email, password, new AddUserListener() {
+            @Override
+            public void onComplete() {
+                listener.onComplete();
+                refreshUserList();
+            }
+
+            @Override
+            public void onFailure() {
+                listener.onFailure();
+            }
         });
     }
 
