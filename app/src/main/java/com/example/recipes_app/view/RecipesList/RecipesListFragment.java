@@ -32,8 +32,6 @@ import com.example.recipes_app.databinding.FragmentRecipeBinding;
 import com.example.recipes_app.model.Model;
 import com.example.recipes_app.model.Recipe;
 import com.example.recipes_app.view.MyAccount.UserViewModel;
-import com.example.recipes_app.view.MyAccount.UsersListViewModel;
-import com.google.firebase.auth.FirebaseAuth;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -48,20 +46,11 @@ public class RecipesListFragment extends Fragment {
     String fullNameAsId;
     String fullNameAsIdnew;
     String category;
-    ImageButton deleteRecipe;
 
-    private FirebaseAuth firebaseAuth;
-    UsersListViewModel usersListViewModel;
     UserViewModel userViewModel;
 
     private FragmentRecipeBinding binding;
 
-//    public interface OnDeleteClickListener{
-//        void OnDeleteClickListener(Recipe recipe);
-//    }
-//
-//
-//    private OnDeleteClickListener onDeleteClickListener;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -76,29 +65,14 @@ public class RecipesListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         //Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_recipes_list, container, false);
-        String name = Model.instance.getCurrentUserFullName();
-//        String name = Model.instance.getCurrentUsername();
         fullNameAsId = RecipesListFragmentArgs.fromBundle(getArguments()).getUsername();
         category = RecipesListFragmentArgs.fromBundle(getArguments()).getCategory();
-        //name = Model.instance.getCurrentUsername();
-//        if (name == null || name.equals("")) {
-//            name = Model.instance.getCurrentUsername();
-//        }
-        //fullNameAsId = name;
-        Log.d("TAG", "lllllll " + fullNameAsId);
+
         binding = FragmentRecipeBinding.inflate(getLayoutInflater());
 
-        firebaseAuth = FirebaseAuth.getInstance();
-
-        //deleteRecipe = view.findViewById(R.id.recipe_listrow_delete);
-//        viewModel.deleteRecipe(recipe, ()->{
-//            Model.instance.refreshRecipeList();
-//        });
-
         swipeRefresh = view.findViewById(R.id.recipeslist_swiperefresh);
-        swipeRefresh.setOnRefreshListener(() -> Model.instance.refreshRecipeList());
+        swipeRefresh.setOnRefreshListener(() -> refreshList());
 
-        // String recipeId = RecipeDetailsFragmentArgs.fromBundle(getArguments()).getRecipeId();
 
         RecyclerView list = view.findViewById(R.id.recipeslist_rv);
         list.setHasFixedSize(true);
@@ -112,20 +86,16 @@ public class RecipesListFragment extends Fragment {
             @Override
             public void onItemClick(View v, int position, int viewId) {
                 String id = viewModel.recipes.getValue().get(position).getId();
-                String name = viewModel.recipes.getValue().get(position).getName();
-                String method = viewModel.recipes.getValue().get(position).getMethod();
-                String ingredients = viewModel.recipes.getValue().get(position).getIngredients();
                 String url = viewModel.recipes.getValue().get(position).getRecipeUrl();
                 String username = viewModel.recipes.getValue().get(position).getUsername();
                 String type = viewModel.recipes.getValue().get(position).getType();
-                //String recipeNameAsId = viewModel.getRecipes().getValue().get(position).getId();
-                //Navigation.findNavController(v).navigate(RecipesListFragmentDirections.actionRecipesListFragmentToRecipeFragment(recipeNameAsId,fullNameAsId));
+
                 if(url==null){
                     url = "0";
                 }
                 if(v.findViewById(R.id.recipe_listrow_delete).getId()==viewId){
                     viewModel.deleteRecipe(viewModel.getRecipes().getValue().get(position),()->{
-                        Model.instance.refreshRecipeList();
+                        refreshList();
                     });
                 }else if(v.findViewById(R.id.recipe_listrow_edit).getId()==viewId){
                     Navigation.findNavController(v).navigate(RecipesListFragmentDirections.actionRecipesListFragmentToEditRecipeFragment(id,username,type));
@@ -136,39 +106,34 @@ public class RecipesListFragment extends Fragment {
                 }
             }
 
-
-
-//            @Override
-//            public void onItemClick(View v, int position, int viewId) {
-//
-//
-////                String recipeNameAsId = viewModel.getRecipes().getValue().get(position).getName();
-////                Navigation.findNavController(v).navigate(RecipesListFragmentDirections.actionRecipesListFragmentToRecipeFragment(recipeNameAsId));
-//                String recipeNameAsId = viewModel.getRecipes().getValue().get(position).getId();
-//                Navigation.findNavController(v).navigate(RecipesListFragmentDirections.actionRecipesListFragmentToRecipeFragment(recipeNameAsId,fullNameAsId));
-//            }
         });
 
-
-//        Button addRecipe = view.findViewById(R.id.myaccount_add_btn);
-//        addRecipe.setOnClickListener((v)->{
-//            //Navigation.findNavController(v).navigate(R.id.action_global_newRecipeFragment);
-//            Navigation.findNavController(v).navigate(RecipesListFragmentDirections.actionRecipesListFragmentToNewRecipeFragment(fullNameAsId));//the user that make the new recipe
-//
-//        });
-
+        viewModel.refreshUserRecipesList();
         setHasOptionsMenu(true);
 
-        //when data update
-        viewModel.getRecipes().observe(getViewLifecycleOwner(), recipes -> refresh());
-        swipeRefresh.setRefreshing(Model.instance.getRecipeListLoadingState().getValue() == Model.RecipeListLoadingState.loading);
-        Model.instance.getRecipeListLoadingState().observe(getViewLifecycleOwner(), recipeListLoadingState -> {
-            if (recipeListLoadingState == Model.RecipeListLoadingState.loading) {
-                swipeRefresh.setRefreshing(true);
-            } else {
-                swipeRefresh.setRefreshing(false);
-            }
-        });
+        if(fullNameAsId.equals("")) {
+            //when data update
+            viewModel.getRecipes().observe(getViewLifecycleOwner(), recipes -> refresh());
+            swipeRefresh.setRefreshing(Model.instance.getRecipeListLoadingState().getValue() == Model.RecipeListLoadingState.loading);
+            Model.instance.getRecipeListLoadingState().observe(getViewLifecycleOwner(), recipeListLoadingState -> {
+                if (recipeListLoadingState == Model.RecipeListLoadingState.loading) {
+                    swipeRefresh.setRefreshing(true);
+                } else {
+                    swipeRefresh.setRefreshing(false);
+                }
+            });
+        }else{
+        viewModel.refreshUserRecipesList();
+        viewModel.getRecipesByUsername().observe(getViewLifecycleOwner(), recipes -> refresh());
+            swipeRefresh.setRefreshing(Model.instance.getRecipeListLoadingState().getValue() == Model.RecipeListLoadingState.loading);
+            Model.instance.getRecipeListLoadingState().observe(getViewLifecycleOwner(), recipeListLoadingState -> {
+                if (recipeListLoadingState == Model.RecipeListLoadingState.loading) {
+                    swipeRefresh.setRefreshing(true);
+                } else {
+                    swipeRefresh.setRefreshing(false);
+                }
+            });
+        }
 
         //refresh();
 
@@ -182,13 +147,20 @@ public class RecipesListFragment extends Fragment {
     }
 
 
+    private void refreshList(){
+        if(fullNameAsId.equals("")) {
+            viewModel.refreshRecipesList();
+        }
+        else{
+            viewModel.refreshUserRecipesList();
+        }
+    }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
         TextView nameTv;
         TextView usernameBy;
         ImageButton deleteBtn, editBtn;
         ImageView recipeImage;
-        Recipe tmp;
 
 
 
@@ -199,12 +171,7 @@ public class RecipesListFragment extends Fragment {
             recipeImage = itemView.findViewById(R.id.recipe_listrow_image);
             deleteBtn = itemView.findViewById(R.id.recipe_listrow_delete);
             editBtn = itemView.findViewById(R.id.recipe_listrow_edit);
-            //  deleteBtn.setOnClickListener(this);
 
-//            if(!fullNameAsId.equals("")){
-//
-//                itemView.setVisibility(View.GONE);
-//            }
             String userName = Model.instance.getCurrentUsername();
             if (userName == null || userName.equals("")) {
                 userName = Model.instance.getCurrentUsername();
@@ -228,13 +195,6 @@ public class RecipesListFragment extends Fragment {
                 int position = getAdapterPosition();
                 listener.onItemClick(itemView,position,viewId);
 
-
-//                Model.instance.deleteRecipe(tmp,()->{
-//                    Model.instance.refreshRecipeList();
-//                    //Navigation.findNavController(itemView).navigateUp();
-//                    //NavHostFragment.findNavController(this).navigate(EditRecipeFragmentDirections.actionGlobalRecipesListFragment(usernameAsId,recipeNameAsId));
-//                    //NavHostFragment.findNavController(this).navigate(EditRecipeFragmentDirections.actionGlobalMyAccountFragment(recipe.getUsername()));//TODO:!!!!
-//                });
             });
 
             editBtn.setOnClickListener((v)->{
@@ -246,75 +206,26 @@ public class RecipesListFragment extends Fragment {
 
         }
         void bind(Recipe recipe){
-//            nameTv.setText(recipe.getName());
-//            usernameBy.setText("By:  "+recipe.getUsername());
-//            if (recipe.getRecipeUrl() != null) {
-//                Picasso.get()
-//                        .load(recipe.getRecipeUrl())
-//                        .into(recipeImage);
-//            }
+
+
             recipeImage.setImageResource(R.drawable.cake);
 
 
-            if(!fullNameAsId.equals("")&& recipe.getUsername() != null&&category.equals("")){
-                if(!recipe.getUsername().equals(fullNameAsId)){
-                    itemView.setVisibility(View.GONE);
-                    itemView.setLayoutParams(new RecyclerView.LayoutParams(0, 0));
+            nameTv.setText(recipe.getName());
+            usernameBy.setText("By:  "+recipe.getUsername());
+
+            if (recipe.getRecipeUrl() != null) {
+                Picasso.get()
+                        .load(recipe.getRecipeUrl())
+                        .into(recipeImage);
+            }
 
 
-                }
-                else{
-                    nameTv.setText(recipe.getName());
-                    usernameBy.setText("By:  "+recipe.getUsername());
-                    // recipeImage.setImageResource(R.drawable.cake);
-                    // binding.recipeDetailsEditBtn.findViewById(R.id.recipeDetails_edit_btn).setVisibility(View.GONE);
-                    if (recipe.getRecipeUrl() != null) {
-                        Picasso.get()
-                                .load(recipe.getRecipeUrl())
-                                .into(recipeImage);
-                    }
+            if(!fullNameAsId.equals("")&& recipe.getUsername() != null){
                     deleteBtn.setVisibility(View.VISIBLE);
                     editBtn.setVisibility(View.VISIBLE);
-//                    else
-//                        recipeImage.setImageBitmap(null);
-
-                }
-            }else if(!category.equals("") && recipe.getType() != null){
-                if(!recipe.getType().equals(category)){
-                    itemView.setVisibility(View.GONE);
-                    itemView.setLayoutParams(new RecyclerView.LayoutParams(0, 0));
-                }
-                else{
-                    nameTv.setText(recipe.getName());
-                    usernameBy.setText("By:  "+recipe.getUsername());
-                    //recipeImage.setImageResource(R.drawable.cake);
-                    if (recipe.getRecipeUrl() != null) {
-                        Picasso.get()
-                                .load(recipe.getRecipeUrl())
-                                .into(recipeImage);
-                    }
-//                    else{
-//                        recipeImage.setImageResource(R.drawable.empty);
-////                        recipeImage.setImageBitmap(null);
-//                    }
-                }
             } else{
 
-                nameTv.setText(recipe.getName());
-                usernameBy.setText("By:  " + recipe.getUsername());
-                // binding.recipeDetailsEditBtn.findViewById(R.id.recipeDetails_edit_btn).setVisibility(View.GONE);
-
-                if (recipe.getRecipeUrl() != null) {
-                    Picasso.get()
-                            .load(recipe.getRecipeUrl())
-                            .into(recipeImage);
-                }
-//                else{
-//                    recipeImage.setImageResource(R.drawable.empty);
-//                    recipeImage.setImageBitmap(null);
-//                }
-//                if(!recipe.getUsername().equals(firebaseUser.getDisplayName())){
-//                if(!recipe.getUsername().equals(fullNameAsIdnew)){
                 if(!recipe.getUsername().equals(Model.instance.getCurrentUsername())){
                     deleteBtn.setVisibility(View.GONE);
                     editBtn.setVisibility(View.GONE);
@@ -324,6 +235,7 @@ public class RecipesListFragment extends Fragment {
                     editBtn.setVisibility(View.VISIBLE);
                 }
             }
+
         }
 
 
@@ -354,20 +266,27 @@ public class RecipesListFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull RecipesListFragment.MyViewHolder holder, int position) {
-            Recipe recipe = viewModel.getRecipes().getValue().get(position);
-            //holder.tmp = recipe;
-            //holder.nameTv.setText(recipe.getName());
-
+            //Recipe recipe = viewModel.getRecipes().getValue().get(position);
+            Recipe recipe;
+            if(fullNameAsId.equals("") || !category.equals("")) {
+                recipe = viewModel.getRecipes().getValue().get(position);
+            }
+            else{
+                recipe = viewModel.getRecipesByUsername().getValue().get(position);
+            }
             holder.bind(recipe);
-
         }
 
         @Override
         public int getItemCount() {
             if (viewModel.getRecipes().getValue() == null) {
                 return 0;
+            }else if(fullNameAsId.equals("")|| !category.equals("")) {
+                return viewModel.getRecipes().getValue().size();
             }
-            return viewModel.getRecipes().getValue().size();
+            else{
+                return viewModel.getRecipesByUsername().getValue().size();
+            }
 
         }
         @Override
@@ -406,28 +325,8 @@ public class RecipesListFragment extends Fragment {
                 notifyDataSetChanged();
             }
         };
-//        public void updateList(ArrayList<Recipe> newList) {
-//            Log.i("String:", newList.toString());
-//
-//           // viewModel.recipes.getValue() = new ArrayList<>();
-//            viewModel.recipes.getValue().addAll(newList);
-//
-//
-//            notifyDataSetChanged();
-//        }
 
     }
-//    @Override
-//    public void onPrepareOptionsMenu(@NonNull Menu menu) {
-//        MenuItem item =menu.findItem(R.id.menu_myAccount);
-//        item.setVisible(true);
-//        super.onPrepareOptionsMenu(menu);
-//    }
-//@Override
-//public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-//    super.onCreateOptionsMenu(menu, inflater);
-//    inflater.inflate(R.menu.search_menu,menu);
-//}
 
 
     @Override
@@ -467,43 +366,6 @@ public class RecipesListFragment extends Fragment {
 
         inflater.inflate(R.menu.myaccount_menu, menu);
         inflater.inflate(R.menu.add_recipe_menu, menu);
-
-
-//        MenuItem searchViewItem = menu.findItem(R.id.search_bar_menu);
-//        SearchView searchView = (SearchView) searchViewItem.getActionView();
-//        searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
-//
-//
-//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-//
-//
-//            @Override
-//            public boolean onQueryTextSubmit(String query)
-//            {
-//
-////                if (recipes.contains(query)) {
-////                    adapter.getFilter().filter(query);
-////                }
-////                else {
-////                    // Search query not found in List View
-////                    Toast.makeText(RecipesListFragment.this, "Not found", Toast.LENGTH_LONG).show();
-////                }
-//
-//                return false;
-//            }
-//
-//            @Override
-//            public boolean onQueryTextChange(String newText)
-//            {
-//                adapter.getFilter().filter(newText);
-//
-//                if(newText.length()==0){
-//                    //list.addAll(viewModel.recipes.getValue());
-//
-//                }
-//                return false;
-//            }
-//        });
 
     }
 }

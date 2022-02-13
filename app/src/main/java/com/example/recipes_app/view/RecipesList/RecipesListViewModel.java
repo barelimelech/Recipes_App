@@ -12,6 +12,8 @@ import java.util.List;
 
 public class RecipesListViewModel extends ViewModel {
     LiveData<List<Recipe>> recipes;
+    LiveData<List<Recipe>> userRecipes;
+
     List<Recipe> tmpRecipes;
     List<Recipe> recipesL;
     public UsersListViewModel usersListViewModel;
@@ -19,6 +21,7 @@ public class RecipesListViewModel extends ViewModel {
 
     public RecipesListViewModel() {
         recipes = Model.instance.getAllRecipes();
+        userRecipes = Model.instance.getAllUserRecipes();
         tmpRecipes = new ArrayList<>();
 
     }
@@ -29,7 +32,6 @@ public class RecipesListViewModel extends ViewModel {
 
 
     public void deleteRecipe(Recipe recipe, Model.DeleteRecipeListener listener) {
-
         Model.instance.deleteRecipe(recipe,listener);
     }
 
@@ -38,6 +40,19 @@ public class RecipesListViewModel extends ViewModel {
         return recipesL;
     }
 
+
+
+    public LiveData<List<Recipe>> getRecipesByUsername() {
+        recipes = userRecipes;
+        return userRecipes;
+    }
+
+    public void refreshUserRecipesList(){
+        Model.instance.refreshUserRecipeList();
+    }
+    public void refreshRecipesList(){
+        Model.instance.refreshRecipeList();
+    }
 
 
 }
