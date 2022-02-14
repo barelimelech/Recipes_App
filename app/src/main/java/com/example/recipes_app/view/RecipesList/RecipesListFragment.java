@@ -10,8 +10,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Filter;
-import android.widget.Filterable;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -244,7 +242,7 @@ public class RecipesListFragment extends Fragment {
     interface OnItemClickListener {
         void onItemClick(View v, int position, int viewId);
     }
-    class MyAdapter extends RecyclerView.Adapter<RecipesListFragment.MyViewHolder> implements Filterable {
+    class MyAdapter extends RecyclerView.Adapter<RecipesListFragment.MyViewHolder>{
 
         OnItemClickListener listener;
 
@@ -289,42 +287,42 @@ public class RecipesListFragment extends Fragment {
             }
 
         }
-        @Override
-        public Filter getFilter() {
-            return myFilter;
-        }
-
-        private Filter myFilter = new Filter() {
-            @Override
-            protected FilterResults performFiltering(CharSequence constraint) {
-                List<Recipe> list = new ArrayList<>();
-                if(constraint == null || constraint.length() == 0){
-                    //List<Recipe> tmpList = viewModel.getRecipes().getValue();
-
-                    list.addAll(recipes);
-                }else{
-                    String filterPattern = constraint.toString().toLowerCase().trim();
-                    for (Recipe item : viewModel.recipes.getValue()) {
-                        if (item.getName().toLowerCase().contains(filterPattern)) {
-                            list.add(item);
-                        }
-                    }
-                }
-                FilterResults results = new FilterResults();
-                results.values = list;
-
-                return results;
-            }
-
-            @Override
-            protected void publishResults(CharSequence constraint, FilterResults results) {
-                List<Recipe> list1 = viewModel.getRecipes().getValue();
-
-                list1.clear();
-                list1.addAll((List) results.values);
-                notifyDataSetChanged();
-            }
-        };
+//        @Override
+//        public Filter getFilter() {
+//            return myFilter;
+//        }
+//
+//        private Filter myFilter = new Filter() {
+//            @Override
+//            protected FilterResults performFiltering(CharSequence constraint) {
+//                List<Recipe> list = new ArrayList<>();
+//                if(constraint == null || constraint.length() == 0){
+//                    //List<Recipe> tmpList = viewModel.getRecipes().getValue();
+//
+//                    list.addAll(recipes);
+//                }else{
+//                    String filterPattern = constraint.toString().toLowerCase().trim();
+//                    for (Recipe item : viewModel.recipes.getValue()) {
+//                        if (item.getName().toLowerCase().contains(filterPattern)) {
+//                            list.add(item);
+//                        }
+//                    }
+//                }
+//                FilterResults results = new FilterResults();
+//                results.values = list;
+//
+//                return results;
+//            }
+//
+//            @Override
+//            protected void publishResults(CharSequence constraint, FilterResults results) {
+//                List<Recipe> list1 = viewModel.getRecipes().getValue();
+//
+//                list1.clear();
+//                list1.addAll((List) results.values);
+//                notifyDataSetChanged();
+//            }
+//        };
 
     }
 

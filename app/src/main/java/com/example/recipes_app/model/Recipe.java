@@ -1,13 +1,14 @@
 package com.example.recipes_app.model;
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
-import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.FieldValue;
+
 import java.util.HashMap;
 import java.util.Map;
-
 @Entity
 public class Recipe {
     final public static String COLLECTION_NAME = "recipes";
@@ -26,6 +27,7 @@ public class Recipe {
 
     String isDeleted="false";
 
+    @Ignore
     public Recipe(){}
     public Recipe(String id,String name,String method, String ingredients,String type,String username) {
         this.name = name;
@@ -118,14 +120,12 @@ public class Recipe {
         String ingredients = (String) json.get("ingredients");
         String type = (String) json.get("type");
         Timestamp ts = (Timestamp)json.get("updateDate");
-        Long updateDate = ts.getSeconds();
         String recipeUrl = (String) json.get("recipeUrl");
         String username = (String) json.get("username");
         String delete = (String)json.get("isDeleted");
 
 
         Recipe recipe = new Recipe(id,name,method,ingredients,type,username);
-        //recipe.setUpdateDate(updateDate);
         recipe.setImageUrl(recipeUrl);
         recipe.setIsDeleted(delete);
 

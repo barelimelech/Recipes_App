@@ -47,7 +47,6 @@ public class LoginFragment extends Fragment {
         signUpBtn =view.findViewById(R.id.login_signup_btnnnn);
         loginBtn =view.findViewById(R.id.login_login_btnnnn);
         loginBtn.setOnClickListener(v -> {
-            //TODO - connect to model login function
             String email = emailTv.getText().toString();
             String password = passwordTv.getText().toString();
             boolean b = check();
@@ -58,21 +57,18 @@ public class LoginFragment extends Fragment {
                         User newUser = user;
                         newUser.setIsConnected("true");
 
-                        viewModel.editUser(newUser, new Model.EditUserListener() {
-                            @Override
-                            public void onComplete() {
-                                boolean bool = save();
-                                if (bool == true) {
-                                    viewModel.signIn(user, email, password, new Model.SigninUserListener(){
-                                        @Override
-                                        public void onComplete() { toFeedActivity(); }
-                                        @Override
-                                        public void onFailure() {
-                                            Toast.makeText(getActivity(), "Email or password is not correct.", Toast.LENGTH_LONG).show();
+                        viewModel.editUser(newUser, () -> {
+                            boolean bool = save();
+                            if (bool == true) {
+                                viewModel.signIn(user, email, password, new Model.SigninUserListener(){
+                                    @Override
+                                    public void onComplete() { toFeedActivity(); }
+                                    @Override
+                                    public void onFailure() {
+                                        Toast.makeText(getActivity(), "Email or password is not correct.", Toast.LENGTH_LONG).show();
 
-                                        }
-                                    });
-                                }
+                                    }
+                                });
                             }
                         });
                     }
@@ -87,12 +83,7 @@ public class LoginFragment extends Fragment {
 
         });
 
-        signUpBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Navigation.findNavController(v).navigate(LoginFragmentDirections.actionLoginFragmentToSignupFragment());
-            }
-        });
+        signUpBtn.setOnClickListener(v -> Navigation.findNavController(v).navigate(LoginFragmentDirections.actionLoginFragmentToSignupFragment()));
 
 
 
@@ -128,7 +119,6 @@ public class LoginFragment extends Fragment {
         return true;
     }
     private boolean save() {
-        //signUpBtn.setEnabled(false);
         String email = emailTv.getText().toString();
         String password = passwordTv.getText().toString();
         if (TextUtils.isEmpty(email)){

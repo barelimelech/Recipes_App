@@ -26,19 +26,19 @@
         app:layout_constraintHorizontal_bias="0.333"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.198" />
+        app:layout_constraintVertical_bias="0.183" />
 
     <ImageView
         android:id="@+id/myAccount_image_user"
-        android:layout_width="81dp"
-        android:layout_height="88dp"
+        android:layout_width="97dp"
+        android:layout_height="99dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="12dp"
         android:layout_marginEnd="40dp"
         app:layout_constraintEnd_toStartOf="@+id/myaccount_fullname_tv"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView10"
-        app:srcCompat="@drawable/avatar"/>
+        app:srcCompat="@drawable/avatar" />
 
     <TextView
         android:id="@+id/myaccount_fullname_tv"
@@ -99,66 +99,52 @@
 
     <Button
         android:id="@+id/myaccount_othersrecipes_btn"
-        android:layout_width="155dp"
-        android:layout_height="75dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:backgroundTint="@android:color/transparent"
-
-        android:fontFamily="@font/boogaloo"
-        android:shadowColor="#00FFFFFF"
-        android:text="Others Recipes"
-        android:textColor="#3E260B"
-        android:textColorHighlight="#00FFFFFF"
-        android:textColorLink="#00231F1F"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toStartOf="@+id/myaccount_categories_btn"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/myaccount_myrecipes_btn"
-        app:rippleColor="#8F4F4F" />
-
-    <Button
-        android:id="@+id/myaccount_categories_btn"
-        android:layout_width="155dp"
-        android:layout_height="75dp"
+        android:layout_width="330dp"
+        android:layout_height="74dp"
+        android:layout_marginStart="32dp"
         android:layout_marginTop="16dp"
 
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="32dp"
         android:backgroundTint="@android:color/transparent"
         android:fontFamily="@font/boogaloo"
         android:shadowColor="#00FFFFFF"
-        android:text="Categories"
+        android:text="All Recipes"
         android:textColor="#3E260B"
         android:textColorHighlight="#00FFFFFF"
         android:textColorLink="#00231F1F"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/myaccount_othersrecipes_btn"
-        app:layout_constraintTop_toBottomOf="@+id/myaccount_edit_btn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/myaccount_myrecipes_btn"
         app:rippleColor="#8F4F4F" />
 
     <Button
         android:id="@+id/myAccount_logout_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="24dp"
+        android:backgroundTint="#3E260B"
         android:text="log out"
         app:layout_constraintBottom_toTopOf="@+id/textView10"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.948"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
     <Button
         android:id="@+id/myaccount_addrecipe_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="45dp"
+        android:layout_width="260dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="64dp"
+        android:backgroundTint="#3E260B"
         android:text="add recipe"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/myaccount_categories_btn" />
+        app:layout_constraintTop_toBottomOf="@+id/myaccount_othersrecipes_btn"
+        app:layout_constraintVertical_bias="0.0" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

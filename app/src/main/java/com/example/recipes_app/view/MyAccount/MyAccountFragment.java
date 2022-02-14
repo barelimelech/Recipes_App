@@ -23,14 +23,11 @@ import com.example.recipes_app.model.Model;
 import com.example.recipes_app.model.Recipe;
 import com.example.recipes_app.model.User;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.firebase.auth.FirebaseAuth;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 public class MyAccountFragment extends Fragment {
-
-    private FirebaseAuth firebaseAuth;
 
     List<Recipe> recipes;
     String usernameAsId;
@@ -55,7 +52,6 @@ public class MyAccountFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view= inflater.inflate(R.layout.fragment_my_account, container, false);
-        firebaseAuth = FirebaseAuth.getInstance();
         userImage = view.findViewById(R.id.myAccount_image_user);
 
         viewModel.getUserByEmail(viewModel.getCurrentUserEmail(), new Model.GetUserByEmail() {
@@ -122,11 +118,6 @@ public class MyAccountFragment extends Fragment {
             //Navigation.findNavController(v).navigate(R.id.action_myAccount_nav_to_editMyAccountFragment);
             NavHostFragment.findNavController(this).navigate(MyAccountFragmentDirections.actionMyAccountNavToEditMyAccountFragment(fullNameAsId));
 
-        });
-
-        Button categories = view.findViewById(R.id.myaccount_categories_btn);
-        categories.setOnClickListener((v)->{
-            NavHostFragment.findNavController(this).navigate(MyAccountFragmentDirections.actionMyAccountNavToCategoriesListFragment(fullNameAsId));
         });
 
 

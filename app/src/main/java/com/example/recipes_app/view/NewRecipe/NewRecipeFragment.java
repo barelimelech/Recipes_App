@@ -76,8 +76,8 @@ public class NewRecipeFragment extends Fragment{
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_new_recipe, container, false);
-        //usernameAsId = NewRecipeFragmentArgs.fromBundle(getArguments()).getUsername();
-        //usernameAsId = Model.instance.GetCurrentNameUser();
+
+
         usernameAsId = viewModel.getCurrentUser();
         recipeName= view.findViewById(R.id.pe_nameOfRec);
         recipeMethod= view.findViewById(R.id.newRec_method);
@@ -85,20 +85,13 @@ public class NewRecipeFragment extends Fragment{
         saveBtn = view.findViewById(R.id.newRec_save_btn);
         categoriesSpinner = view.findViewById(R.id.newRec_spinner);
         username = view.findViewById(R.id.newRec_username_tv);
-        //categories = Model.instance.getAllCategories();
         initSpinnerFooter();
         recipeImage = view.findViewById(R.id.newRecipe_image_recipe);
         username.setText(usernameAsId);
         cancelBtn = view.findViewById(R.id.newRec_cancel_btn);
-        //progressBar = view.findViewById(R.id.main_progressbar);
-        //progressBar.setVisibility(View.GONE);
+
         recipeImage.setImageResource(R.drawable.cake);
-        saveBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                save();
-            }
-        });
+        saveBtn.setOnClickListener(v -> save());
 
         camBtn = view.findViewById(R.id.newRec_camera_btn);
 
@@ -170,7 +163,6 @@ public class NewRecipeFragment extends Fragment{
     }
 
     private void save() {
-        //progressBar.setVisibility(View.VISIBLE);
         cancelBtn.setEnabled(false);
         saveBtn.setEnabled(false);
         camBtn.setEnabled(false);
@@ -184,17 +176,11 @@ public class NewRecipeFragment extends Fragment{
         String type = selectedCategory;
 
         Recipe recipe = new Recipe(id,name,method,ingredients,type,usernameAsId);
-        //UserRecipe userRecipe = new UserRecipe(usernameAsId,name);
 
         if(imageBitmap == null){
             viewModel.addRecipe(recipe,()->{
                 Navigation.findNavController(recipeName).navigateUp();
             });
-//            Model.instance.addRecipe(recipe,()->{
-//                Navigation.findNavController(recipeName).navigateUp();
-//            });
-
-
         }
         else{
 
@@ -204,16 +190,6 @@ public class NewRecipeFragment extends Fragment{
                     Navigation.findNavController(recipeName).navigateUp();
                 });
             });
-//            Model.instance.saveImage(imageBitmap,recipeName + ".jpg", url->{
-//                recipe.setImageUrl(url);
-//                Model.instance.addRecipe(recipe,()->{
-//                    Navigation.findNavController(recipeName).navigateUp();
-//                });
-//
-////                Model.instance.addUserRecipe(userRecipe,()->{
-////
-////                });
-//            });
         }
 
 

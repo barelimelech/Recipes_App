@@ -6,11 +6,10 @@ import androidx.room.RoomDatabase;
 
 import com.example.recipes_app.MyApplication;
 
-@Database(entities = {Recipe.class, User.class, UserRecipe.class}, version = 25)
+@Database(entities = {Recipe.class, User.class}, version = 26)
 abstract class AppLocalDbRepository extends RoomDatabase {
     public abstract RecipeDao recipeDao();
     public abstract UserDao userDao();
-    public abstract UserRecipeDao userRecipeDao();
 }
 
 public class AppLocalDb{

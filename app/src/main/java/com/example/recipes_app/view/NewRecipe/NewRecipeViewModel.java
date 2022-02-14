@@ -2,7 +2,6 @@ package com.example.recipes_app.view.NewRecipe;
 
 import android.graphics.Bitmap;
 
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.recipes_app.model.Model;
@@ -10,10 +9,7 @@ import com.example.recipes_app.model.Recipe;
 
 public class NewRecipeViewModel extends ViewModel {
 
-    MutableLiveData<Recipe> recipe;
-
     public NewRecipeViewModel(){
-
     }
 
     public String getCurrentUser(){

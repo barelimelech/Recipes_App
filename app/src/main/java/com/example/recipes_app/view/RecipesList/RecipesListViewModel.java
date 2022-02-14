@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.recipes_app.model.Model;
 import com.example.recipes_app.model.Recipe;
-import com.example.recipes_app.view.MyAccount.UsersListViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +15,6 @@ public class RecipesListViewModel extends ViewModel {
 
     List<Recipe> tmpRecipes;
     List<Recipe> recipesL;
-    public UsersListViewModel usersListViewModel;
 
 
     public RecipesListViewModel() {
@@ -35,10 +33,7 @@ public class RecipesListViewModel extends ViewModel {
         Model.instance.deleteRecipe(recipe,listener);
     }
 
-    public List<Recipe> getAllUR(){
-        recipesL = usersListViewModel.getAllUserRecipes(Model.instance.getCurrentUsername());
-        return recipesL;
-    }
+
 
 
 

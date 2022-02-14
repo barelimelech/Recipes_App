@@ -30,12 +30,6 @@ public class EditRecipeViewModel extends ViewModel {
         Model.instance.refreshRecipeList();
     }
 
-//    public void logout(){
-//        String currentUserEmail = Model.instance.getCurrentUserEmail();
-//        Model.instance.getFirebaseAuth().signOut();
-//        Model.instance.logout(currentUserEmail
-//    }
-
     public void getRecipeByRecipeName(String recipeName, Model.GetRecipeByRecipeName listener){
         Model.instance.getRecipeByRecipeName(recipeName,listener);
     }

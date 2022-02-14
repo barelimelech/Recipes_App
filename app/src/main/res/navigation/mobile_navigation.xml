@@ -7,19 +7,6 @@
 
 
     <fragment
-        android:id="@+id/categoriesListFragment"
-        android:name="com.example.recipes_app.view.Categories.CategoriesListFragment"
-        android:label="Categories List"
-        tools:layout="@layout/fragment_categories_list" >
-
-        <argument
-            android:name="username"
-            app:argType="string" />
-        <action
-            android:id="@+id/action_categoriesListFragment_to_recipesListFragment"
-            app:destination="@id/recipesListFragment" />
-    </fragment>
-    <fragment
         android:id="@+id/recipesListFragment"
         android:name="com.example.recipes_app.view.RecipesList.RecipesListFragment"
         android:label="Recipes List"
@@ -79,9 +66,6 @@
             android:id="@+id/action_myAccount_nav_to_recipesListFragment"
             app:destination="@id/recipesListFragment" />
         <action
-            android:id="@+id/action_myAccount_nav_to_categoriesListFragment"
-            app:destination="@id/categoriesListFragment" />
-        <action
             android:id="@+id/action_myAccount_nav_to_editMyAccountFragment"
             app:destination="@id/editMyAccountFragment" />
         <argument
@@ -109,6 +93,5 @@
             app:argType="string" />
     </fragment>
     <action android:id="@+id/action_global_recipesListFragment" app:destination="@id/recipesListFragment" />
-    <action android:id="@+id/action_global_nav_home" app:destination="@id/nav_home" />
 
 </navigation>

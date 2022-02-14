@@ -11,8 +11,6 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,8 +53,7 @@ public class EditRecipeFragment extends Fragment {
     Recipe recipe;
     Button saveRecipe;
     Button backBtn;
-    Button deleteRecipe;
-    String recipeNameAsId, usernameAsId, category;
+    String recipeNameAsId, usernameAsId;
     Spinner categoriesSpinner;
     List<String> categories = Model.instance.getAllCategories();
     String selectedCategory;
@@ -98,87 +95,39 @@ public class EditRecipeFragment extends Fragment {
         recipeImage = view.findViewById(R.id.editrecipe_image_recipe);
         progressBar = view.findViewById(R.id.edit_progressbar);
         progressBar.setVisibility(View.GONE);
-        progressBar.getIndeterminateDrawable().setColorFilter(rgb(255, 204, 204),
-                android.graphics.PorterDuff.Mode.MULTIPLY);
-
+        progressBar.getIndeterminateDrawable().setColorFilter(rgb(255, 204, 204), android.graphics.PorterDuff.Mode.MULTIPLY);
 
         recipe = new Recipe();
 
-        viewModel.getRecipeByRecipeName(recipeNameAsId, new Model.GetRecipeByRecipeName() {
-            @Override
-            public void onComplete(Recipe recipe) {
-                recipeName.setText(recipe.getName());
-                recipeMethod.setText(recipe.getMethod());
-                recipeIngredients.setText(recipe.getIngredients());
-                userName.setText(recipe.getUsername());
-                if(recipe.getRecipeUrl()!=null){
-                    Picasso.get().load(recipe.getRecipeUrl()).into(recipeImage);
-                }
-                else{
-                    recipeImage.setImageResource(R.drawable.cake);
-                }
-                imageBitmap = ((BitmapDrawable)recipeImage.getDrawable()).getBitmap();
+        viewModel.getRecipeByRecipeName(recipeNameAsId, recipe -> {
+            recipeName.setText(recipe.getName());
+            recipeMethod.setText(recipe.getMethod());
+            recipeIngredients.setText(recipe.getIngredients());
+            userName.setText(recipe.getUsername());
+            if(recipe.getRecipeUrl()!=null){
+                Picasso.get().load(recipe.getRecipeUrl()).into(recipeImage);
             }
+            else{
+                recipeImage.setImageResource(R.drawable.cake);
+            }
+            imageBitmap = ((BitmapDrawable)recipeImage.getDrawable()).getBitmap();
         });
 
-
-//        Model.instance.getRecipeByRecipeName(recipeNameAsId, new Model.GetRecipeByRecipeName() {
-//            @Override
-//            public void onComplete(Recipe recipe) {
-//                recipeName.setText(recipe.getName());
-//                recipeMethod.setText(recipe.getMethod());
-//                recipeIngredients.setText(recipe.getIngredients());
-//                userName.setText(recipe.getUsername());
-//                if(recipe.getRecipeUrl()!=null){
-//                    Picasso.get().load(recipe.getRecipeUrl()).into(recipeImage);
-//                }
-//                else{
-//                    recipeImage.setImageResource(R.drawable.cake);
-//                }
-//                imageBitmap = ((BitmapDrawable)recipeImage.getDrawable()).getBitmap();
-//            }
-//        });
 
         recipeImage.setImageBitmap(imageBitmap);
         initSpinnerFooter();
 
         saveRecipe = view.findViewById(R.id.editrecipe_save_btn);
-        saveRecipe.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                save();
-            }
-        });
+        saveRecipe.setOnClickListener(v -> save());
 
         deleteImage = view.findViewById(R.id.deleteImg_btn);
-        deleteImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                deleteImage();
-            }
-        });
-
-//        if(recipeImage.getDrawable() == null){
-//            deleteImage.setVisibility(View.GONE);
-//        }
+        deleteImage.setOnClickListener(v -> deleteImage());
 
         camBtn = view.findViewById(R.id.editRec_camera_btn);
+        camBtn.setOnClickListener(v -> openCam());
 
         galleryBtn = view.findViewById(R.id.editRec_gallery_btn);
-
-        camBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openCam();
-            }
-        });
-
-        galleryBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openGallery();
-            }
-        });
+        galleryBtn.setOnClickListener(v -> openGallery());
 
 
 
@@ -188,20 +137,6 @@ public class EditRecipeFragment extends Fragment {
         });
 
 
-//
-//        deleteRecipe = view.findViewById(R.id.editrecipe_delete_btn);
-////        viewModel.deleteRecipe(recipe, ()->{
-////            Model.instance.refreshRecipeList();
-////        });
-//        deleteRecipe.setOnClickListener((v)->{
-//             delete();
-//            Model.instance.deleteRecipe(recipe,()->{
-//                Log.d("TAG", "name: " + recipe);
-//                Model.instance.refreshRecipeList();
-//                NavHostFragment.findNavController(this).navigate(EditRecipeFragmentDirections.actionGlobalRecipesListFragment(usernameAsId,recipeNameAsId));
-//                //NavHostFragment.findNavController(this).navigate(EditRecipeFragmentDirections.actionGlobalMyAccountFragment(recipe.getUsername()));//TODO:!!!!
-//            });
-//        });
 
         setHasOptionsMenu(true);
         return view;
@@ -253,26 +188,6 @@ public class EditRecipeFragment extends Fragment {
         }
     }
 
-
-//    private void delete() {
-//        deleteRecipe.setEnabled(false);
-//
-//        String name = recipeName.getText().toString();
-//        Log.d("TAG", "name: " + name);
-//        String method = recipeMethod.getText().toString();
-//        String ingredients = recipeIngredients.getText().toString();
-//        String type = selectedCategory;
-//        String user = userName.getText().toString();
-//        String id = recipeNameAsId;
-//
-//        Log.d("TAG", "name: " + recipe.getName());
-//        Recipe newRecipe = new Recipe(id,name,method,ingredients,type,user);
-//        newRecipe.setIsDeleted("true");
-//        recipe = newRecipe;
-//
-//    }
-
-    //TODO:save..
     private void save() {
         progressBar.setVisibility(View.VISIBLE);
         saveRecipe.setEnabled(false);
@@ -306,21 +221,9 @@ public class EditRecipeFragment extends Fragment {
 
                 });
             } );
-//            Model.instance.saveImage(imageBitmap,recipeName + ".jpg", url->{
-//                newRecipe.setImageUrl(url);
-//                viewModel.editRecipe(newRecipe, ()->{
-//                    Navigation.findNavController(getView()).navigateUp();
-//
-//                });
-//            });
+
         }
 
-//        Model.instance.editRecipe(newRecipe,()->{
-//           // NavHostFragment.findNavController(this).navigate(EditRecipeFragmentDirections.actionGlobalRecipesListFragment(usernameAsId,recipeNameAsId));
-//            Navigation.findNavController(getView()).navigateUp();
-//        });
-
-    //   NavHostFragment.findNavController(this).navigate(EditRecipeFragmentDirections.actionGlobalRecipesListFragment2();//TODO:!!!!
     }
 
     private void initSpinnerFooter() {
@@ -334,10 +237,8 @@ public class EditRecipeFragment extends Fragment {
         categoriesSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                //Log.v("item", (String) parent.getItemAtPosition(position));
                 ((TextView) parent.getChildAt(0)).setTextSize(25);
                 selectedCategory = items[position];
-
             }
 
             @Override
@@ -345,31 +246,15 @@ public class EditRecipeFragment extends Fragment {
             }
         });
     }
-    @Override
-    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.edit_menu, menu);
-    }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.deleteRecipe){
-            deleteRecipe();
-            //TODO:delete
-            // Model.instance.deleteRecipeNew(recipe.getId());
-
-            //TODO:
-           // NavHostFragment.findNavController(this).navigate(EditRecipeFragmentDirections.actionGlobalMyAccountFragment(usernameAsId));
-            return true;
-        }else if(item.getItemId() == R.id.logout_menu){
+       if(item.getItemId() == R.id.logout_menu){
             String currentUserEmail = userViewModel.getCurrentUserEmail();
             userViewModel.signOut();
-            userViewModel.logout(currentUserEmail, new Model.LogoutUserListener() {
-                @Override
-                public void onComplete() {
-                    startActivity(new Intent(getActivity(), LoginActivity.class));
-                    getActivity().finish();
-                }
+            userViewModel.logout(currentUserEmail, () -> {
+                startActivity(new Intent(getActivity(), LoginActivity.class));
+                getActivity().finish();
             });
 
             return true;
@@ -378,12 +263,7 @@ public class EditRecipeFragment extends Fragment {
         }
     }
 
-    private void deleteRecipe() {
-//        AlertDialog.Builder builder= new AlertDialog.Builder(requireContext());
-//        builder.setPositiveButton("yes", ()->{
-//
-//        })
-    }
+
 
     @Override
     public void onResume() {

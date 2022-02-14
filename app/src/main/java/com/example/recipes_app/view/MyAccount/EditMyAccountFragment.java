@@ -56,8 +56,6 @@ public class EditMyAccountFragment extends Fragment {
     ImageButton galleryBtn;
     ImageButton camBtn;
 
-    String usernameAsId;
-
     UserViewModel viewModel;
 
     @Override
@@ -80,7 +78,6 @@ public class EditMyAccountFragment extends Fragment {
         fullName= view.findViewById(R.id.editmyaccount_fullname_tv);
         cancelBtn = view.findViewById(R.id.editmyaccount_cancel_btn);
         userImage = view.findViewById(R.id.editmyaccount_image_recipe);
-        //usernameAsId = EditMyAccountFragmentArgs.fromBundle(getArguments()).getUsername();
 
         viewModel.getUserByEmail(viewModel.getCurrentUserEmail(), new Model.GetUserByEmail() {
             @Override
@@ -103,89 +100,24 @@ public class EditMyAccountFragment extends Fragment {
             }
         });
 
-//        Model.instance.getUserByEmail(Model.instance.getCurrentUserEmail(), new Model.GetUserByEmail() {
-//            @Override
-//            public void onComplete(User user) {
-//                fullName.setText(user.getFullName());
-//                phone.setText(user.getPhone());
-//                email.setText(user.getEmail());
-//                if(user.getUserUrl()!=null){
-//                    Picasso.get().load(user.getUserUrl()).into(userImage);
-//                    imageBitmap = ((BitmapDrawable)userImage.getDrawable()).getBitmap();
-//                }
-//                else{
-//                    userImage.setImageResource(R.drawable.avatar);
-//                }
-//
-//
-//            }
-//
-//            @Override
-//            public void onFailure() {
-//
-//            }
-//        });
 
         userImage.setImageBitmap(imageBitmap);
-//        Model.instance.getUserByUsername(usernameAsId, new Model.GetUserByUsername() {
-//
-//            @Override
-//            public void onComplete(User user) {
-//                fullName.setText(user.getFullName());
-//                password.setText(user.getPassword());
-//                username.setText(user.getUsername());
-//
-//            }
-//        });
-
 
         saveMyAccount = view.findViewById(R.id.editmyaccount_save_btn);
-        saveMyAccount.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                save();
-            }
-        });
+        saveMyAccount.setOnClickListener(v -> save());
 
-        cancelBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Navigation.findNavController(v).navigateUp();
-
-            }
-        });
+        cancelBtn.setOnClickListener(v -> Navigation.findNavController(v).navigateUp());
 
         deleteImage = view.findViewById(R.id.deleteImg_btn3);
-        deleteImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                deleteImage();
-            }
-        });
+        deleteImage.setOnClickListener(v -> deleteImage());
 
         camBtn = view.findViewById(R.id.editUser_camera_btn);
+        camBtn.setOnClickListener(v -> openCam());
 
         galleryBtn = view.findViewById(R.id.editUser_gallery_btn);
+        galleryBtn.setOnClickListener(v -> openGallery());
 
-        camBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openCam();
-            }
-        });
 
-        galleryBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openGallery();
-            }
-        });
-
-//
-//        backBtn = view.findViewById(R.id.editrecipe_back_btn);
-//        backBtn.setOnClickListener((v)->{
-//            Navigation.findNavController(v).navigateUp();
-//        });
         setHasOptionsMenu(true);
         return view;
     }
@@ -239,7 +171,6 @@ public class EditMyAccountFragment extends Fragment {
         saveMyAccount.setEnabled(false);
         camBtn.setEnabled(false);
         galleryBtn.setEnabled(false);
-        //backBtn.setEnabled(false);
         String email1 = email.getText().toString();
         String password1 = password.getText().toString();
         String fullName1 = fullName.getText().toString();
@@ -251,51 +182,14 @@ public class EditMyAccountFragment extends Fragment {
 
         if(imageBitmap == null){
             viewModel.editUser(newUser, () -> Navigation.findNavController(getView()).navigateUp());
-//            Model.instance.editUser(newUser,new Model.EditUserListener(){
-//                @Override
-//                public void onComplete() {
-//                    Navigation.findNavController(getView()).navigateUp();
-//                }
-//            });
         }
         else {
             viewModel.saveImage(imageBitmap,fullName + ".jpg", url -> {
                 newUser.setUserUrl(url);
                 viewModel.editUser(newUser, () -> Navigation.findNavController(getView()).navigateUp());
             } );
-//            Model.instance.saveImage(imageBitmap,fullName + ".jpg", url-> {
-//                newUser.setUserUrl(url);
-//                Model.instance.editUser(newUser, new Model.EditUserListener() {
-//                    @Override
-//                    public void onComplete() {
-//                        Navigation.findNavController(getView()).navigateUp();
-//                    }
-//                });
-//            });
+
         }
-
-
-       // NavHostFragment.findNavController(this).navigate(EditMyAccountFragmentDirections.actionGlobalMyAccountFragment(usernameAsId));
-
-//        Model.instance.getRecipeById(recipeId, new Model.GetRecipeById() {
-//            @Override
-//            public void onComplete(Recipe student) {
-//                student.setName(name);
-//                student.setMethod(method);
-//                student.setIngredients(ingredients);
-//            }
-//        });
-//        Recipe updatedRecipe = new Recipe();
-//        updatedRecipe.setName(name);
-//        Log.d("TAG", "name: " + updatedRecipe.getName());
-//        updatedRecipe.setMethod(method);
-//        updatedRecipe.setIngredients(ingredients);
-//        Map<String, Object> json = updatedRecipe.toJson();
-//        db.collection("Recipe.COLLECTION_NAME")
-//                .document(recipeId)
-//                .set(json);
-       // NavHostFragment.findNavController(this).navigate(EditRecipeFragmentDirections.actionGlobalRecipesListFragment2());
-
 
     }
 

@@ -141,7 +141,6 @@ public class SignupFragment extends Fragment {
 
 
     private void save() {
-        //signUpBtn.setEnabled(false);
         String email = emailTv.getText().toString();
         String password = passwordTv.getText().toString();
         String phone1 = phone.getText().toString();
@@ -151,8 +150,6 @@ public class SignupFragment extends Fragment {
             fullName.setError("Please Enter full name :)");
         }else if(TextUtils.isEmpty(phone1)) {
             phone.setError("Please Enter phone number :)");
-        }else if (phone1.length() < 10) {
-            phone.setError("Phone must be 10 or more characters");
         } else if (TextUtils.isEmpty(email)){
             emailTv.setError("Please Enter email :)");
         }else if(!email.contains("@")){
