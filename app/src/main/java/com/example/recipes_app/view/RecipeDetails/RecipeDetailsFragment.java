@@ -139,20 +139,20 @@ public class RecipeDetailsFragment extends Fragment {
 
     }
 
-    @Override
-    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.detalis_menu, menu);
-    }
+//    @Override
+//    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+//        super.onCreateOptionsMenu(menu, inflater);
+//        inflater.inflate(R.menu.detalis_menu, menu);
+//    }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.EditRecipeFragment){
-            Log.d("TAG","edit...");
-            //NavHostFragment.findNavController(this).navigate(RecipeDetailsFragmentDirections.actionRecipeFragmentToEditRecipeFragment(recipeNameAsId));
-            //NavHostFragment.findNavController(this).navigate(RecipeDetailsFragmentDirections.actionRecipeFragmentToEditRecipeFragment(recipeNameAsId,usernameAsId,""));
-            return true;
-        }else if(item.getItemId() == R.id.logout_menu){
+//        if (item.getItemId() == R.id.EditRecipeFragment){
+//            Log.d("TAG","edit...");
+//            //NavHostFragment.findNavController(this).navigate(RecipeDetailsFragmentDirections.actionRecipeFragmentToEditRecipeFragment(recipeNameAsId));
+//            //NavHostFragment.findNavController(this).navigate(RecipeDetailsFragmentDirections.actionRecipeFragmentToEditRecipeFragment(recipeNameAsId,usernameAsId,""));
+//            return true;
+         if(item.getItemId() == R.id.logout_menu){
             String currentUserEmail = userViewModel.getCurrentUserEmail();
             userViewModel.signOut();
             userViewModel.logout(currentUserEmail, new Model.LogoutUserListener() {

@@ -1,5 +1,7 @@
 package com.example.recipes_app.view.EditRecipe;
 
+import static android.graphics.Color.rgb;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -19,6 +21,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -66,6 +69,8 @@ public class EditRecipeFragment extends Fragment {
     EditRecipeViewModel viewModel;
     UserViewModel userViewModel;
 
+    ProgressBar progressBar;
+
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -91,6 +96,10 @@ public class EditRecipeFragment extends Fragment {
         userName = view.findViewById(R.id.editrecipe_username_tv2);
         userName.setText(usernameAsId);
         recipeImage = view.findViewById(R.id.editrecipe_image_recipe);
+        progressBar = view.findViewById(R.id.edit_progressbar);
+        progressBar.setVisibility(View.GONE);
+        progressBar.getIndeterminateDrawable().setColorFilter(rgb(255, 204, 204),
+                android.graphics.PorterDuff.Mode.MULTIPLY);
 
 
         recipe = new Recipe();
@@ -265,6 +274,7 @@ public class EditRecipeFragment extends Fragment {
 
     //TODO:save..
     private void save() {
+        progressBar.setVisibility(View.VISIBLE);
         saveRecipe.setEnabled(false);
         backBtn.setEnabled(false);
         camBtn.setEnabled(false);
