@@ -141,7 +141,7 @@ public class SignupFragment extends Fragment {
 
 
     private void save() {
-        String email = emailTv.getText().toString();
+        String email = emailTv.getText().toString().toLowerCase();
         String password = passwordTv.getText().toString();
         String phone1 = phone.getText().toString();
         String fullName2 = fullName.getText().toString();

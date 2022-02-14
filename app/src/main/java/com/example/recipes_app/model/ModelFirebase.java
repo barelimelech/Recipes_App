@@ -137,9 +137,7 @@ public class ModelFirebase {
             }
 
             @Override
-            public void onFailure() {
-
-            }
+            public void onFailure() { }
         });
     }
 
@@ -241,22 +239,7 @@ public class ModelFirebase {
                 });
     }
 
-    public void getUserById(String uId, Model.GetUserById listener) {
 
-        db.collection(User.COLLECTION_NAME)
-                .document(uId)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        User user = null;
-                        if (task.isSuccessful() & task.getResult()!= null) {
-                            user = User.create(task.getResult().getData());
-                        }
-                        listener.onComplete(user);
-                    }
-                });
-    }
     public void getUserByEmail(String email, Model.GetUserByEmail listener) {
         db.collection(User.COLLECTION_NAME)
                 .whereEqualTo("email",email)

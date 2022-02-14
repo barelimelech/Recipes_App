@@ -134,7 +134,7 @@ public class MyAccountFragment extends Fragment {
         }else{
             String userName = viewModel.getCurrentUserFullName();
             if (userName == null || userName.equals("")) {
-                userName = viewModel.getCurrentUserFullName();
+                userName = viewModel.getCurrentUserUsername();
             }
             fullName.setText(userName);
             fullNameAsId = userName;

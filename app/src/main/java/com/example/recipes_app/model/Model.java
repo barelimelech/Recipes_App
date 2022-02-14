@@ -319,9 +319,9 @@ public class Model {
         void onFailure();
     }
 
-    public interface GetUserById {
-        void onComplete(User user);
-    }
+//    public interface GetUserById {
+//        void onComplete(User user);
+//    }
 
     public User getUserByEmail(String email, GetUserByEmail listener) {
         modelFirebase.getUserByEmail(email, listener);
