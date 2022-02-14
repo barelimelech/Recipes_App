@@ -83,19 +83,12 @@ public class SignupFragment extends Fragment {
         progressBar.setVisibility(View.GONE);
         progressBar.getIndeterminateDrawable().setColorFilter(rgb(255, 204, 204), android.graphics.PorterDuff.Mode.MULTIPLY);
 
-        signUpBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                save();
-            }
-        });
+        signUpBtn.setOnClickListener(v -> save());
 
         camBtn = view.findViewById(R.id.signup_camera_btn);
-
-        galleryBtn = view.findViewById(R.id.signup_gallery_btn);
-
         camBtn.setOnClickListener(v -> openCam());
 
+        galleryBtn = view.findViewById(R.id.signup_gallery_btn);
         galleryBtn.setOnClickListener(v -> openGallery());
 
 

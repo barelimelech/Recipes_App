@@ -56,7 +56,7 @@ public class LoginFragment extends Fragment {
         signUpBtn =view.findViewById(R.id.login_signup_btnnnn);
         loginBtn =view.findViewById(R.id.login_login_btnnnn);
         loginBtn.setOnClickListener(v -> {
-            String email = emailTv.getText().toString();
+            String email = emailTv.getText().toString().toLowerCase();
             String password = passwordTv.getText().toString();
             boolean b = check();
             if(b) {
@@ -109,7 +109,7 @@ public class LoginFragment extends Fragment {
 
 
     private boolean check(){
-        String email = emailTv.getText().toString();
+        String email = emailTv.getText().toString().toLowerCase();
         String password = passwordTv.getText().toString();
         if (TextUtils.isEmpty(email)){
             emailTv.setError("Please Enter email :)");
@@ -130,7 +130,7 @@ public class LoginFragment extends Fragment {
     private boolean save() {
 
         progressBar.setVisibility(View.VISIBLE);
-        String email = emailTv.getText().toString();
+        String email = emailTv.getText().toString().toLowerCase();
         String password = passwordTv.getText().toString();
         if (TextUtils.isEmpty(email)){
             emailTv.setError("Please Enter email :)");
