@@ -20,23 +20,17 @@ import androidx.navigation.fragment.NavHostFragment;
 import com.example.recipes_app.LoginActivity;
 import com.example.recipes_app.R;
 import com.example.recipes_app.model.Model;
-import com.example.recipes_app.model.Recipe;
 import com.example.recipes_app.model.User;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.squareup.picasso.Picasso;
-
-import java.util.List;
 
 public class MyAccountFragment extends Fragment {
 
-    List<Recipe> recipes;
-    String usernameAsId;
+
     TextView fullName;
     Button newRecipe;
     Button logOutBtn;
     View view;
     String fullNameAsId;
-    GoogleApiClient mGoogleApiClient;
     String currentUserEmail;
     ImageView userImage;
 
@@ -62,64 +56,36 @@ public class MyAccountFragment extends Fragment {
                     Picasso.get().load(user.getUserUrl()).into(userImage);
                 }
             }
-
             @Override
             public void onFailure() {
 
             }
         });
-//        Model.instance.getUserByEmail(Model.instance.getCurrentUserEmail(), new Model.GetUserByEmail() {
-//            @Override
-//            public void onComplete(User user) {
-//                fullName.setText(user.getFullName());
-//                if(user.getUserUrl()!=null) {
-//                    Picasso.get().load(user.getUserUrl()).into(userImage);
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure() {
-//
-//            }
-//        });
 
-
-        //usernameAsId = MyAccountFragmentArgs.fromBundle(getArguments()).getUsername();
-//        if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
-//            mGoogleApiClient.toString();
-//        } else {
-//
-//        }
         fullName = view.findViewById(R.id.myaccount_fullname_tv);
         checkUser();
 
         newRecipe = view.findViewById(R.id.myaccount_addrecipe_btn);
         newRecipe.setOnClickListener((v)->{
-             //Navigation.findNavController(v).navigate(R.id.action_global_newRecipeFragment);
             NavHostFragment.findNavController(this).navigate(MyAccountFragmentDirections.actionGlobalNewRecipeFragment(viewModel.getCurrentUser()));
 
         });
 
         Button myRecipes = view.findViewById(R.id.myaccount_myrecipes_btn);
         myRecipes.setOnClickListener((v)->{
-           // Navigation.findNavController(v).navigate(R.id.action_myAccount_nav_to_recipesListFragment);
             NavHostFragment.findNavController(this).navigate(MyAccountFragmentDirections.actionMyAccountNavToRecipesListFragment(viewModel.getCurrentUser(), ""));
 
         });
         Button othersRecipes = view.findViewById(R.id.myaccount_othersrecipes_btn);
         othersRecipes.setOnClickListener((v)->{
             NavHostFragment.findNavController(this).navigate(MyAccountFragmentDirections.actionMyAccountNavToRecipesListFragment("",""));
-
-           // Navigation.findNavController(v).navigate(R.id.action_myAccount_nav_to_recipesListFragment);//TODO
         });
 
         Button editMyAccount = view.findViewById(R.id.myaccount_edit_btn);
         editMyAccount.setOnClickListener((v)->{
-            //Navigation.findNavController(v).navigate(R.id.action_myAccount_nav_to_editMyAccountFragment);
             NavHostFragment.findNavController(this).navigate(MyAccountFragmentDirections.actionMyAccountNavToEditMyAccountFragment(fullNameAsId));
 
         });
-
 
         logOutBtn = view.findViewById(R.id.myAccount_logout_btn);
         logOutBtn.setOnClickListener((v)->{
@@ -127,21 +93,6 @@ public class MyAccountFragment extends Fragment {
             viewModel.signOut();
             checkUser();
         });
-        //TODO: edit my account page and fragment
-//        Button editMyAccount = view.findViewById(R.id.myaccount_edit_btn);
-//        editMyAccount.setOnClickListener((v)->{
-//            Navigation.findNavController(v).navigate(R.id.action_global_newRecipeFragment);
-//        });
-
-//        Model.instance.getUserByUsername(usernameAsId, new Model.GetUserByUsername() {
-//
-//            @Override
-//            public void onComplete(User user) {
-//                fullName.setText(user.getFullName());
-//            }
-//        });
-
-
 
         setHasOptionsMenu(true);
 
@@ -162,12 +113,9 @@ public class MyAccountFragment extends Fragment {
         if(item.getItemId() == R.id.logout_menu){
             String currentUserEmail = viewModel.getCurrentUserEmail();
             viewModel.signOut();
-            viewModel.logout(currentUserEmail, new Model.LogoutUserListener() {
-                @Override
-                public void onComplete() {
-                    startActivity(new Intent(getActivity(), LoginActivity.class));
-                    getActivity().finish();
-                }
+            viewModel.logout(currentUserEmail, () -> {
+                startActivity(new Intent(getActivity(), LoginActivity.class));
+                getActivity().finish();
             });
 
             return true;
@@ -176,29 +124,14 @@ public class MyAccountFragment extends Fragment {
         }
     }
     private void checkUser() {
-        //FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
         if(Model.instance.getCurrentUser() == null){
-            //NavHostFragment.findNavController(this).navigate(MyAccountFragmentDirections.actionMyAccountNavToNavHome());
 
-            //Navigation.findNavController(view).navigate(R.id.nav_host_fragment_content_main);
-           // getActivity().finish();
-            viewModel.logout(currentUserEmail, new Model.LogoutUserListener() {
-                @Override
-                public void onComplete() {
-                    startActivity(new Intent(getActivity(), LoginActivity.class));
-                    getActivity().finish();
-                }
+            viewModel.logout(currentUserEmail, () -> {
+                startActivity(new Intent(getActivity(), LoginActivity.class));
+                getActivity().finish();
             });
-//             Model.instance.logout(currentUserEmail, new Model.LogoutUserListener() {
-//                 @Override
-//                 public void onComplete() {
-//                     startActivity(new Intent(getActivity(), LoginActivity.class));
-//                     getActivity().finish();
-//                 }
-//             });
 
         }else{
-            String email=viewModel.getCurrentUserEmail();
             String userName = viewModel.getCurrentUserFullName();
             if (userName == null || userName.equals("")) {
                 userName = viewModel.getCurrentUserUsername();

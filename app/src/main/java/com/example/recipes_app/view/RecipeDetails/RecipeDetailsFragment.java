@@ -18,8 +18,6 @@ import androidx.navigation.Navigation;
 
 import com.example.recipes_app.LoginActivity;
 import com.example.recipes_app.R;
-import com.example.recipes_app.model.Model;
-import com.example.recipes_app.model.Recipe;
 import com.example.recipes_app.view.MyAccount.UserViewModel;
 import com.squareup.picasso.Picasso;
 
@@ -60,18 +58,15 @@ public class RecipeDetailsFragment extends Fragment {
         userName.setText(usernameAsId);
         recipeImage = view.findViewById(R.id.editmyaccount_image_recipe);
 
-        viewModel.getRecipeByRecipeName(recipeNameAsId, new Model.GetRecipeByRecipeName() {
-            @Override
-            public void onComplete(Recipe recipe) {
-                recipeName.setText(recipe.getName());
-                recipeMethod.setText(recipe.getMethod());
-                recipeIngredients.setText(recipe.getIngredients());
-                type.setText(recipe.getType());
-                if(recipe.getRecipeUrl()!=null){
-                    Picasso.get().load(recipe.getRecipeUrl()).into(recipeImage);
-                }
-                userName.setText(recipe.getUsername());
+        viewModel.getRecipeByRecipeName(recipeNameAsId, recipe -> {
+            recipeName.setText(recipe.getName());
+            recipeMethod.setText(recipe.getMethod());
+            recipeIngredients.setText(recipe.getIngredients());
+            type.setText(recipe.getType());
+            if(recipe.getRecipeUrl()!=null){
+                Picasso.get().load(recipe.getRecipeUrl()).into(recipeImage);
             }
+            userName.setText(recipe.getUsername());
         });
 
 
@@ -86,20 +81,15 @@ public class RecipeDetailsFragment extends Fragment {
 
     }
 
-
-
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
          if(item.getItemId() == R.id.logout_menu){
             String currentUserEmail = userViewModel.getCurrentUserEmail();
             userViewModel.signOut();
-            userViewModel.logout(currentUserEmail, new Model.LogoutUserListener() {
-                @Override
-                public void onComplete() {
-                    startActivity(new Intent(getActivity(), LoginActivity.class));
-                    getActivity().finish();
-                }
+            userViewModel.logout(currentUserEmail, () -> {
+                startActivity(new Intent(getActivity(), LoginActivity.class));
+                getActivity().finish();
             });
 
             return true;

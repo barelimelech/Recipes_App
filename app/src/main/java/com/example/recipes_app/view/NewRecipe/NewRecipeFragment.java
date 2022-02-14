@@ -97,25 +97,9 @@ public class NewRecipeFragment extends Fragment{
 
         galleryBtn = view.findViewById(R.id.newRec_gallery_btn);
 
-        camBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openCam();
-            }
-        });
-        galleryBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openGallery();
-            }
-        });
-        cancelBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Navigation.findNavController(v).navigate(NewRecipeFragmentDirections.actionGlobalMyAccountFragment(Model.instance.getCurrentUsername()));
-
-            }
-        });
+        camBtn.setOnClickListener(v -> openCam());
+        galleryBtn.setOnClickListener(v -> openGallery());
+        cancelBtn.setOnClickListener(v -> Navigation.findNavController(v).navigate(NewRecipeFragmentDirections.actionGlobalMyAccountFragment(Model.instance.getCurrentUsername())));
         setHasOptionsMenu(true);
 
 
@@ -223,12 +207,9 @@ public class NewRecipeFragment extends Fragment{
          if(item.getItemId() == R.id.logout_menu){
             String currentUserEmail = userViewModel.getCurrentUserEmail();
             userViewModel.signOut();
-            userViewModel.logout(currentUserEmail, new Model.LogoutUserListener() {
-                @Override
-                public void onComplete() {
-                    startActivity(new Intent(getActivity(), LoginActivity.class));
-                    getActivity().finish();
-                }
+            userViewModel.logout(currentUserEmail, () -> {
+                startActivity(new Intent(getActivity(), LoginActivity.class));
+                getActivity().finish();
             });
 
             return true;

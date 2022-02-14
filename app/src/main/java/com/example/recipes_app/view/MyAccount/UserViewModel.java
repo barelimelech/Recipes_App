@@ -27,7 +27,6 @@ public class UserViewModel extends ViewModel {
 
     public void updatePassword(String password1){
         Model.instance.getCurrentUser().updatePassword(password1);
-
     }
 
     public String getUserId(){

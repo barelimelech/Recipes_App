@@ -26,7 +26,6 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.recipes_app.LoginActivity;
 import com.example.recipes_app.R;
-import com.example.recipes_app.databinding.FragmentRecipeBinding;
 import com.example.recipes_app.model.Model;
 import com.example.recipes_app.model.Recipe;
 import com.example.recipes_app.view.MyAccount.UserViewModel;
@@ -47,9 +46,6 @@ public class RecipesListFragment extends Fragment {
 
     UserViewModel userViewModel;
 
-    private FragmentRecipeBinding binding;
-
-
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
@@ -66,8 +62,6 @@ public class RecipesListFragment extends Fragment {
         fullNameAsId = RecipesListFragmentArgs.fromBundle(getArguments()).getUsername();
         category = RecipesListFragmentArgs.fromBundle(getArguments()).getCategory();
 
-        binding = FragmentRecipeBinding.inflate(getLayoutInflater());
-
         swipeRefresh = view.findViewById(R.id.recipeslist_swiperefresh);
         swipeRefresh.setOnRefreshListener(() -> refreshList());
 
@@ -80,30 +74,26 @@ public class RecipesListFragment extends Fragment {
         adapter = new MyAdapter();
         list.setAdapter(adapter);
 
-        adapter.setOnItemClickListener(new OnItemClickListener() {
-            @Override
-            public void onItemClick(View v, int position, int viewId) {
-                String id = viewModel.recipes.getValue().get(position).getId();
-                String url = viewModel.recipes.getValue().get(position).getRecipeUrl();
-                String username = viewModel.recipes.getValue().get(position).getUsername();
-                String type = viewModel.recipes.getValue().get(position).getType();
+        adapter.setOnItemClickListener((v, position, viewId) -> {
+            String id = viewModel.recipes.getValue().get(position).getId();
+            String url = viewModel.recipes.getValue().get(position).getRecipeUrl();
+            String username = viewModel.recipes.getValue().get(position).getUsername();
+            String type = viewModel.recipes.getValue().get(position).getType();
 
-                if(url==null){
-                    url = "0";
-                }
-                if(v.findViewById(R.id.recipe_listrow_delete).getId()==viewId){
-                    viewModel.deleteRecipe(viewModel.getRecipes().getValue().get(position),()->{
-                        refreshList();
-                    });
-                }else if(v.findViewById(R.id.recipe_listrow_edit).getId()==viewId){
-                    Navigation.findNavController(v).navigate(RecipesListFragmentDirections.actionRecipesListFragmentToEditRecipeFragment(id,username,type));
-
-                }else{
-                    String recipeNameAsId = viewModel.getRecipes().getValue().get(position).getId();
-                    Navigation.findNavController(v).navigate(RecipesListFragmentDirections.actionRecipesListFragmentToRecipeFragment(recipeNameAsId,fullNameAsId));
-                }
+            if(url==null){
+                url = "0";
             }
+            if(v.findViewById(R.id.recipe_listrow_delete).getId()==viewId){
+                viewModel.deleteRecipe(viewModel.getRecipes().getValue().get(position),()->{
+                    refreshList();
+                });
+            }else if(v.findViewById(R.id.recipe_listrow_edit).getId()==viewId){
+                Navigation.findNavController(v).navigate(RecipesListFragmentDirections.actionRecipesListFragmentToEditRecipeFragment(id,username,type));
 
+            }else{
+                String recipeNameAsId = viewModel.getRecipes().getValue().get(position).getId();
+                Navigation.findNavController(v).navigate(RecipesListFragmentDirections.actionRecipesListFragmentToRecipeFragment(recipeNameAsId,fullNameAsId));
+            }
         });
 
         viewModel.refreshUserRecipesList();
@@ -175,18 +165,14 @@ public class RecipesListFragment extends Fragment {
                 userName = Model.instance.getCurrentUsername();
             }
             fullNameAsIdnew = userName;
-            Log.d("TAG", "fullNameAsId " +  fullNameAsId );
 
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int viewId = v.getId();
+            itemView.setOnClickListener(v -> {
+                int viewId = v.getId();
 
-                    int pos = getAdapterPosition();
-                    listener.onItemClick(v,pos,viewId);
+                int pos = getAdapterPosition();
+                listener.onItemClick(v,pos,viewId);
 
-                }
             });
             deleteBtn.setOnClickListener((v)->{
                 int viewId = v.getId();
@@ -287,42 +273,6 @@ public class RecipesListFragment extends Fragment {
             }
 
         }
-//        @Override
-//        public Filter getFilter() {
-//            return myFilter;
-//        }
-//
-//        private Filter myFilter = new Filter() {
-//            @Override
-//            protected FilterResults performFiltering(CharSequence constraint) {
-//                List<Recipe> list = new ArrayList<>();
-//                if(constraint == null || constraint.length() == 0){
-//                    //List<Recipe> tmpList = viewModel.getRecipes().getValue();
-//
-//                    list.addAll(recipes);
-//                }else{
-//                    String filterPattern = constraint.toString().toLowerCase().trim();
-//                    for (Recipe item : viewModel.recipes.getValue()) {
-//                        if (item.getName().toLowerCase().contains(filterPattern)) {
-//                            list.add(item);
-//                        }
-//                    }
-//                }
-//                FilterResults results = new FilterResults();
-//                results.values = list;
-//
-//                return results;
-//            }
-//
-//            @Override
-//            protected void publishResults(CharSequence constraint, FilterResults results) {
-//                List<Recipe> list1 = viewModel.getRecipes().getValue();
-//
-//                list1.clear();
-//                list1.addAll((List) results.values);
-//                notifyDataSetChanged();
-//            }
-//        };
 
     }
 
@@ -336,12 +286,9 @@ public class RecipesListFragment extends Fragment {
         }else if(item.getItemId() == R.id.logout_menu){
             String currentUserEmail = userViewModel.getCurrentUserEmail();
             userViewModel.signOut();
-            userViewModel.logout(currentUserEmail, new Model.LogoutUserListener() {
-                @Override
-                public void onComplete() {
-                    startActivity(new Intent(getActivity(), LoginActivity.class));
-                    getActivity().finish();
-                }
+            userViewModel.logout(currentUserEmail, () -> {
+                startActivity(new Intent(getActivity(), LoginActivity.class));
+                getActivity().finish();
             });
 
             return true;

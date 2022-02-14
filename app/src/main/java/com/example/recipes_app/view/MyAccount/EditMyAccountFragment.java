@@ -38,7 +38,6 @@ import java.io.IOException;
 public class EditMyAccountFragment extends Fragment {
 
     private static final int REQUEST_CAMERA = 1;
-
     private static final int SELECT_IMAGE = 2;
 
     TextView email;
@@ -48,7 +47,6 @@ public class EditMyAccountFragment extends Fragment {
 
     Button saveMyAccount;
     Button cancelBtn;
-
 
     ImageButton deleteImage;
     Bitmap imageBitmap;
@@ -63,7 +61,6 @@ public class EditMyAccountFragment extends Fragment {
         super.onAttach(context);
         viewModel = new ViewModelProvider(this).get(UserViewModel.class);
     }
-
 
 
     @Override
@@ -202,12 +199,9 @@ public class EditMyAccountFragment extends Fragment {
         }else if(item.getItemId() == R.id.logout_menu){
             String currentUserEmail = Model.instance.getCurrentUserEmail();
             Model.instance.getFirebaseAuth().signOut();
-            Model.instance.logout(currentUserEmail, new Model.LogoutUserListener() {
-                @Override
-                public void onComplete() {
-                    startActivity(new Intent(getActivity(), LoginActivity.class));
-                    getActivity().finish();
-                }
+            Model.instance.logout(currentUserEmail, () -> {
+                startActivity(new Intent(getActivity(), LoginActivity.class));
+                getActivity().finish();
             });
 
             return true;

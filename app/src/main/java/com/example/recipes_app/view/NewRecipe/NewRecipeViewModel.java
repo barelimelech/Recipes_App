@@ -9,8 +9,7 @@ import com.example.recipes_app.model.Recipe;
 
 public class NewRecipeViewModel extends ViewModel {
 
-    public NewRecipeViewModel(){
-    }
+    public NewRecipeViewModel(){ }
 
     public String getCurrentUser(){
         return Model.instance.getCurrentUsername();
