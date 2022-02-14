@@ -56,6 +56,12 @@
                 android:maxLines="1" />
         </com.google.android.material.textfield.TextInputLayout>
 
+        <ProgressBar
+            android:id="@+id/login_progressbar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="122dp"
+            android:layout_height="86dp" />
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/login_login_btnnnn"
             android:layout_width="wrap_content"

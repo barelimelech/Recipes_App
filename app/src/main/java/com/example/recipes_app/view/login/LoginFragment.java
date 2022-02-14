@@ -1,5 +1,7 @@
 package com.example.recipes_app.view.login;
 
+import static android.graphics.Color.rgb;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -28,6 +31,8 @@ public class LoginFragment extends Fragment {
     EditText emailTv,passwordTv;
     Button signUpBtn,loginBtn;
 
+    ProgressBar progressBar;
+
     UserViewModel viewModel;
 
     @Override
@@ -43,6 +48,10 @@ public class LoginFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_login, container, false);
         emailTv = view.findViewById(R.id.login_email_et);
         passwordTv = view.findViewById(R.id.login_password_et);
+
+        progressBar = view.findViewById(R.id.login_progressbar);
+        progressBar.setVisibility(View.GONE);
+        progressBar.getIndeterminateDrawable().setColorFilter(rgb(255, 204, 204), android.graphics.PorterDuff.Mode.MULTIPLY);
 
         signUpBtn =view.findViewById(R.id.login_signup_btnnnn);
         loginBtn =view.findViewById(R.id.login_login_btnnnn);
@@ -119,6 +128,7 @@ public class LoginFragment extends Fragment {
         return true;
     }
     private boolean save() {
+        progressBar.setVisibility(View.GONE);
         String email = emailTv.getText().toString();
         String password = passwordTv.getText().toString();
         if (TextUtils.isEmpty(email)){
