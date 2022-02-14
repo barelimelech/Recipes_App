@@ -128,6 +128,7 @@ public class LoginFragment extends Fragment {
         return true;
     }
     private boolean save() {
+
         progressBar.setVisibility(View.VISIBLE);
         String email = emailTv.getText().toString();
         String password = passwordTv.getText().toString();
