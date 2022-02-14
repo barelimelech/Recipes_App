@@ -66,7 +66,7 @@ public class RecipeDetailsFragment extends Fragment {
             if(recipe.getRecipeUrl()!=null){
                 Picasso.get().load(recipe.getRecipeUrl()).into(recipeImage);
             }
-            userName.setText(recipe.getUsername());
+            userName.setText("By: "+recipe.getUsername());
         });
 
 

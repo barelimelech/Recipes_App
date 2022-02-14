@@ -42,13 +42,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/editmyaccount_image_recipe"
         app:layout_constraintEnd_toStartOf="@+id/editmyaccount_image_recipe"
         app:layout_constraintHorizontal_bias="0.4"
-        app:layout_constraintStart_toStartOf="parent" /><![CDATA[/>
-
-
-
-
-
-    ]]>
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageButton
         android:id="@+id/editUser_camera_btn"
@@ -70,7 +64,7 @@
 
         android:layout_marginTop="24dp"
         android:layout_marginBottom="595dp"
-        android:fontFamily="@font/paprika"
+        android:fontFamily="@font/berkshire_swash"
         android:gravity="center"
         android:text="Edit My Account"
         android:textColor="#3E260B"
@@ -96,7 +90,7 @@
         app:layout_constraintEnd_toStartOf="@+id/editmyaccount_phone_tv"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView10" />
+        app:layout_constraintTop_toBottomOf="@+id/myaccount_headline_tv" />
 
     <EditText
         android:id="@+id/editmyaccount_newpassword_tv"
@@ -141,7 +135,7 @@
         app:layout_constraintTop_toTopOf="@+id/textView16" />
 
     <TextView
-        android:id="@+id/textView10"
+        android:id="@+id/myaccount_headline_tv"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -179,11 +173,11 @@
         android:layout_marginEnd="24dp"
         android:ems="10"
         android:inputType="textPersonName"
-        app:layout_constraintBottom_toBottomOf="@+id/textView10"
+        app:layout_constraintBottom_toBottomOf="@+id/myaccount_headline_tv"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/textView10"
-        app:layout_constraintTop_toTopOf="@+id/textView10" />
+        app:layout_constraintStart_toEndOf="@+id/myaccount_headline_tv"
+        app:layout_constraintTop_toTopOf="@+id/myaccount_headline_tv" />
 
     <Button
         android:id="@+id/editmyaccount_cancel_btn"

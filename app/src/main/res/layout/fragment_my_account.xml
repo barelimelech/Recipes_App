@@ -11,15 +11,15 @@
 
 
     <TextView
-        android:id="@+id/textView10"
+        android:id="@+id/myaccount_headline_tv"
         android:layout_width="408dp"
         android:layout_height="100dp"
 
-        android:fontFamily="@font/paprika"
+        android:fontFamily="@font/berkshire_swash"
         android:gravity="center"
         android:text="My Account"
         android:textColor="#3E260B"
-        android:textSize="35sp"
+        android:textSize="50sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -32,29 +32,29 @@
         android:id="@+id/myAccount_image_user"
         android:layout_width="97dp"
         android:layout_height="99dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="32dp"
         android:layout_marginTop="12dp"
         android:layout_marginEnd="40dp"
         app:layout_constraintEnd_toStartOf="@+id/myaccount_fullname_tv"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView10"
+        app:layout_constraintTop_toBottomOf="@+id/myaccount_headline_tv"
         app:srcCompat="@drawable/avatar" />
 
     <TextView
         android:id="@+id/myaccount_fullname_tv"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="48dp"
-        android:layout_marginEnd="24dp"
+        android:layout_marginEnd="32dp"
         android:fontFamily="@font/boogaloo"
-        android:gravity="center"
 
+        android:gravity="center"
         android:textColor="#3E260B"
         android:textSize="34sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.237"
         app:layout_constraintStart_toEndOf="@+id/myAccount_image_user"
-        app:layout_constraintTop_toBottomOf="@+id/textView10" />
+        app:layout_constraintTop_toBottomOf="@+id/myaccount_headline_tv" />
 
     <Button
         android:id="@+id/myaccount_myrecipes_btn"
@@ -99,8 +99,8 @@
 
     <Button
         android:id="@+id/myaccount_othersrecipes_btn"
-        android:layout_width="330dp"
-        android:layout_height="74dp"
+        android:layout_width="328dp"
+        android:layout_height="59dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="16dp"
 
@@ -123,9 +123,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
-        android:backgroundTint="#3E260B"
         android:text="log out"
-        app:layout_constraintBottom_toTopOf="@+id/textView10"
+        android:backgroundTint="@android:color/transparent"
+        android:fontFamily="@font/boogaloo"
+        android:shadowColor="#00FFFFFF"
+        android:textColor="#3E260B"
+        android:textColorHighlight="#00FFFFFF"
+        android:textColorLink="#00231F1F"
+        android:textSize="19sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/myaccount_headline_tv"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.948"
         app:layout_constraintStart_toStartOf="parent"
@@ -137,8 +144,15 @@
         android:layout_width="260dp"
         android:layout_height="50dp"
         android:layout_marginTop="64dp"
-        android:backgroundTint="#3E260B"
+        android:backgroundTint="@android:color/transparent"
+        android:fontFamily="@font/boogaloo"
+        android:shadowColor="#00FFFFFF"
         android:text="add recipe"
+        android:textColor="#3E260B"
+        android:textColorHighlight="#00FFFFFF"
+        android:textColorLink="#00231F1F"
+        android:textSize="19sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"

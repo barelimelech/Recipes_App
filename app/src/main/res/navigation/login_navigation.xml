@@ -17,6 +17,6 @@
     <fragment
         android:id="@+id/signupFragment"
         android:name="com.example.recipes_app.view.login.SignupFragment"
-        android:label="fragment_signup"
+        android:label="Signup"
         tools:layout="@layout/fragment_signup" />
 </navigation>
