@@ -27,6 +27,7 @@ public class MyAccountFragment extends Fragment {
 
 
     TextView fullName;
+
     Button newRecipe;
     Button logOutBtn;
     View view;
@@ -125,7 +126,6 @@ public class MyAccountFragment extends Fragment {
     }
     private void checkUser() {
         if(Model.instance.getCurrentUser() == null){
-
             viewModel.logout(currentUserEmail, () -> {
                 startActivity(new Intent(getActivity(), LoginActivity.class));
                 getActivity().finish();
@@ -138,7 +138,6 @@ public class MyAccountFragment extends Fragment {
             }
             fullName.setText(userName);
             fullNameAsId = userName;
-
         }
     }
 

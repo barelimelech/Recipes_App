@@ -4,7 +4,9 @@ xmlns:app="http://schemas.android.com/apk/res-auto"
 xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
-tools:context=".view.RecipesList.RecipesListFragment">
+    android:background="@drawable/background2"
+
+    tools:context=".view.RecipesList.RecipesListFragment">
 
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout

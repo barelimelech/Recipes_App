@@ -150,8 +150,8 @@ public class SignupFragment extends Fragment {
 
 
     private void save() {
+        String email = emailTv.getText().toString().toLowerCase();
         progressBar.setVisibility(View.GONE);
-        String email = emailTv.getText().toString();
         String password = passwordTv.getText().toString();
         String phone1 = phone.getText().toString();
         String fullName2 = fullName.getText().toString();

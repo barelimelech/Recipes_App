@@ -5,38 +5,49 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background1"
     tools:context=".view.login.LoginFragment">
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/berkshire_swash"
+        android:text="Cook&amp;Share"
+        android:textColor="#3E260B"
+        android:textSize="55sp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayoutCompat"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.586" />
+
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/linearLayoutCompat"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="351dp"
+        android:layout_height="335dp"
         android:layout_margin="30dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.538">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="@string/welcome_to_CookAndShare"
-            android:textSize="24sp" />
+        app:layout_constraintVertical_bias="0.57">
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
-            android:paddingTop="16dp"
-            android:hint="@string/email">
+            android:hint="@string/email"
+            android:paddingTop="16dp">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/login_email_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:backgroundTint="#8BFFFFFF"
+                android:fontFamily="@font/aclonica"
                 android:inputType="text"
                 android:maxLines="1" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -45,13 +56,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
-            android:paddingTop="16dp"
-            android:hint="@string/password">
+            android:hint="@string/password"
+            android:paddingTop="16dp">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/login_password_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:backgroundTint="#8BFFFFFF"
+                android:fontFamily="@font/aclonica"
                 android:inputType="textPassword"
                 android:maxLines="1" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -62,21 +75,47 @@
             android:layout_width="122dp"
             android:layout_height="86dp" />
 
-        <com.google.android.material.button.MaterialButton
+        <Button
             android:id="@+id/login_login_btnnnn"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:layout_marginTop="16dp"
-            android:text="login" />
+            android:backgroundTint="@android:color/transparent"
+            android:fontFamily="@font/aclonica"
+            android:shadowColor="#00FFFFFF"
+            android:text="login"
+            android:textColor="#3E260B"
+            android:textColorHighlight="#00FFFFFF"
+            android:textColorLink="#00231F1F"
+            android:textSize="19sp"
+            android:textStyle="bold" />
 
-        <com.google.android.material.button.MaterialButton
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:fontFamily="@font/aclonica"
+            android:gravity="center"
+            android:layout_marginTop="15dp"
+
+            android:text="Don't have an account yet?"
+            android:textSize="17sp" />
+
+        <Button
             android:id="@+id/login_signup_btnnnn"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:layout_marginTop="16dp"
-            android:text="signup" />
+            android:backgroundTint="@android:color/transparent"
+            android:fontFamily="@font/aclonica"
+            android:shadowColor="#00FFFFFF"
+            android:text="signup"
+            android:textColor="#3E260B"
+            android:textColorHighlight="#00FFFFFF"
+            android:textColorLink="#00231F1F"
+            android:textSize="19sp"
+            android:textStyle="bold" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

@@ -13,13 +13,13 @@
         android:layout_height="wrap_content">
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/recipe_name_tv"
         android:layout_width="407dp"
         android:layout_height="112dp"
 
         android:layout_marginTop="24dp"
         android:layout_marginBottom="595dp"
-        android:fontFamily="@font/paprika"
+        android:fontFamily="@font/berkshire_swash"
         android:gravity="center"
         android:text="New Recipe"
         android:textColor="#3E260B"
@@ -72,7 +72,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView5"
+        app:layout_constraintTop_toBottomOf="@+id/recipe_name_tv"
         app:srcCompat="@drawable/cake"/>
 
     <TextView
@@ -193,7 +193,7 @@
         app:layout_constraintEnd_toStartOf="@+id/newRecipe_image_recipe"
         app:layout_constraintHorizontal_bias="0.461"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+        app:layout_constraintTop_toBottomOf="@+id/recipe_name_tv" />
 
     <ImageButton
         android:id="@+id/newRec_camera_btn"
