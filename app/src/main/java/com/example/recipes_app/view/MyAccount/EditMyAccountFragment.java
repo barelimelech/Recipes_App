@@ -1,5 +1,7 @@
 package com.example.recipes_app.view.MyAccount;
 
+import static android.graphics.Color.rgb;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -15,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -54,6 +57,8 @@ public class EditMyAccountFragment extends Fragment {
     ImageButton galleryBtn;
     ImageButton camBtn;
 
+    ProgressBar progressBar;
+
     UserViewModel viewModel;
 
     @Override
@@ -75,6 +80,10 @@ public class EditMyAccountFragment extends Fragment {
         fullName= view.findViewById(R.id.editmyaccount_fullname_tv);
         cancelBtn = view.findViewById(R.id.editmyaccount_cancel_btn);
         userImage = view.findViewById(R.id.editmyaccount_image_recipe);
+
+        progressBar = view.findViewById(R.id.editmyaccount_progressbar);
+        progressBar.setVisibility(View.GONE);
+        progressBar.getIndeterminateDrawable().setColorFilter(rgb(255, 204, 204), android.graphics.PorterDuff.Mode.MULTIPLY);
 
         viewModel.getUserByEmail(viewModel.getCurrentUserEmail(), new Model.GetUserByEmail() {
             @Override
@@ -165,6 +174,7 @@ public class EditMyAccountFragment extends Fragment {
         }
     }
     private void save() {
+        progressBar.setVisibility(View.VISIBLE);
         saveMyAccount.setEnabled(false);
         camBtn.setEnabled(false);
         galleryBtn.setEnabled(false);

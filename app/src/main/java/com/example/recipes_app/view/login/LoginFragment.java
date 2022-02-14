@@ -47,7 +47,7 @@ public class LoginFragment extends Fragment {
         signUpBtn =view.findViewById(R.id.login_signup_btnnnn);
         loginBtn =view.findViewById(R.id.login_login_btnnnn);
         loginBtn.setOnClickListener(v -> {
-            String email = emailTv.getText().toString().toLowerCase();
+            String email = emailTv.getText().toString();
             String password = passwordTv.getText().toString();
             boolean b = check();
             if(b) {
@@ -59,7 +59,7 @@ public class LoginFragment extends Fragment {
 
                         viewModel.editUser(newUser, () -> {
                             boolean bool = save();
-                            if (bool) {
+                            if (bool == true) {
                                 viewModel.signIn(user, email, password, new Model.SigninUserListener(){
                                     @Override
                                     public void onComplete() { toFeedActivity(); }
@@ -100,7 +100,7 @@ public class LoginFragment extends Fragment {
 
 
     private boolean check(){
-        String email = emailTv.getText().toString().toLowerCase();
+        String email = emailTv.getText().toString();
         String password = passwordTv.getText().toString();
         if (TextUtils.isEmpty(email)){
             emailTv.setError("Please Enter email :)");
@@ -108,6 +108,7 @@ public class LoginFragment extends Fragment {
 
         }else if(!email.contains("@")){
             emailTv.setError("Email must contain '@' :)");
+
             return false;
 
         }else if(TextUtils.isEmpty(password)){
@@ -118,7 +119,7 @@ public class LoginFragment extends Fragment {
         return true;
     }
     private boolean save() {
-        String email = emailTv.getText().toString().toLowerCase();
+        String email = emailTv.getText().toString();
         String password = passwordTv.getText().toString();
         if (TextUtils.isEmpty(email)){
             emailTv.setError("Please Enter email :)");

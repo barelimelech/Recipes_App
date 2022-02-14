@@ -1,5 +1,7 @@
 package com.example.recipes_app.view.login;
 
+import static android.graphics.Color.rgb;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -14,6 +16,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -46,6 +49,8 @@ public class SignupFragment extends Fragment {
     ImageButton galleryBtn;
     ImageButton camBtn;
 
+    ProgressBar progressBar;
+
     UserViewModel viewModel;
 
     @Override
@@ -73,6 +78,10 @@ public class SignupFragment extends Fragment {
         fullName = view.findViewById(R.id.signup22_fullname_tv);
         phone = view.findViewById(R.id.signup22_phone_tv);
         userImage = view.findViewById(R.id.singup_image_user);
+
+        progressBar = view.findViewById(R.id.singup_progressbar);
+        progressBar.setVisibility(View.GONE);
+        progressBar.getIndeterminateDrawable().setColorFilter(rgb(255, 204, 204), android.graphics.PorterDuff.Mode.MULTIPLY);
 
         signUpBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -142,6 +151,7 @@ public class SignupFragment extends Fragment {
 
     private void save() {
         String email = emailTv.getText().toString().toLowerCase();
+        progressBar.setVisibility(View.GONE);
         String password = passwordTv.getText().toString();
         String phone1 = phone.getText().toString();
         String fullName2 = fullName.getText().toString();

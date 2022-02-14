@@ -25,15 +25,16 @@
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/linearLayoutCompat"
-        android:layout_width="351dp"
-        android:layout_height="335dp"
+        android:layout_width="350dp"
+        android:layout_height="435dp"
         android:layout_margin="30dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.57">
+        app:layout_constraintVertical_bias="0.587">
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
@@ -88,9 +89,9 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="20dp"
+            android:layout_marginTop="15dp"
             android:fontFamily="@font/aclonica"
             android:gravity="center"
-            android:layout_marginTop="15dp"
 
             android:text="Don't have an account yet?"
             android:textSize="17sp" />
@@ -110,6 +111,12 @@
             android:textColorLink="#00231F1F"
             android:textSize="19sp"
             android:textStyle="bold" />
+
+        <ProgressBar
+            android:id="@+id/login_progressbar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="122dp"
+            android:layout_height="86dp" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
