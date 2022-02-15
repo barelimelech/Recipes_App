@@ -1,5 +1,7 @@
 package com.example.recipes_app.view.NewRecipe;
 
+import static android.graphics.Color.rgb;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -16,6 +18,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -63,6 +66,8 @@ public class NewRecipeFragment extends Fragment{
     NewRecipeViewModel viewModel;
     UserViewModel userViewModel;
 
+    ProgressBar progressBar;
+
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -88,7 +93,12 @@ public class NewRecipeFragment extends Fragment{
         username = view.findViewById(R.id.newRec_username_tv);
         initSpinnerFooter();
         recipeImage = view.findViewById(R.id.newRecipe_image_recipe);
-        username.setText("By: "+usernameAsId);
+        username.setText(usernameAsId);
+
+        progressBar = view.findViewById(R.id.newRec_progressbar);
+        progressBar.setVisibility(View.GONE);
+        progressBar.getIndeterminateDrawable().setColorFilter(rgb(255, 204, 204), android.graphics.PorterDuff.Mode.MULTIPLY);
+
         cancelBtn = view.findViewById(R.id.newRec_cancel_btn);
 
         recipeImage.setImageResource(R.drawable.cake);
@@ -157,6 +167,7 @@ public class NewRecipeFragment extends Fragment{
     }
 
     private void save() {
+        progressBar.setVisibility(View.VISIBLE);
         cancelBtn.setEnabled(false);
         saveBtn.setEnabled(false);
         camBtn.setEnabled(false);

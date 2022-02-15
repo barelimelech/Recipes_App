@@ -5,6 +5,7 @@
       <map>
         <entry key="../../../layout/custom_preview.xml" value="0.19375" />
         <entry key="..\:/Users/Liel/AndroidStudioProjects/FinalProject/Recipes_App/app/src/main/res/font/paprika.xml" value="0.20989583333333334" />
+        <entry key="..\:/Users/Liel/AndroidStudioProjects/FinalProject/Recipes_App/app/src/main/res/layout/activity_intro.xml" value="0.14666666666666667" />
         <entry key="..\:/Users/Liel/AndroidStudioProjects/FinalProject/Recipes_App/app/src/main/res/layout/activity_log_in.xml" value="0.14990942028985507" />
         <entry key="..\:/Users/Liel/AndroidStudioProjects/FinalProject/Recipes_App/app/src/main/res/layout/activity_main.xml" value="0.13541666666666666" />
         <entry key="..\:/Users/Liel/AndroidStudioProjects/FinalProject/Recipes_App/app/src/main/res/layout/app_bar_main.xml" value="0.13541666666666666" />
@@ -26,6 +27,7 @@
         <entry key="..\:/Users/Liel/AndroidStudioProjects/FinalProject/Recipes_App/app/src/main/res/menu/edit_menu.xml" value="0.1" />
         <entry key="..\:/Users/Liel/AndroidStudioProjects/FinalProject/Recipes_App/app/src/main/res/menu/logout_menu.xml" value="0.1" />
         <entry key="..\:/Users/Liel/AndroidStudioProjects/FinalProject/Recipes_App/app/src/main/res/menu/main.xml" value="0.1796875" />
+        <entry key="..\:/Users/Liel/AndroidStudioProjects/FinalProject/Recipes_App/app/src/main/res/menu/myaccount_menu.xml" value="0.1796875" />
         <entry key="app/src/main/res/drawable/ic_baseline_add_circle_outline_24.xml" value="0.26944444444444443" />
         <entry key="app/src/main/res/layout/activity_categories.xml" value="0.1619111683958809" />
         <entry key="app/src/main/res/layout/activity_forgot_password.xml" value="0.20018115942028986" />

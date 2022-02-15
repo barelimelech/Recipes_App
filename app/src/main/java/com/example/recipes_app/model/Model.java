@@ -14,6 +14,7 @@ import com.example.recipes_app.MyApplication;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.Executor;
@@ -177,6 +178,7 @@ public class Model {
                             .commit();
 
                     List<Recipe> reList = AppLocalDb.db.recipeDao().getAll();
+                    Collections.reverse(reList);
                     userRecipesList.postValue(reList);
                     recipeListLoadingState.postValue(RecipeListLoadingState.loaded);
                 });

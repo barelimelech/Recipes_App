@@ -103,7 +103,6 @@ public class EditRecipeFragment extends Fragment {
             recipeName.setText(recipe.getName());
             recipeMethod.setText(recipe.getMethod());
             recipeIngredients.setText(recipe.getIngredients());
-            userName.setText("By: "+recipe.getUsername());
             if(recipe.getRecipeUrl()!=null){
                 Picasso.get().load(recipe.getRecipeUrl()).into(recipeImage);
             }

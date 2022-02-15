@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,6 +10,9 @@
     tools:layout_editor_absoluteX="0dp"
     tools:layout_editor_absoluteY="-23dp">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
     <TextView
         android:id="@+id/myaccount_headline_tv"
@@ -143,7 +147,7 @@
         android:id="@+id/myaccount_addrecipe_btn"
         android:layout_width="260dp"
         android:layout_height="50dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="50dp"
         android:backgroundTint="@android:color/transparent"
         android:fontFamily="@font/boogaloo"
         android:shadowColor="#00FFFFFF"
@@ -162,3 +166,4 @@
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
