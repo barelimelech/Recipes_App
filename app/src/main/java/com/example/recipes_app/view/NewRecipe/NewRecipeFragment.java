@@ -58,6 +58,7 @@ public class NewRecipeFragment extends Fragment{
     ImageView recipeImage;
     ImageButton galleryBtn;
     ImageButton camBtn;
+    ImageButton deleteImage;
 
     NewRecipeViewModel viewModel;
     UserViewModel userViewModel;
@@ -87,11 +88,14 @@ public class NewRecipeFragment extends Fragment{
         username = view.findViewById(R.id.newRec_username_tv);
         initSpinnerFooter();
         recipeImage = view.findViewById(R.id.newRecipe_image_recipe);
-        username.setText(usernameAsId);
+        username.setText("By: "+usernameAsId);
         cancelBtn = view.findViewById(R.id.newRec_cancel_btn);
 
         recipeImage.setImageResource(R.drawable.cake);
         saveBtn.setOnClickListener(v -> save());
+
+        deleteImage = view.findViewById(R.id.deleteImg_btn);
+        deleteImage.setOnClickListener(v -> deleteImage());
 
         camBtn = view.findViewById(R.id.newRec_camera_btn);
 
@@ -104,6 +108,12 @@ public class NewRecipeFragment extends Fragment{
 
 
         return view;
+    }
+
+    private void deleteImage() {
+        imageBitmap = null;
+        recipeImage.setImageBitmap(null);
+        recipeImage.setImageResource(R.drawable.cake);
     }
 
     private void openGallery() {
