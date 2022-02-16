@@ -10,14 +10,12 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -38,7 +36,6 @@ public class ModelFirebase {
                 .build();
         db.setFirestoreSettings(settings);
     }
-
 
     public interface GetAllRecipesListener{
         void onComplete(List<Recipe> list);
@@ -173,7 +170,6 @@ public class ModelFirebase {
         void onComplete(List<User> list);
     }
 
-    //TODO: fix since
     public void getAllUsers(Long lastUpdateDate, GetAllUsersListener listener) {
         db.collection(User.COLLECTION_NAME)
                 .whereGreaterThanOrEqualTo("updateDate",new Timestamp(lastUpdateDate,0))
@@ -190,51 +186,43 @@ public class ModelFirebase {
                     }
                     listener.onComplete(list);
                 });
-
     }
 
     public void addUser(User user,String email, String password, Model.AddUserListener listener) {
 
-        firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()) {
-                    user.setUId(firebaseAuth.getCurrentUser().getUid());
-                    Log.d("TAG", "saved name:" + user.fullName + "user Id:" + user.uId);
+        firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                user.setUId(firebaseAuth.getCurrentUser().getUid());
+                Log.d("TAG", "saved name:" + user.fullName + "user Id:" + user.uId);
 
-                    Map<String, Object> json = user.toJson();
-                    db.collection(User.COLLECTION_NAME)
-                            .document(user.getUId())
-                            .set(json)
-                            .addOnSuccessListener(unused -> listener.onComplete())
-                            .addOnFailureListener(e -> listener.onComplete());
-                }
-                else {
-                    // If sign in fails, display a message to the user.
-                    listener.onFailure();
-                    Log.w("TAG", "createUserWithEmail:failure", task.getException());
-                }
+                Map<String, Object> json = user.toJson();
+                db.collection(User.COLLECTION_NAME)
+                        .document(user.getUId())
+                        .set(json)
+                        .addOnSuccessListener(unused -> listener.onComplete())
+                        .addOnFailureListener(e -> listener.onComplete());
+            }
+            else {
+                // If sign in fails, display a message to the user.
+                listener.onFailure();
+                Log.w("TAG", "createUserWithEmail:failure", task.getException());
             }
         });
     }
 
     public void signIn(User user,String email, String password,Model.SigninUserListener listener) {
-        // [START sign_in_with_email]
         firebaseAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            user.setIsConnected("true");
-                            listener.onComplete();
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d("TAG", "signInWithEmail:success");
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        user.setIsConnected("true");
+                        listener.onComplete();
+                        // Sign in success, update UI with the signed-in user's information
+                        Log.d("TAG", "signInWithEmail:success");
 
-                        } else {
-                            listener.onFailure();
-                            // If sign in fails, display a message to the user.
-                            Log.w("TAG", "signInWithEmail:failure", task.getException());
-                        }
+                    } else {
+                        listener.onFailure();
+                        // If sign in fails, display a message to the user.
+                        Log.w("TAG", "signInWithEmail:failure", task.getException());
                     }
                 });
     }
@@ -244,28 +232,22 @@ public class ModelFirebase {
         db.collection(User.COLLECTION_NAME)
                 .whereEqualTo("email",email)
                 .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful() & task.getResult()!= null && task.getResult().getDocuments().size()!=0) {
-                            DocumentSnapshot documentSnapshot = task.getResult().getDocuments().get(0);
-                            String documentId = documentSnapshot.getId();
-                            db.collection(User.COLLECTION_NAME)
-                                    .document(documentId).get()
-                                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                            User user= null;
-                                            if (task.isSuccessful() & task.getResult() != null) {
-                                                user = User.create(task.getResult().getData());
-                                            }
-                                            listener.onComplete(user);
-                                        }
-                                    });
-                        }
-                        else{
-                            listener.onFailure();
-                        }
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful() & task.getResult()!= null && task.getResult().getDocuments().size()!=0) {
+                        DocumentSnapshot documentSnapshot = task.getResult().getDocuments().get(0);
+                        String documentId = documentSnapshot.getId();
+                        db.collection(User.COLLECTION_NAME)
+                                .document(documentId).get()
+                                .addOnCompleteListener(task1 -> {
+                                    User user= null;
+                                    if (task1.isSuccessful() & task1.getResult() != null) {
+                                        user = User.create(task1.getResult().getData());
+                                    }
+                                    listener.onComplete(user);
+                                });
+                    }
+                    else{
+                        listener.onFailure();
                     }
                 });
 

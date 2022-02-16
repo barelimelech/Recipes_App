@@ -25,7 +25,12 @@ public class Model {
 
     public Executor executor = Executors.newFixedThreadPool(1);
     public Handler mainThread = HandlerCompat.createAsync(Looper.getMainLooper());
+    private ModelFirebase modelFirebase = new ModelFirebase();
 
+    List<String> data = new LinkedList<String>();
+
+    MutableLiveData<List<Recipe>> recipesList = new MutableLiveData<List<Recipe>>();
+    MutableLiveData<List<Recipe>> userRecipesList = new MutableLiveData<List<Recipe>>();
 
     public enum RecipeListLoadingState {
         loading,
@@ -35,7 +40,6 @@ public class Model {
         loaded
     }
 
-
     MutableLiveData<RecipeListLoadingState> recipeListLoadingState = new MutableLiveData<>();
     MutableLiveData<UserListLoadingState> userListLoadingState = new MutableLiveData<>();
 
@@ -44,7 +48,6 @@ public class Model {
         return recipeListLoadingState;
     }
 
-    ModelFirebase modelFirebase = new ModelFirebase();
 
     private Model() {
         recipeListLoadingState.setValue(RecipeListLoadingState.loaded);
@@ -56,12 +59,6 @@ public class Model {
         data.add("Dinner");
         data.add("Holidays");
     }
-
-    List<String> data = new LinkedList<String>();
-
-
-    MutableLiveData<List<Recipe>> recipesList = new MutableLiveData<List<Recipe>>();
-    MutableLiveData<List<Recipe>> userRecipesList = new MutableLiveData<List<Recipe>>();
 
     public boolean isSignedIn() {
         return modelFirebase.isSignedIn();
@@ -80,31 +77,6 @@ public class Model {
         return userRecipesList;
     }
 
-
-
-    public void refreshUserList() {
-        //get last local update date
-        Long lastUpdateDate = MyApplication.getContext().getSharedPreferences("TAG", Context.MODE_PRIVATE).getLong("UserLastUpdateDate", 0);
-
-        //firebase get all updates since lastLocalUpdateDate
-        modelFirebase.getAllUsers(lastUpdateDate, list -> executor.execute(() -> {
-            Long lud = new Long(0);
-            Log.d("TAG", "fb returned " + list.size());
-            for (User user : list) {
-                if(user.getIsConnected().equals("true")) {
-                    AppLocalDb.db.userDao().insertAll(user);
-                }
-                if (lud < user.getUpdateDate()) {
-                    lud = user.getUpdateDate();
-                }
-            }
-            MyApplication.getContext()
-                    .getSharedPreferences("TAG", Context.MODE_PRIVATE)
-                    .edit()
-                    .putLong("UserLastUpdateDate", lud)
-                    .commit();
-        }));
-    }
 
     public void refreshRecipeList() {
         recipeListLoadingState.setValue(RecipeListLoadingState.loading);
@@ -128,7 +100,6 @@ public class Model {
                             lud = recipe.getUpdateDate();
                         }
                     }
-
                 }
 
                 //update last local update date
@@ -140,6 +111,7 @@ public class Model {
 
                 //return all data to caller
                 List<Recipe> reList = AppLocalDb.db.recipeDao().getAll();
+                Collections.reverse(reList);
                 recipesList.postValue(reList);
                 recipeListLoadingState.postValue(RecipeListLoadingState.loaded);
             });
@@ -218,7 +190,6 @@ public class Model {
         });
     }
 
-
     public void deleteRecipe(Recipe recipe,DeleteRecipeListener listener) {
         modelFirebase.deleteRecipe(recipe, ()->{
             listener.onComplete();
@@ -237,6 +208,32 @@ public class Model {
     }
 
     public List<String> getAllCategories() { return data; }
+
+    //***********************************USER*************************************//
+    public void refreshUserList() {
+        //get last local update date
+        Long lastUpdateDate = MyApplication.getContext().getSharedPreferences("TAG", Context.MODE_PRIVATE).getLong("UserLastUpdateDate", 0);
+
+        //firebase get all updates since lastLocalUpdateDate
+        modelFirebase.getAllUsers(lastUpdateDate, list -> executor.execute(() -> {
+            Long lud = new Long(0);
+            Log.d("TAG", "fb returned " + list.size());
+            for (User user : list) {
+                if(user.getIsConnected().equals("true")) {
+                    AppLocalDb.db.userDao().insertAll(user);
+                }
+                if (lud < user.getUpdateDate()) {
+                    lud = user.getUpdateDate();
+                }
+            }
+            MyApplication.getContext()
+                    .getSharedPreferences("TAG", Context.MODE_PRIVATE)
+                    .edit()
+                    .putLong("UserLastUpdateDate", lud)
+                    .commit();
+        }));
+    }
+
     public FirebaseUser getCurrentUser(){
         return modelFirebase.getCurrentUser();
     }
@@ -256,9 +253,6 @@ public class Model {
         return modelFirebase.getCurrentUser().getEmail();
     }
 
-
-    //***********************************USER*************************************//
-
     public interface AddUserListener {
         void onComplete();
         void onFailure();
@@ -273,15 +267,22 @@ public class Model {
 
     }
 
+    public interface GetUserByEmail {
+        void onComplete(User user);
+        void onFailure();
+    }
+
     public interface EditUserListener{
         void onComplete();
     }
+
     public void editUser(User newUser, EditUserListener listener){
         modelFirebase.editUser(newUser, ()->{
             listener.onComplete();
             refreshUserList();
         });
     }
+
     public void addUser(User user,String email, String password, AddUserListener listener) {
         modelFirebase.addUser(user, email, password, new AddUserListener() {
             @Override
@@ -316,20 +317,11 @@ public class Model {
     public void logout(String currentUserEmail , LogoutUserListener listener){
         modelFirebase.logout(currentUserEmail, () -> listener.onComplete());
     }
-    public interface GetUserByEmail {
-        void onComplete(User user);
-        void onFailure();
-    }
-
-//    public interface GetUserById {
-//        void onComplete(User user);
-//    }
 
     public User getUserByEmail(String email, GetUserByEmail listener) {
         modelFirebase.getUserByEmail(email, listener);
         return null;
     }
-
 
     public String getUserId(){
         return modelFirebase.getUserId();

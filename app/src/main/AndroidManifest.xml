@@ -25,24 +25,12 @@
             </intent-filter>
 
         </activity>
-
-        <!--        <activity-->
-<!--            android:name=".SignupActivity"-->
-<!--            android:exported="false">-->
-
-<!--        </activity>-->
         <activity
             android:name=".LoginActivity"
             android:exported="false">
 
 
         </activity>
-<!--        <activity-->
-<!--            android:name=".GoogleLogInActivity"-->
-<!--            android:exported="false" />-->
-<!--        <activity-->
-<!--            android:name=".Profile"-->
-<!--            android:exported="false" />-->
         <activity
             android:name=".MainActivity"
             android:exported="false"

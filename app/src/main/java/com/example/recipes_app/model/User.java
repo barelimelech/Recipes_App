@@ -116,8 +116,6 @@ public class User {
         return user;
     }
 
-
-    //TODO:....
     public Long getUpdateDate() {
         return updateDate;
     }

@@ -78,7 +78,6 @@ public class RecipeDetailsFragment extends Fragment {
         });
         setHasOptionsMenu(true);
         return view;
-
     }
 
     @Override
@@ -91,7 +90,6 @@ public class RecipeDetailsFragment extends Fragment {
                 startActivity(new Intent(getActivity(), LoginActivity.class));
                 getActivity().finish();
             });
-
             return true;
         }else {
             return super.onOptionsItemSelected(item);

@@ -13,7 +13,6 @@ public class LoginActivity extends AppCompatActivity {
 
     NavController navCtl;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,10 +23,7 @@ public class LoginActivity extends AppCompatActivity {
         navCtl = navHost.getNavController();
 
         NavigationUI.setupActionBarWithNavController(this, navCtl);
-
-
     }
-
 
         @Override
         public boolean onOptionsItemSelected (@NonNull MenuItem item){

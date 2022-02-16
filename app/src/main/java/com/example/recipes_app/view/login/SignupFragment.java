@@ -91,8 +91,6 @@ public class SignupFragment extends Fragment {
         galleryBtn = view.findViewById(R.id.signup_gallery_btn);
         galleryBtn.setOnClickListener(v -> openGallery());
 
-
-
         return view;
     }
 
@@ -116,7 +114,6 @@ public class SignupFragment extends Fragment {
                 Bundle extras = data.getExtras();
                 imageBitmap = (Bitmap) extras.get("data");
                 userImage.setImageBitmap(imageBitmap);
-
             }
         }
 
@@ -171,12 +168,11 @@ public class SignupFragment extends Fragment {
                     @Override
                     public void onFailure() {
                         Toast.makeText(getActivity(), "Email is already exist.", Toast.LENGTH_LONG).show();
-
+                        progressBar.setVisibility(View.GONE);
                     }
                 });
             }
             else{
-
                 viewModel.saveImage(imageBitmap,fullName + ".jpg", url-> {
                     user.setUserUrl(url);
                     viewModel.addUser(user, email, password, new Model.AddUserListener() {
@@ -185,7 +181,7 @@ public class SignupFragment extends Fragment {
                         @Override
                         public void onFailure() {
                             Toast.makeText(getActivity(), "Email is already exist.", Toast.LENGTH_LONG).show();
-
+                            progressBar.setVisibility(View.GONE);
                         }
                     });
                 });

@@ -65,7 +65,6 @@ public class RecipesListFragment extends Fragment {
         swipeRefresh = view.findViewById(R.id.recipeslist_swiperefresh);
         swipeRefresh.setOnRefreshListener(() -> refreshList());
 
-
         RecyclerView list = view.findViewById(R.id.recipeslist_rv);
         list.setHasFixedSize(true);
 
@@ -89,7 +88,6 @@ public class RecipesListFragment extends Fragment {
                 });
             }else if(v.findViewById(R.id.recipe_listrow_edit).getId()==viewId){
                 Navigation.findNavController(v).navigate(RecipesListFragmentDirections.actionRecipesListFragmentToEditRecipeFragment(id,username,type));
-
             }else{
                 String recipeNameAsId = viewModel.getRecipes().getValue().get(position).getId();
                 Navigation.findNavController(v).navigate(RecipesListFragmentDirections.actionRecipesListFragmentToRecipeFragment(recipeNameAsId,fullNameAsId));
@@ -122,16 +120,11 @@ public class RecipesListFragment extends Fragment {
                 }
             });
         }
-
-        //refresh();
-
         return view;
-
     }
 
     private void refresh() {
         adapter.notifyDataSetChanged();
-        // swipeRefresh.setRefreshing(false);
     }
 
 
@@ -166,7 +159,6 @@ public class RecipesListFragment extends Fragment {
             }
             fullNameAsIdnew = userName;
 
-
             itemView.setOnClickListener(v -> {
                 int viewId = v.getId();
 
@@ -178,7 +170,6 @@ public class RecipesListFragment extends Fragment {
                 int viewId = v.getId();
                 int position = getAdapterPosition();
                 listener.onItemClick(itemView,position,viewId);
-
             });
 
             editBtn.setOnClickListener((v)->{
@@ -190,11 +181,7 @@ public class RecipesListFragment extends Fragment {
 
         }
         void bind(Recipe recipe){
-
-
             recipeImage.setImageResource(R.drawable.cake);
-
-
             nameTv.setText(recipe.getName());
             usernameBy.setText("By:  "+recipe.getUsername());
 
@@ -203,7 +190,6 @@ public class RecipesListFragment extends Fragment {
                         .load(recipe.getRecipeUrl())
                         .into(recipeImage);
             }
-
 
             if(!fullNameAsId.equals("")&& recipe.getUsername() != null){
                     deleteBtn.setVisibility(View.VISIBLE);

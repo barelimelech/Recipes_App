@@ -55,7 +55,6 @@ public class Recipe {
         this.ingredients = ingredients;
     }
 
-
     public void setMethod(String method) {
         this.method = method;
     }
@@ -63,8 +62,6 @@ public class Recipe {
     public void setType(String type) {
         this.type = type;
     }
-
-
 
     public String getName() { return name; }
 
@@ -135,8 +132,6 @@ public class Recipe {
     public Long getUpdateDate() {
         return updateDate;
     }
-
-
     public void setImageUrl(String url) {
         recipeUrl = url;
     }

@@ -25,7 +25,6 @@ public class RecipesListViewModel extends ViewModel {
         Model.instance.deleteRecipe(recipe,listener);
     }
 
-
     public LiveData<List<Recipe>> getRecipesByUsername() {
         recipes = userRecipes;
         return userRecipes;

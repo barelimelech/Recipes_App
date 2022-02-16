@@ -103,9 +103,7 @@ public class EditMyAccountFragment extends Fragment {
             }
 
             @Override
-            public void onFailure() {
-
-            }
+            public void onFailure() { }
         });
 
 
@@ -124,7 +122,6 @@ public class EditMyAccountFragment extends Fragment {
 
         galleryBtn = view.findViewById(R.id.editUser_gallery_btn);
         galleryBtn.setOnClickListener(v -> openGallery());
-
 
         setHasOptionsMenu(true);
         return view;
@@ -156,7 +153,6 @@ public class EditMyAccountFragment extends Fragment {
                 Bundle extras = data.getExtras();
                 imageBitmap = (Bitmap) extras.get("data");
                 userImage.setImageBitmap(imageBitmap);
-
             }
         }
 

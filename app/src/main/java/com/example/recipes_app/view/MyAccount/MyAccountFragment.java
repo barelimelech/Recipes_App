@@ -69,7 +69,6 @@ public class MyAccountFragment extends Fragment {
         newRecipe = view.findViewById(R.id.myaccount_addrecipe_btn);
         newRecipe.setOnClickListener((v)->{
             NavHostFragment.findNavController(this).navigate(MyAccountFragmentDirections.actionGlobalNewRecipeFragment(viewModel.getCurrentUser()));
-
         });
 
         Button myRecipes = view.findViewById(R.id.myaccount_myrecipes_btn);

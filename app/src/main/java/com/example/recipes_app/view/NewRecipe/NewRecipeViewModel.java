@@ -7,6 +7,8 @@ import androidx.lifecycle.ViewModel;
 import com.example.recipes_app.model.Model;
 import com.example.recipes_app.model.Recipe;
 
+import java.util.List;
+
 public class NewRecipeViewModel extends ViewModel {
 
     public NewRecipeViewModel(){ }
@@ -21,5 +23,9 @@ public class NewRecipeViewModel extends ViewModel {
 
     public void saveImage(Bitmap img, String name, Model.SaveImageListener listener){
         Model.instance.saveImage(img,name,listener);
+    }
+
+    public List<String> getAllCategories(){
+        return Model.instance.getAllCategories();
     }
 }

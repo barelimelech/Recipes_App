@@ -9,7 +9,6 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -74,9 +73,7 @@ public class EditRecipeFragment extends Fragment {
         super.onAttach(context);
         viewModel = new ViewModelProvider(this).get(EditRecipeViewModel.class);
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
-
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -128,18 +125,15 @@ public class EditRecipeFragment extends Fragment {
         galleryBtn = view.findViewById(R.id.editRec_gallery_btn);
         galleryBtn.setOnClickListener(v -> openGallery());
 
-
-
         backBtn = view.findViewById(R.id.editrecipe_back_btn);
         backBtn.setOnClickListener((v)->{
             Navigation.findNavController(v).navigateUp();
         });
 
-
-
         setHasOptionsMenu(true);
         return view;
     }
+
     private void deleteImage() {
         imageBitmap = null;
         recipeImage.setImageBitmap(null);
@@ -195,14 +189,12 @@ public class EditRecipeFragment extends Fragment {
         galleryBtn.setEnabled(false);
 
         String name = recipeName.getText().toString();
-        Log.d("TAG", "name: " + name);
         String method = recipeMethod.getText().toString();
         String ingredients = recipeIngredients.getText().toString();
         String type = selectedCategory;
         String user = userName.getText().toString();
         String id = recipeNameAsId;
 
-        Log.d("TAG", "name: " + recipe.getName());
         Recipe newRecipe = new Recipe(id,name,method,ingredients,type,user);
 
         if(imageBitmap == null){
@@ -210,9 +202,7 @@ public class EditRecipeFragment extends Fragment {
                 Navigation.findNavController(getView()).navigateUp();
             });
 
-        }
-        else{
-
+        } else{
             viewModel.saveImage(imageBitmap,recipeName + ".jpg",url->{
                 newRecipe.setImageUrl(url);
                 viewModel.editRecipe(newRecipe, ()->{

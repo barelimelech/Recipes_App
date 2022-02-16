@@ -75,7 +75,7 @@ public class LoginFragment extends Fragment {
                                     @Override
                                     public void onFailure() {
                                         Toast.makeText(getActivity(), "Email or password is not correct.", Toast.LENGTH_LONG).show();
-
+                                        progressBar.setVisibility(View.GONE);
                                     }
                                 });
                             }
@@ -85,7 +85,7 @@ public class LoginFragment extends Fragment {
                     @Override
                     public void onFailure() {
                         Toast.makeText(getActivity(), "Email or password is not correct.", Toast.LENGTH_LONG).show();
-
+                        progressBar.setVisibility(View.GONE);
                     }
                 });
            }
@@ -93,8 +93,6 @@ public class LoginFragment extends Fragment {
         });
 
         signUpBtn.setOnClickListener(v -> Navigation.findNavController(v).navigate(LoginFragmentDirections.actionLoginFragmentToSignupFragment()));
-
-
 
         return view;
     }
@@ -106,8 +104,6 @@ public class LoginFragment extends Fragment {
     }
 
 
-
-
     private boolean check(){
         String email = emailTv.getText().toString().toLowerCase();
         String password = passwordTv.getText().toString();
@@ -117,13 +113,12 @@ public class LoginFragment extends Fragment {
 
         }else if(!email.contains("@")){
             emailTv.setError("Email must contain '@' :)");
-
             return false;
 
         }else if(TextUtils.isEmpty(password)){
             passwordTv.setError("Please Enter password :)");
-            return false;
 
+            return false;
         }
         return true;
     }
@@ -135,8 +130,10 @@ public class LoginFragment extends Fragment {
         if (TextUtils.isEmpty(email)){
             emailTv.setError("Please Enter email :)");
 
+
         }else if(TextUtils.isEmpty(password)){
             passwordTv.setError("Please Enter password :)");
+
         }
         else {
             return true;

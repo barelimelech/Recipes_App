@@ -51,7 +51,7 @@ public class NewRecipeFragment extends Fragment{
     EditText recipeIngredients;
     Button saveBtn;
     Spinner categoriesSpinner;
-    List<String> categories= Model.instance.getAllCategories();
+    List<String> categories;
     String selectedCategory;
     Button cancelBtn;
     String usernameAsId;
@@ -83,7 +83,7 @@ public class NewRecipeFragment extends Fragment{
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_new_recipe, container, false);
 
-
+        categories= viewModel.getAllCategories();
         usernameAsId = viewModel.getCurrentUser();
         recipeName= view.findViewById(R.id.pe_nameOfRec);
         recipeMethod= view.findViewById(R.id.newRec_method);
@@ -93,7 +93,7 @@ public class NewRecipeFragment extends Fragment{
         username = view.findViewById(R.id.newRec_username_tv);
         initSpinnerFooter();
         recipeImage = view.findViewById(R.id.newRecipe_image_recipe);
-        username.setText(usernameAsId);
+        username.setText("By: "+usernameAsId);
 
         progressBar = view.findViewById(R.id.newRec_progressbar);
         progressBar.setVisibility(View.GONE);
@@ -115,7 +115,6 @@ public class NewRecipeFragment extends Fragment{
         galleryBtn.setOnClickListener(v -> openGallery());
         cancelBtn.setOnClickListener(v -> Navigation.findNavController(v).navigate(NewRecipeFragmentDirections.actionGlobalMyAccountFragment(Model.instance.getCurrentUsername())));
         setHasOptionsMenu(true);
-
 
         return view;
     }
@@ -149,7 +148,6 @@ public class NewRecipeFragment extends Fragment{
 
             }
         }
-
        else if (requestCode == SELECT_IMAGE) {
             if (resultCode == Activity.RESULT_OK) {
                 if (data != null) {
@@ -196,9 +194,6 @@ public class NewRecipeFragment extends Fragment{
                 });
             });
         }
-
-
-
     }
 
     private void initSpinnerFooter() {
