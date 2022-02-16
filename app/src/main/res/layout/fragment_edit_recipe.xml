@@ -144,20 +144,20 @@
             app:layout_constraintVertical_bias="1.0" />
 
         <EditText
-        android:id="@+id/editrecipe_method_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+            android:id="@+id/editrecipe_method_tv"
+            android:layout_width="207dp"
+            android:layout_height="45dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="32dp"
+            android:ems="10"
             android:fontFamily="@font/aclonica"
+            android:gravity="start|top"
+            android:inputType="textMultiLine"
             android:textSize="18sp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="32dp"
-        android:ems="10"
-        android:gravity="start|top"
-        android:inputType="textMultiLine"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/textView7"
-        app:layout_constraintTop_toBottomOf="@+id/editrecipe_ingredients_yv" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/textView7"
+            app:layout_constraintTop_toBottomOf="@+id/editrecipe_ingredients_yv" />
 
         <EditText
             android:id="@+id/editrecipe_name_tv"
@@ -219,22 +219,22 @@
         app:layout_constraintTop_toTopOf="@+id/editrecipe_save_btn"
         app:layout_constraintVertical_bias="0.0" />
 
-    <TextView
-        android:id="@+id/textView8"
-        android:layout_width="wrap_content"
-        android:layout_height="34dp"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="45dp"
-        android:fontFamily="@font/aclonica"
-        android:text="Recipe type:"
-        android:textColor="#3E260B"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toStartOf="@+id/editrecipe_spinner"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editrecipe_image_recipe" />
+        <TextView
+            android:id="@+id/textView8"
+            android:layout_width="wrap_content"
+            android:layout_height="34dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="44dp"
+            android:fontFamily="@font/aclonica"
+            android:text="Recipe type:"
+            android:textColor="#3E260B"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toStartOf="@+id/editrecipe_spinner"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editrecipe_image_recipe" />
 
-    <ImageButton
+        <ImageButton
         android:id="@+id/editRec_camera_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

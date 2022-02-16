@@ -169,22 +169,22 @@
             app:layout_constraintStart_toEndOf="@+id/newRec_cancel_btn"
             app:layout_constraintTop_toBottomOf="@+id/newRec_method" />
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginBottom="28dp"
-        android:text="Recipe type:"
-        android:textColor="#3E260B"
-        android:fontFamily="@font/aclonica"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/textView4"
-        app:layout_constraintEnd_toStartOf="@+id/newRec_spinner"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/newRecipe_image_recipe"
-        app:layout_constraintVertical_bias="0.808" />
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="45dp"
+            android:layout_marginBottom="28dp"
+            android:fontFamily="@font/aclonica"
+            android:text="Recipe type:"
+            android:textColor="#3E260B"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toTopOf="@+id/textView4"
+            app:layout_constraintEnd_toStartOf="@+id/newRec_spinner"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/newRecipe_image_recipe"
+            app:layout_constraintVertical_bias="0.808" />
 
     <Spinner
         android:id="@+id/newRec_spinner"
