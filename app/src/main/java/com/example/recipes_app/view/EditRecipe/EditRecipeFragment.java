@@ -91,7 +91,7 @@ public class EditRecipeFragment extends Fragment {
         recipeIngredients= view.findViewById(R.id.editrecipe_ingredients_yv);
         categoriesSpinner= view.findViewById(R.id.editrecipe_spinner);
         userName = view.findViewById(R.id.editrecipe_username_tv2);
-        userName.setText(usernameAsId);
+        userName.setText("By: "+usernameAsId);
         recipeImage = view.findViewById(R.id.editrecipe_image_recipe);
         progressBar = view.findViewById(R.id.edit_progressbar);
         progressBar.setVisibility(View.GONE);

@@ -18,6 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="45dp"
+            android:layout_marginBottom="32dp"
             android:fontFamily="@font/berkshire_swash"
             android:text="Cook&amp;Share"
             android:textColor="#3E260B"
@@ -53,7 +54,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:backgroundTint="#8BFFFFFF"
-                    android:fontFamily="@font/aclonica"
                     android:inputType="text"
                     android:maxLines="1" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -70,7 +70,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:backgroundTint="#8BFFFFFF"
-                    android:fontFamily="@font/aclonica"
                     android:inputType="textPassword"
                     android:maxLines="1" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -82,9 +81,9 @@
                 android:layout_gravity="end"
                 android:layout_marginTop="16dp"
                 android:backgroundTint="@android:color/transparent"
-                android:fontFamily="@font/aclonica"
                 android:shadowColor="#00FFFFFF"
                 android:text="login"
+                android:fontFamily="@font/aclonica"
                 android:textColor="#3E260B"
                 android:textColorHighlight="#00FFFFFF"
                 android:textColorLink="#00231F1F"
@@ -95,9 +94,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
                 android:layout_marginTop="15dp"
-                android:fontFamily="@font/aclonica"
                 android:gravity="center"
-
+                android:fontFamily="@font/aclonica"
                 android:text="Don't have an account yet?"
                 android:textSize="17sp" />
 

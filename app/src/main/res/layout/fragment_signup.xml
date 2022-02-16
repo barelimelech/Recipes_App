@@ -46,7 +46,6 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/signup22_fullname_tv"
-                android:fontFamily="@font/aclonica"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="#8BFFFFFF"
@@ -66,7 +65,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="#8BFFFFFF"
-                android:fontFamily="@font/aclonica"
                 android:inputType="number"
                 android:maxLines="1" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -83,7 +81,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="#8BFFFFFF"
-                android:fontFamily="@font/aclonica"
                 android:inputType="text"
                 android:maxLines="1" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -100,7 +97,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="#8BFFFFFF"
-                android:fontFamily="@font/aclonica"
                 android:inputType="text"
                 android:maxLines="1" />
         </com.google.android.material.textfield.TextInputLayout>
