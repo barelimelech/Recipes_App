@@ -51,14 +51,6 @@ public class Recipe {
         this.name = name;
     }
 
-    public void setIngredients(String ingredients) {
-        this.ingredients = ingredients;
-    }
-
-    public void setMethod(String method) {
-        this.method = method;
-    }
-
     public void setType(String type) {
         this.type = type;
     }
@@ -85,9 +77,6 @@ public class Recipe {
         this.updateDate = updateDate;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
     public void setIsDeleted(String isDeleted) {
         this.isDeleted = isDeleted;
     }

@@ -81,7 +81,6 @@ public class LoginFragment extends Fragment {
                             }
                         });
                     }
-
                     @Override
                     public void onFailure() {
                         Toast.makeText(getActivity(), "Email or password is not correct.", Toast.LENGTH_LONG).show();
@@ -93,7 +92,6 @@ public class LoginFragment extends Fragment {
         });
 
         signUpBtn.setOnClickListener(v -> Navigation.findNavController(v).navigate(LoginFragmentDirections.actionLoginFragmentToSignupFragment()));
-
         return view;
     }
 

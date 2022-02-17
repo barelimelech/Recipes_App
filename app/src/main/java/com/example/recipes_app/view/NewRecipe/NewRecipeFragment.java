@@ -185,7 +185,6 @@ public class NewRecipeFragment extends Fragment{
             });
         }
         else{
-
             viewModel.saveImage(imageBitmap,recipeName + ".jpg", url -> {
                 recipe.setImageUrl(url);
                 viewModel.addRecipe(recipe,()->{
@@ -201,7 +200,6 @@ public class NewRecipeFragment extends Fragment{
         for(int i = 0 ; i<categories.size();i++){
             items[i] = categories.get(i);
         }
-
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, items);
         categoriesSpinner.setAdapter(adapter);
         categoriesSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

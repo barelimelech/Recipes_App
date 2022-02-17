@@ -19,7 +19,6 @@ public class ModelRecipe {
     public static final ModelRecipe instance = new ModelRecipe();
 
     public Executor executor = Executors.newFixedThreadPool(1);
-    //public Handler mainThread = HandlerCompat.createAsync(Looper.getMainLooper());
     private ModelFirebase modelFirebase = new ModelFirebase();
     List<String> data = new LinkedList<String>();
 
@@ -35,9 +34,7 @@ public class ModelRecipe {
     public LiveData<RecipeListLoadingState> getRecipeListLoadingState() {
         return recipeListLoadingState;
     }
-//    public boolean isSignedIn() {
-//        return modelFirebase.isSignedIn();
-//    }
+
 
     private ModelRecipe(){
         recipeListLoadingState.setValue(RecipeListLoadingState.loaded);

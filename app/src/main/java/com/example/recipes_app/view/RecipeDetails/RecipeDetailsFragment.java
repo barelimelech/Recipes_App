@@ -40,8 +40,6 @@ public class RecipeDetailsFragment extends Fragment {
         super.onAttach(context);
         viewModel = new ViewModelProvider(this).get(RecipeDetailsViewModel.class);
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
-
-
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -68,8 +66,6 @@ public class RecipeDetailsFragment extends Fragment {
             }
             userName.setText(recipe.getUsername());
         });
-
-
         Button backBtn = view.findViewById(R.id.recipeDetails_back_btn);
         backBtn.setOnClickListener((v)->{
             Navigation.findNavController(v).navigateUp();

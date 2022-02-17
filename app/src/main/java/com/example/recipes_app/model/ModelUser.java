@@ -1,11 +1,8 @@
 package com.example.recipes_app.model;
 
 import android.content.Context;
-import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
 
-import androidx.core.os.HandlerCompat;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.recipes_app.MyApplication;
@@ -18,7 +15,6 @@ import java.util.concurrent.Executors;
 public class ModelUser {
     public static final ModelUser instance = new ModelUser();
     public Executor executor = Executors.newFixedThreadPool(1);
-    public Handler mainThread = HandlerCompat.createAsync(Looper.getMainLooper());
     private ModelFirebase modelFirebase = new ModelFirebase();
     MutableLiveData<UserListLoadingState> userListLoadingState = new MutableLiveData<>();
 
@@ -31,9 +27,6 @@ public class ModelUser {
         userListLoadingState.setValue(UserListLoadingState.loaded);
     }
 
-//    public boolean isSignedIn() {
-//        return modelFirebase.isSignedIn();
-//    }
 
     public void refreshUserList() {
         //get last local update date

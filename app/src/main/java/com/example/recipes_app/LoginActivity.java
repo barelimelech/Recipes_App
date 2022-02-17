@@ -25,20 +25,20 @@ public class LoginActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navCtl);
     }
 
-        @Override
-        public boolean onOptionsItemSelected (@NonNull MenuItem item){
-            if (!super.onOptionsItemSelected(item)) {
-                switch (item.getItemId()) {
-                    case android.R.id.home:
-                        navCtl.navigateUp();
-                        return true;
-                    default:
-                        NavigationUI.onNavDestinationSelected(item, navCtl);
-                }
-            } else {
-                return true;
+    @Override
+    public boolean onOptionsItemSelected (@NonNull MenuItem item){
+        if (!super.onOptionsItemSelected(item)) {
+            switch (item.getItemId()) {
+                case android.R.id.home:
+                    navCtl.navigateUp();
+                    return true;
+                default:
+                    NavigationUI.onNavDestinationSelected(item, navCtl);
             }
-            return false;
+        } else {
+            return true;
         }
-
+        return false;
     }
+
+}

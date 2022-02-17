@@ -205,10 +205,7 @@ public class RecipesListFragment extends Fragment {
                     editBtn.setVisibility(View.VISIBLE);
                 }
             }
-
         }
-
-
     }
 
     interface OnItemClickListener {
@@ -257,11 +254,8 @@ public class RecipesListFragment extends Fragment {
             else{
                 return viewModel.getRecipesByUsername().getValue().size();
             }
-
         }
-
     }
-
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -276,16 +270,13 @@ public class RecipesListFragment extends Fragment {
                 startActivity(new Intent(getActivity(), LoginActivity.class));
                 getActivity().finish();
             });
-
             return true;
         }
         else if(item.getItemId() == R.id.newRecipeFragment_menu){
             Log.d("TAG", "ADD...");
             NavHostFragment.findNavController(this).navigate(RecipesListFragmentDirections.actionRecipesListFragmentToNewRecipeFragment(viewModel.getCurrentUser()));
             return true;
-        }
-
-        else {
+        } else {
             return super.onOptionsItemSelected(item);
         }
     }
@@ -294,9 +285,7 @@ public class RecipesListFragment extends Fragment {
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater)
     {
         super.onCreateOptionsMenu(menu,inflater);
-
         inflater.inflate(R.menu.myaccount_menu, menu);
         inflater.inflate(R.menu.add_recipe_menu, menu);
-
     }
 }

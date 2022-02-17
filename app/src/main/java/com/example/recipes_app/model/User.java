@@ -62,14 +62,6 @@ public class User {
         return userUrl;
     }
 
-    public void setFullName(@NonNull String fullName) {
-        this.fullName = fullName;
-    }
-
-    public void setUpdateDate(Long updateDate) {
-        this.updateDate = updateDate;
-    }
-
     public void setEmail(String email) {
         this.email = email;
     }
@@ -80,10 +72,6 @@ public class User {
 
     public void setUId(String uId) {
         this.uId = uId;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
     }
 
     public void setUserUrl(String userUrl) {
