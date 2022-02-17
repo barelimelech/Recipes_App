@@ -4,7 +4,8 @@ import android.graphics.Bitmap;
 
 import androidx.lifecycle.ViewModel;
 
-import com.example.recipes_app.model.Model;
+import com.example.recipes_app.model.ModelRecipe;
+import com.example.recipes_app.model.ModelUser;
 import com.example.recipes_app.model.Recipe;
 
 import java.util.List;
@@ -14,18 +15,18 @@ public class NewRecipeViewModel extends ViewModel {
     public NewRecipeViewModel(){ }
 
     public String getCurrentUser(){
-        return Model.instance.getCurrentUsername();
+        return ModelUser.instance.getCurrentUsername();
     }
 
-    public void addRecipe(Recipe recipe1, Model.AddRecipeListener listener){
-        Model.instance.addRecipe(recipe1,listener);
+    public void addRecipe(Recipe recipe1, ModelRecipe.AddRecipeListener listener){
+        ModelRecipe.instance.addRecipe(recipe1,listener);
     }
 
-    public void saveImage(Bitmap img, String name, Model.SaveImageListener listener){
-        Model.instance.saveImage(img,name,listener);
+    public void saveImage(Bitmap img, String name, ModelRecipe.SaveImageListener listener){
+        ModelRecipe.instance.saveImage(img,name,listener);
     }
 
     public List<String> getAllCategories(){
-        return Model.instance.getAllCategories();
+        return ModelRecipe.instance.getAllCategories();
     }
 }

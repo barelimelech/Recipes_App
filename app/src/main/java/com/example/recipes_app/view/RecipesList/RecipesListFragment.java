@@ -26,7 +26,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.recipes_app.LoginActivity;
 import com.example.recipes_app.R;
-import com.example.recipes_app.model.Model;
+import com.example.recipes_app.model.ModelRecipe;
 import com.example.recipes_app.model.Recipe;
 import com.example.recipes_app.view.MyAccount.UserViewModel;
 import com.squareup.picasso.Picasso;
@@ -100,9 +100,9 @@ public class RecipesListFragment extends Fragment {
         if(fullNameAsId.equals("")) {
             //when data update
             viewModel.getRecipes().observe(getViewLifecycleOwner(), recipes -> refresh());
-            swipeRefresh.setRefreshing(Model.instance.getRecipeListLoadingState().getValue() == Model.RecipeListLoadingState.loading);
-            Model.instance.getRecipeListLoadingState().observe(getViewLifecycleOwner(), recipeListLoadingState -> {
-                if (recipeListLoadingState == Model.RecipeListLoadingState.loading) {
+            swipeRefresh.setRefreshing(ModelRecipe.instance.getRecipeListLoadingState().getValue() == ModelRecipe.RecipeListLoadingState.loading);
+            ModelRecipe.instance.getRecipeListLoadingState().observe(getViewLifecycleOwner(), recipeListLoadingState -> {
+                if (recipeListLoadingState == ModelRecipe.RecipeListLoadingState.loading) {
                     swipeRefresh.setRefreshing(true);
                 } else {
                     swipeRefresh.setRefreshing(false);
@@ -111,9 +111,9 @@ public class RecipesListFragment extends Fragment {
         }else{
         viewModel.refreshUserRecipesList();
         viewModel.getRecipesByUsername().observe(getViewLifecycleOwner(), recipes -> refresh());
-            swipeRefresh.setRefreshing(Model.instance.getRecipeListLoadingState().getValue() == Model.RecipeListLoadingState.loading);
-            Model.instance.getRecipeListLoadingState().observe(getViewLifecycleOwner(), recipeListLoadingState -> {
-                if (recipeListLoadingState == Model.RecipeListLoadingState.loading) {
+            swipeRefresh.setRefreshing(ModelRecipe.instance.getRecipeListLoadingState().getValue() == ModelRecipe.RecipeListLoadingState.loading);
+            ModelRecipe.instance.getRecipeListLoadingState().observe(getViewLifecycleOwner(), recipeListLoadingState -> {
+                if (recipeListLoadingState == ModelRecipe.RecipeListLoadingState.loading) {
                     swipeRefresh.setRefreshing(true);
                 } else {
                     swipeRefresh.setRefreshing(false);
@@ -153,9 +153,9 @@ public class RecipesListFragment extends Fragment {
             deleteBtn = itemView.findViewById(R.id.recipe_listrow_delete);
             editBtn = itemView.findViewById(R.id.recipe_listrow_edit);
 
-            String userName = Model.instance.getCurrentUsername();
+            String userName = viewModel.getCurrentUser();
             if (userName == null || userName.equals("")) {
-                userName = Model.instance.getCurrentUsername();
+                userName = viewModel.getCurrentUser();
             }
             fullNameAsIdnew = userName;
 
@@ -196,7 +196,7 @@ public class RecipesListFragment extends Fragment {
                     editBtn.setVisibility(View.VISIBLE);
             } else{
 
-                if(!recipe.getUsername().equals(Model.instance.getCurrentUsername())){
+                if(!recipe.getUsername().equals(viewModel.getCurrentUser())){
                     deleteBtn.setVisibility(View.GONE);
                     editBtn.setVisibility(View.GONE);
                 }
@@ -267,7 +267,7 @@ public class RecipesListFragment extends Fragment {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.menu_myAccount) {
             Log.d("TAG", "ADD...");
-            NavHostFragment.findNavController(this).navigate(RecipesListFragmentDirections.actionGlobalMyAccountFragment(Model.instance.getCurrentUsername()));
+            NavHostFragment.findNavController(this).navigate(RecipesListFragmentDirections.actionGlobalMyAccountFragment(viewModel.getCurrentUser()));
             return true;
         }else if(item.getItemId() == R.id.logout_menu){
             String currentUserEmail = userViewModel.getCurrentUserEmail();
@@ -281,7 +281,7 @@ public class RecipesListFragment extends Fragment {
         }
         else if(item.getItemId() == R.id.newRecipeFragment_menu){
             Log.d("TAG", "ADD...");
-            NavHostFragment.findNavController(this).navigate(RecipesListFragmentDirections.actionRecipesListFragmentToNewRecipeFragment(Model.instance.getCurrentUsername()));
+            NavHostFragment.findNavController(this).navigate(RecipesListFragmentDirections.actionRecipesListFragmentToNewRecipeFragment(viewModel.getCurrentUser()));
             return true;
         }
 

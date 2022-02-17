@@ -21,7 +21,7 @@ import androidx.navigation.Navigation;
 
 import com.example.recipes_app.MainActivity;
 import com.example.recipes_app.R;
-import com.example.recipes_app.model.Model;
+import com.example.recipes_app.model.ModelUser;
 import com.example.recipes_app.model.User;
 import com.example.recipes_app.view.MyAccount.UserViewModel;
 
@@ -60,7 +60,7 @@ public class LoginFragment extends Fragment {
             String password = passwordTv.getText().toString();
             boolean b = check();
             if(b) {
-                viewModel.getUserByEmail(email, new Model.GetUserByEmail() {
+                viewModel.getUserByEmail(email, new ModelUser.GetUserByEmail() {
                     @Override
                     public void onComplete(User user) {
                         User newUser = user;
@@ -69,7 +69,7 @@ public class LoginFragment extends Fragment {
                         viewModel.editUser(newUser, () -> {
                             boolean bool = save();
                             if (bool == true) {
-                                viewModel.signIn(user, email, password, new Model.SigninUserListener(){
+                                viewModel.signIn(user, email, password, new ModelUser.SigninUserListener(){
                                     @Override
                                     public void onComplete() { toFeedActivity(); }
                                     @Override

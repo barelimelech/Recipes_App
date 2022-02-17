@@ -32,7 +32,7 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.recipes_app.LoginActivity;
 import com.example.recipes_app.R;
-import com.example.recipes_app.model.Model;
+import com.example.recipes_app.model.ModelUser;
 import com.example.recipes_app.model.User;
 import com.example.recipes_app.view.RecipesList.RecipesListFragmentDirections;
 import com.squareup.picasso.Picasso;
@@ -87,7 +87,7 @@ public class EditMyAccountFragment extends Fragment {
         progressBar.setVisibility(View.GONE);
         progressBar.getIndeterminateDrawable().setColorFilter(rgb(255, 204, 204), android.graphics.PorterDuff.Mode.MULTIPLY);
 
-        viewModel.getUserByEmail(viewModel.getCurrentUserEmail(), new Model.GetUserByEmail() {
+        viewModel.getUserByEmail(viewModel.getCurrentUserEmail(), new ModelUser.GetUserByEmail() {
             @Override
             public void onComplete(User user) {
                 fullName.setText(user.getFullName());
@@ -202,12 +202,12 @@ public class EditMyAccountFragment extends Fragment {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.menu_myAccount) {
             Log.d("TAG", "ADD...");
-            NavHostFragment.findNavController(this).navigate(RecipesListFragmentDirections.actionGlobalMyAccountFragment(Model.instance.getCurrentUsername()));
+            NavHostFragment.findNavController(this).navigate(RecipesListFragmentDirections.actionGlobalMyAccountFragment(ModelUser.instance.getCurrentUsername()));
             return true;
         }else if(item.getItemId() == R.id.logout_menu){
-            String currentUserEmail = Model.instance.getCurrentUserEmail();
-            Model.instance.getFirebaseAuth().signOut();
-            Model.instance.logout(currentUserEmail, () -> {
+            String currentUserEmail = ModelUser.instance.getCurrentUserEmail();
+            ModelUser.instance.getFirebaseAuth().signOut();
+            ModelUser.instance.logout(currentUserEmail, () -> {
                 startActivity(new Intent(getActivity(), LoginActivity.class));
                 getActivity().finish();
             });

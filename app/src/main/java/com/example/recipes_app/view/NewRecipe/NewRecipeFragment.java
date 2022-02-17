@@ -31,7 +31,6 @@ import androidx.navigation.Navigation;
 
 import com.example.recipes_app.LoginActivity;
 import com.example.recipes_app.R;
-import com.example.recipes_app.model.Model;
 import com.example.recipes_app.model.Recipe;
 import com.example.recipes_app.view.MyAccount.UserViewModel;
 
@@ -93,7 +92,7 @@ public class NewRecipeFragment extends Fragment{
         username = view.findViewById(R.id.newRec_username_tv);
         initSpinnerFooter();
         recipeImage = view.findViewById(R.id.newRecipe_image_recipe);
-        username.setText("By: "+usernameAsId);
+        username.setText(usernameAsId);
 
         progressBar = view.findViewById(R.id.newRec_progressbar);
         progressBar.setVisibility(View.GONE);
@@ -113,7 +112,7 @@ public class NewRecipeFragment extends Fragment{
 
         camBtn.setOnClickListener(v -> openCam());
         galleryBtn.setOnClickListener(v -> openGallery());
-        cancelBtn.setOnClickListener(v -> Navigation.findNavController(v).navigate(NewRecipeFragmentDirections.actionGlobalMyAccountFragment(Model.instance.getCurrentUsername())));
+        cancelBtn.setOnClickListener(v -> Navigation.findNavController(v).navigate(NewRecipeFragmentDirections.actionGlobalMyAccountFragment(viewModel.getCurrentUser())));
         setHasOptionsMenu(true);
 
         return view;

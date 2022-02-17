@@ -19,7 +19,7 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.recipes_app.LoginActivity;
 import com.example.recipes_app.R;
-import com.example.recipes_app.model.Model;
+import com.example.recipes_app.model.ModelUser;
 import com.example.recipes_app.model.User;
 import com.squareup.picasso.Picasso;
 
@@ -49,7 +49,7 @@ public class MyAccountFragment extends Fragment {
         view= inflater.inflate(R.layout.fragment_my_account, container, false);
         userImage = view.findViewById(R.id.myAccount_image_user);
 
-        viewModel.getUserByEmail(viewModel.getCurrentUserEmail(), new Model.GetUserByEmail() {
+        viewModel.getUserByEmail(viewModel.getCurrentUserEmail(), new ModelUser.GetUserByEmail() {
             @Override
             public void onComplete(User user) {
                 fullName.setText(user.getFullName());
@@ -124,7 +124,7 @@ public class MyAccountFragment extends Fragment {
         }
     }
     private void checkUser() {
-        if(Model.instance.getCurrentUser() == null){
+        if(ModelUser.instance.getCurrentUser() == null){
             viewModel.logout(currentUserEmail, () -> {
                 startActivity(new Intent(getActivity(), LoginActivity.class));
                 getActivity().finish();

@@ -31,7 +31,6 @@ import androidx.navigation.Navigation;
 
 import com.example.recipes_app.LoginActivity;
 import com.example.recipes_app.R;
-import com.example.recipes_app.model.Model;
 import com.example.recipes_app.model.Recipe;
 import com.example.recipes_app.view.MyAccount.UserViewModel;
 import com.squareup.picasso.Picasso;
@@ -54,7 +53,7 @@ public class EditRecipeFragment extends Fragment {
     Button backBtn;
     String recipeNameAsId, usernameAsId;
     Spinner categoriesSpinner;
-    List<String> categories = Model.instance.getAllCategories();
+    List<String> categories;
     String selectedCategory;
     ImageButton deleteImage;
     Bitmap imageBitmap;
@@ -80,6 +79,7 @@ public class EditRecipeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_edit_recipe, container, false);
+        categories = viewModel.getAllCategories();
         recipeNameAsId = EditRecipeFragmentArgs.fromBundle(getArguments()).getRecipeId();
         usernameAsId = EditRecipeFragmentArgs.fromBundle(getArguments()).getUsername();
         selectedCategory = EditRecipeFragmentArgs.fromBundle(getArguments()).getCategory();
@@ -88,7 +88,7 @@ public class EditRecipeFragment extends Fragment {
         recipeIngredients= view.findViewById(R.id.editrecipe_ingredients_yv);
         categoriesSpinner= view.findViewById(R.id.editrecipe_spinner);
         userName = view.findViewById(R.id.editrecipe_username_tv2);
-        userName.setText("By: "+usernameAsId);
+        userName.setText(usernameAsId);
         recipeImage = view.findViewById(R.id.editrecipe_image_recipe);
         progressBar = view.findViewById(R.id.edit_progressbar);
         progressBar.setVisibility(View.GONE);

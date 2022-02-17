@@ -3,7 +3,8 @@ package com.example.recipes_app.view.RecipesList;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.recipes_app.model.Model;
+import com.example.recipes_app.model.ModelRecipe;
+import com.example.recipes_app.model.ModelUser;
 import com.example.recipes_app.model.Recipe;
 
 import java.util.List;
@@ -13,16 +14,16 @@ public class RecipesListViewModel extends ViewModel {
     LiveData<List<Recipe>> userRecipes;
 
     public RecipesListViewModel() {
-        recipes = Model.instance.getAllRecipes();
-        userRecipes = Model.instance.getAllUserRecipes();
+        recipes = ModelRecipe.instance.getAllRecipes();
+        userRecipes = ModelRecipe.instance.getAllUserRecipes();
     }
 
     public LiveData<List<Recipe>> getRecipes() {
         return recipes;
     }
 
-    public void deleteRecipe(Recipe recipe, Model.DeleteRecipeListener listener) {
-        Model.instance.deleteRecipe(recipe,listener);
+    public void deleteRecipe(Recipe recipe, ModelRecipe.DeleteRecipeListener listener) {
+        ModelRecipe.instance.deleteRecipe(recipe,listener);
     }
 
     public LiveData<List<Recipe>> getRecipesByUsername() {
@@ -31,11 +32,14 @@ public class RecipesListViewModel extends ViewModel {
     }
 
     public void refreshUserRecipesList(){
-        Model.instance.refreshUserRecipeList();
+        ModelRecipe.instance.refreshUserRecipeList();
     }
     public void refreshRecipesList(){
-        Model.instance.refreshRecipeList();
+        ModelRecipe.instance.refreshRecipeList();
     }
 
+    public String getCurrentUser(){
+        return ModelUser.instance.getCurrentUsername();
+    }
 
 }

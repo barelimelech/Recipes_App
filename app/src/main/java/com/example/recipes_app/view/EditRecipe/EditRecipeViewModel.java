@@ -5,8 +5,10 @@ import android.graphics.Bitmap;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.recipes_app.model.Model;
+import com.example.recipes_app.model.ModelRecipe;
 import com.example.recipes_app.model.Recipe;
+
+import java.util.List;
 
 public class EditRecipeViewModel extends ViewModel {
 
@@ -16,21 +18,25 @@ public class EditRecipeViewModel extends ViewModel {
         recipe = new MutableLiveData<>();
     }
 
-    public MutableLiveData<Recipe> editRecipe(Recipe recipe1, Model.EditRecipeListener listener){
+    public MutableLiveData<Recipe> editRecipe(Recipe recipe1, ModelRecipe.EditRecipeListener listener){
         recipe.setValue(recipe1);
-        Model.instance.editRecipe(recipe.getValue(),listener);
+        ModelRecipe.instance.editRecipe(recipe.getValue(),listener);
         return recipe;
     }
 
-    public void saveImage(Bitmap img, String name, Model.SaveImageListener listener){
-        Model.instance.saveImage(img,name,listener);
+    public void saveImage(Bitmap img, String name, ModelRecipe.SaveImageListener listener){
+        ModelRecipe.instance.saveImage(img,name,listener);
     }
 
     public void refreshRecipesList(){
-        Model.instance.refreshRecipeList();
+        ModelRecipe.instance.refreshRecipeList();
     }
 
-    public void getRecipeByRecipeName(String recipeName, Model.GetRecipeByRecipeName listener){
-        Model.instance.getRecipeByRecipeName(recipeName,listener);
+    public void getRecipeByRecipeName(String recipeName, ModelRecipe.GetRecipeByRecipeName listener){
+        ModelRecipe.instance.getRecipeByRecipeName(recipeName,listener);
     }
+    public List<String> getAllCategories(){
+        return ModelRecipe.instance.getAllCategories();
+    }
+
 }

@@ -26,7 +26,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.recipes_app.MainActivity;
 import com.example.recipes_app.R;
-import com.example.recipes_app.model.Model;
+import com.example.recipes_app.model.ModelUser;
 import com.example.recipes_app.model.User;
 import com.example.recipes_app.view.MyAccount.UserViewModel;
 
@@ -162,7 +162,7 @@ public class SignupFragment extends Fragment {
             User user = new User(fullName2, phone1, email, "0");
             if (imageBitmap == null) {
 
-                viewModel.addUser(user, email, password, new Model.AddUserListener() {
+                viewModel.addUser(user, email, password, new ModelUser.AddUserListener() {
                     @Override
                     public void onComplete() { toFeedActivity(); }
                     @Override
@@ -175,7 +175,7 @@ public class SignupFragment extends Fragment {
             else{
                 viewModel.saveImage(imageBitmap,fullName + ".jpg", url-> {
                     user.setUserUrl(url);
-                    viewModel.addUser(user, email, password, new Model.AddUserListener() {
+                    viewModel.addUser(user, email, password, new ModelUser.AddUserListener() {
                         @Override
                         public void onComplete() { toFeedActivity(); }
                         @Override

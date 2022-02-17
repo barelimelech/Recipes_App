@@ -73,7 +73,7 @@ public class ModelFirebase {
 
     }
 
-    public void addRecipe(Recipe recipe, Model.AddRecipeListener listener) {
+    public void addRecipe(Recipe recipe, ModelRecipe.AddRecipeListener listener) {
         Map<String, Object> json = recipe.toJson();
         db.collection(Recipe.COLLECTION_NAME)
                 .document(recipe.getId())
@@ -82,7 +82,7 @@ public class ModelFirebase {
                 .addOnFailureListener(e -> listener.onComplete());
     }
 
-    public void editRecipe(Recipe recipe, Model.EditRecipeListener listener) {
+    public void editRecipe(Recipe recipe, ModelRecipe.EditRecipeListener listener) {
         Map<String, Object> json = recipe.toJson();
         db.collection(Recipe.COLLECTION_NAME)
                 .document(recipe.getId())
@@ -91,7 +91,7 @@ public class ModelFirebase {
                 .addOnFailureListener(e -> listener.onComplete());
     }
 
-    public void getRecipeByRecipeName(String recipeId, Model.GetRecipeByRecipeName listener) {
+    public void getRecipeByRecipeName(String recipeId, ModelRecipe.GetRecipeByRecipeName listener) {
         db.collection(Recipe.COLLECTION_NAME)
                 .document(recipeId)
                 .get()
@@ -107,7 +107,7 @@ public class ModelFirebase {
                 });
     }
 
-    public void deleteRecipe(Recipe recipe, Model.DeleteRecipeListener listener) {
+    public void deleteRecipe(Recipe recipe, ModelRecipe.DeleteRecipeListener listener) {
         recipe.setIsDeleted("true");
         Map<String, Object> json = recipe.toJson();
         db.collection(Recipe.COLLECTION_NAME)
@@ -118,13 +118,13 @@ public class ModelFirebase {
 
     }
 
-    public void logout(String currentUserEmail, Model.LogoutUserListener listener){
-        Model.instance.getUserByEmail(currentUserEmail, new Model.GetUserByEmail() {
+    public void logout(String currentUserEmail, ModelUser.LogoutUserListener listener){
+        ModelUser.instance.getUserByEmail(currentUserEmail, new ModelUser.GetUserByEmail() {
             @Override
             public void onComplete(User user) {
                 User newUser = user;
                 newUser.setIsConnected("false");
-                Model.instance.editUser(newUser, new Model.EditUserListener() {
+                ModelUser.instance.editUser(newUser, new ModelUser.EditUserListener() {
                     @Override
                     public void onComplete() {
                         listener.onComplete();
@@ -142,7 +142,7 @@ public class ModelFirebase {
      * Firebase Storage
      */
     FirebaseStorage storage = FirebaseStorage.getInstance();
-    public void saveImage(Bitmap imageBitmap, String imageName, Model.SaveImageListener listener) {
+    public void saveImage(Bitmap imageBitmap, String imageName, ModelRecipe.SaveImageListener listener) {
         StorageReference storageRef = storage.getReference();
         StorageReference imgRef = storageRef.child("recipe_image/" + imageName);
 
@@ -188,7 +188,7 @@ public class ModelFirebase {
                 });
     }
 
-    public void addUser(User user,String email, String password, Model.AddUserListener listener) {
+    public void addUser(User user,String email, String password, ModelUser.AddUserListener listener) {
 
         firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
@@ -210,7 +210,7 @@ public class ModelFirebase {
         });
     }
 
-    public void signIn(User user,String email, String password,Model.SigninUserListener listener) {
+    public void signIn(User user,String email, String password,ModelUser.SigninUserListener listener) {
         firebaseAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
@@ -228,7 +228,7 @@ public class ModelFirebase {
     }
 
 
-    public void getUserByEmail(String email, Model.GetUserByEmail listener) {
+    public void getUserByEmail(String email, ModelUser.GetUserByEmail listener) {
         db.collection(User.COLLECTION_NAME)
                 .whereEqualTo("email",email)
                 .get()
@@ -253,7 +253,7 @@ public class ModelFirebase {
 
     }
 
-    public void editUser(User user, Model.EditUserListener listener) {
+    public void editUser(User user, ModelUser.EditUserListener listener) {
         Map<String, Object> json = user.toJson();
         db.collection(User.COLLECTION_NAME)
                 .document(user.getUId())
