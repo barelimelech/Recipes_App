@@ -34,13 +34,13 @@
         android:id="@+id/deleteImg_btn3"
         android:layout_width="21dp"
         android:layout_height="24dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="16dp"
 
         android:background="#0000"
         android:src="@android:drawable/ic_menu_delete"
         app:layout_constraintBottom_toTopOf="@+id/editUser_camera_btn"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.505"
+        app:layout_constraintHorizontal_bias="0.201"
         app:layout_constraintStart_toEndOf="@+id/editmyaccount_image_recipe" />
 
     <ImageButton
@@ -51,21 +51,20 @@
         android:src="@drawable/ic_menu_gallery"
         app:layout_constraintBottom_toBottomOf="@+id/editmyaccount_image_recipe"
         app:layout_constraintEnd_toStartOf="@+id/editmyaccount_image_recipe"
-        app:layout_constraintHorizontal_bias="0.4"
+        app:layout_constraintHorizontal_bias="0.818"
         app:layout_constraintStart_toStartOf="parent" />
+
 
     <ImageButton
         android:id="@+id/editUser_camera_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
         android:background="#0000"
         android:src="@drawable/ic_menu_camera"
         app:layout_constraintBottom_toBottomOf="@+id/editmyaccount_image_recipe"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.524"
+        app:layout_constraintHorizontal_bias="0.207"
         app:layout_constraintStart_toEndOf="@+id/editmyaccount_image_recipe" />
-
 
     <TextView
         android:id="@+id/textView110"

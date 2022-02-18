@@ -41,13 +41,13 @@
         <entry key="app/src/main/res/layout/categories_list_row.xml" value="0.375" />
         <entry key="app/src/main/res/layout/content_main.xml" value="0.22327898550724637" />
         <entry key="app/src/main/res/layout/fragment_categories_list.xml" value="0.375" />
-        <entry key="app/src/main/res/layout/fragment_edit_my_account.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/fragment_edit_my_account.xml" value="0.7648352469651322" />
         <entry key="app/src/main/res/layout/fragment_edit_recipe.xml" value="0.4400599989501993" />
         <entry key="app/src/main/res/layout/fragment_gallery.xml" value="0.1644021739130435" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.22327898550724637" />
         <entry key="app/src/main/res/layout/fragment_log_in.xml" value="0.30027173913043476" />
         <entry key="app/src/main/res/layout/fragment_log_out.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/fragment_login.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_login.xml" value="0.134979896611143" />
         <entry key="app/src/main/res/layout/fragment_my_account.xml" value="0.335" />
         <entry key="app/src/main/res/layout/fragment_new_recipe.xml" value="0.335" />
         <entry key="app/src/main/res/layout/fragment_new_user.xml" value="0.2318840579710145" />
@@ -59,7 +59,7 @@
         <entry key="app/src/main/res/layout/fragment_signup.xml" value="0.335" />
         <entry key="app/src/main/res/layout/fragment_slideshow.xml" value="0.1644021739130435" />
         <entry key="app/src/main/res/layout/fragment_sub_category.xml" value="0.1644021739130435" />
-        <entry key="app/src/main/res/layout/nav_header_main.xml" value="0.1644021739130435" />
+        <entry key="app/src/main/res/layout/nav_header_main.xml" value="0.5168235776750707" />
         <entry key="app/src/main/res/layout/recipe_list_row.xml" value="0.31145833333333334" />
         <entry key="app/src/main/res/layout/rounded_corner.xml" value="0.15780141843971632" />
         <entry key="app/src/main/res/layout/simple_spinner_dropdown_item.xml" value="0.20108695652173914" />

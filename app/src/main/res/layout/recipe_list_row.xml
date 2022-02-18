@@ -20,8 +20,8 @@
         <TextView
             android:id="@+id/recipe_listrow_name"
             android:layout_width="wrap_content"
-            android:layout_height="34dp"
-            android:layout_marginTop="8dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
             android:fontFamily="@font/aclonica"
             android:text="TextView"
             android:textColor="#000000"
@@ -29,11 +29,10 @@
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.457"
+            app:layout_constraintHorizontal_bias="0.472"
             app:layout_constraintStart_toEndOf="@+id/recipe_listrow_image"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.115" />
-
+            app:layout_constraintVertical_bias="0.064" />
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/recipe_listrow_image"
@@ -54,7 +53,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:layout_marginBottom="28dp"
+            android:layout_marginBottom="22dp"
             android:fontFamily="casual"
             android:text="TextView"
             android:textColor="#000000"
@@ -62,32 +61,34 @@
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.485"
             app:layout_constraintStart_toEndOf="@+id/recipe_listrow_image"
-            app:layout_constraintTop_toBottomOf="@+id/recipe_listrow_name" />
+            app:layout_constraintTop_toBottomOf="@+id/recipe_listrow_name"
+            app:layout_constraintVertical_bias="1.0" />
 
         <ImageButton
             android:id="@+id/recipe_listrow_delete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="12dp"
             android:background="#0000"
-            android:layout_marginEnd="95dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.613"
-            app:layout_constraintStart_toEndOf="@+id/recipe_listrow_edit"
+            app:layout_constraintTop_toBottomOf="@+id/recipe_listrow_username"
             app:srcCompat="@drawable/ic_baseline_delete_24" />
 
         <ImageButton
             android:id="@+id/recipe_listrow_edit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="155dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="3dp"
 
+            android:layout_marginEnd="16dp"
             android:background="#0000"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/recipe_listrow_name"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/recipe_listrow_username"
+            app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_baseline_edit_24" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
