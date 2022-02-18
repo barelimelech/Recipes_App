@@ -152,7 +152,6 @@ public class RecipesListFragment extends Fragment {
             recipeImage = itemView.findViewById(R.id.recipe_listrow_image);
             deleteBtn = itemView.findViewById(R.id.recipe_listrow_delete);
             editBtn = itemView.findViewById(R.id.recipe_listrow_edit);
-
             String userName = viewModel.getCurrentUser();
             if (userName == null || userName.equals("")) {
                 userName = viewModel.getCurrentUser();
@@ -181,7 +180,7 @@ public class RecipesListFragment extends Fragment {
 
         }
         void bind(Recipe recipe){
-            recipeImage.setImageResource(R.drawable.cake);
+            recipeImage.setImageResource(R.drawable.img);
             nameTv.setText(recipe.getName());
             usernameBy.setText("By:  "+recipe.getUsername());
 

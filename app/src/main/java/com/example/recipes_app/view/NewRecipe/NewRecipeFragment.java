@@ -100,7 +100,7 @@ public class NewRecipeFragment extends Fragment{
 
         cancelBtn = view.findViewById(R.id.newRec_cancel_btn);
 
-        recipeImage.setImageResource(R.drawable.cake);
+        recipeImage.setImageResource(R.drawable.img);
         saveBtn.setOnClickListener(v -> save());
 
         deleteImage = view.findViewById(R.id.deleteImg_btn);
@@ -121,7 +121,7 @@ public class NewRecipeFragment extends Fragment{
     private void deleteImage() {
         imageBitmap = null;
         recipeImage.setImageBitmap(null);
-        recipeImage.setImageResource(R.drawable.cake);
+        recipeImage.setImageResource(R.drawable.img);
     }
 
     private void openGallery() {
