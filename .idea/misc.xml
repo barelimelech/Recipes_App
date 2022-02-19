@@ -9,12 +9,12 @@
         <entry key="..\:/Users/Liel/AndroidStudioProjects/FinalProject/Recipes_App/app/src/main/res/layout/app_bar_main.xml" value="0.13541666666666666" />
         <entry key="..\:/Users/Liel/AndroidStudioProjects/FinalProject/Recipes_App/app/src/main/res/layout/content_main.xml" value="0.13541666666666666" />
         <entry key="..\:/Users/Liel/AndroidStudioProjects/FinalProject/Recipes_App/app/src/main/res/layout/fragment_edit_my_account.xml" value="0.22" />
-        <entry key="..\:/Users/Liel/AndroidStudioProjects/FinalProject/Recipes_App/app/src/main/res/layout/fragment_edit_recipe.xml" value="0.16666666666666666" />
+        <entry key="..\:/Users/Liel/AndroidStudioProjects/FinalProject/Recipes_App/app/src/main/res/layout/fragment_edit_recipe.xml" value="0.13333333333333333" />
         <entry key="..\:/Users/Liel/AndroidStudioProjects/FinalProject/Recipes_App/app/src/main/res/layout/fragment_login.xml" value="0.22" />
-        <entry key="..\:/Users/Liel/AndroidStudioProjects/FinalProject/Recipes_App/app/src/main/res/layout/fragment_my_account.xml" value="0.3333333333333333" />
+        <entry key="..\:/Users/Liel/AndroidStudioProjects/FinalProject/Recipes_App/app/src/main/res/layout/fragment_my_account.xml" value="0.1" />
         <entry key="..\:/Users/Liel/AndroidStudioProjects/FinalProject/Recipes_App/app/src/main/res/layout/fragment_new_recipe.xml" value="0.22" />
         <entry key="..\:/Users/Liel/AndroidStudioProjects/FinalProject/Recipes_App/app/src/main/res/layout/fragment_new_user.xml" value="0.14990942028985507" />
-        <entry key="..\:/Users/Liel/AndroidStudioProjects/FinalProject/Recipes_App/app/src/main/res/layout/fragment_recipe.xml" value="0.3333333333333333" />
+        <entry key="..\:/Users/Liel/AndroidStudioProjects/FinalProject/Recipes_App/app/src/main/res/layout/fragment_recipe.xml" value="0.1431159420289855" />
         <entry key="..\:/Users/Liel/AndroidStudioProjects/FinalProject/Recipes_App/app/src/main/res/layout/fragment_recipes_list.xml" value="0.10144927536231885" />
         <entry key="..\:/Users/Liel/AndroidStudioProjects/FinalProject/Recipes_App/app/src/main/res/layout/fragment_signup.xml" value="0.16666666666666666" />
         <entry key="..\:/Users/Liel/AndroidStudioProjects/FinalProject/Recipes_App/app/src/main/res/layout/nav_header_main.xml" value="0.1" />
@@ -25,7 +25,6 @@
         <entry key="..\:/Users/Liel/AndroidStudioProjects/FinalProject/Recipes_App/app/src/main/res/menu/edit_menu.xml" value="0.1" />
         <entry key="..\:/Users/Liel/AndroidStudioProjects/FinalProject/Recipes_App/app/src/main/res/menu/logout_menu.xml" value="0.1" />
         <entry key="..\:/Users/Liel/AndroidStudioProjects/FinalProject/Recipes_App/app/src/main/res/menu/main.xml" value="0.1796875" />
-        <entry key="..\:/Users/Liel/AndroidStudioProjects/FinalProject/Recipes_App/app/src/main/res/menu/myaccount_menu.xml" value="0.1796875" />
         <entry key="app/src/main/res/drawable/ic_baseline_add_circle_outline_24.xml" value="0.26944444444444443" />
         <entry key="app/src/main/res/drawable/my_button_bg.xml" value="0.33897435897435896" />
         <entry key="app/src/main/res/layout/activity_categories.xml" value="0.1619111683958809" />
@@ -42,13 +41,13 @@
         <entry key="app/src/main/res/layout/categories_list_row.xml" value="0.375" />
         <entry key="app/src/main/res/layout/content_main.xml" value="0.22327898550724637" />
         <entry key="app/src/main/res/layout/fragment_categories_list.xml" value="0.375" />
-        <entry key="app/src/main/res/layout/fragment_edit_my_account.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/fragment_edit_my_account.xml" value="0.1889256916944363" />
         <entry key="app/src/main/res/layout/fragment_edit_recipe.xml" value="0.4400599989501993" />
         <entry key="app/src/main/res/layout/fragment_gallery.xml" value="0.1644021739130435" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.22327898550724637" />
         <entry key="app/src/main/res/layout/fragment_log_in.xml" value="0.30027173913043476" />
         <entry key="app/src/main/res/layout/fragment_log_out.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/fragment_login.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_login.xml" value="0.15805318615153036" />
         <entry key="app/src/main/res/layout/fragment_my_account.xml" value="0.335" />
         <entry key="app/src/main/res/layout/fragment_new_recipe.xml" value="0.335" />
         <entry key="app/src/main/res/layout/fragment_new_user.xml" value="0.2318840579710145" />
@@ -60,7 +59,7 @@
         <entry key="app/src/main/res/layout/fragment_signup.xml" value="0.335" />
         <entry key="app/src/main/res/layout/fragment_slideshow.xml" value="0.1644021739130435" />
         <entry key="app/src/main/res/layout/fragment_sub_category.xml" value="0.1644021739130435" />
-        <entry key="app/src/main/res/layout/nav_header_main.xml" value="0.1644021739130435" />
+        <entry key="app/src/main/res/layout/nav_header_main.xml" value="0.5168235776750707" />
         <entry key="app/src/main/res/layout/recipe_list_row.xml" value="0.31145833333333334" />
         <entry key="app/src/main/res/layout/rounded_corner.xml" value="0.15780141843971632" />
         <entry key="app/src/main/res/layout/simple_spinner_dropdown_item.xml" value="0.20108695652173914" />
