@@ -174,6 +174,7 @@ public class SignupFragment extends Fragment {
             else{
                 viewModel.saveImage(imageBitmap,fullName + ".jpg", url-> {
                     user.setUserUrl(url);
+                    viewModel.saveImageToFile(imageBitmap, fullName + ".jpg", url1 -> {});
                     viewModel.addUser(user, email, password, new ModelUser.AddUserListener() {
                         @Override
                         public void onComplete() { toFeedActivity(); }

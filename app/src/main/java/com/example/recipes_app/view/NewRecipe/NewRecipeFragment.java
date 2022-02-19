@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -37,7 +36,6 @@ import com.example.recipes_app.LoginActivity;
 import com.example.recipes_app.R;
 import com.example.recipes_app.model.Recipe;
 import com.example.recipes_app.view.MyAccount.UserViewModel;
-import com.example.recipes_app.view.RecipesList.RecipesListFragmentDirections;
 
 import java.io.IOException;
 import java.util.List;
@@ -179,7 +177,6 @@ public class NewRecipeFragment extends Fragment{
         String name = recipeName.getText().toString();
         String method = recipeMethod.getText().toString();
         String ingredients = recipeIngredients.getText().toString();
-
         String type = selectedCategory;
 
         Recipe recipe = new Recipe(id,name,method,ingredients,type,usernameAsId);
@@ -194,8 +191,10 @@ public class NewRecipeFragment extends Fragment{
                 recipe.setImageUrl(url);
                 viewModel.addRecipe(recipe,()->{
                     Navigation.findNavController(recipeName).navigateUp();
+                    viewModel.saveImageToFile(imageBitmap, recipeName + ".jpg", url1 -> { });
                 });
             });
+
         }
     }
 

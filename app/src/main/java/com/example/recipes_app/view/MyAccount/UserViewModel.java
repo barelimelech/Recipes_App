@@ -40,6 +40,9 @@ public class UserViewModel extends ViewModel {
     public void saveImage(Bitmap img, String name, ModelRecipe.SaveImageListener listener){
         ModelRecipe.instance.saveImage(img,name,listener);
     }
+    public void saveImageToFile(Bitmap img, String name,ModelRecipe.SaveImageListener listener){
+        ModelRecipe.instance.saveImageFile(img,name,listener);
+    }
 
     public String getCurrentUser(){
         return ModelUser.instance.getCurrentUsername();
