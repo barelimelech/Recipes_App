@@ -101,12 +101,6 @@ public class MyAccountFragment extends Fragment {
 
     }
 
-    @Override
-    public void onPrepareOptionsMenu(@NonNull Menu menu) {
-        MenuItem item =menu.findItem(R.id.menu_myAccount);
-        item.setVisible(true);
-        super.onPrepareOptionsMenu(menu);
-    }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {

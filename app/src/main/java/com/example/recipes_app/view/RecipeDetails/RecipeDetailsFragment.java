@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.recipes_app.LoginActivity;
 import com.example.recipes_app.R;
@@ -41,17 +44,18 @@ public class RecipeDetailsFragment extends Fragment {
         viewModel = new ViewModelProvider(this).get(RecipeDetailsViewModel.class);
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view= inflater.inflate(R.layout.fragment_recipe, container, false);
+        View view = inflater.inflate(R.layout.fragment_recipe, container, false);
         usernameAsId = RecipeDetailsFragmentArgs.fromBundle(getArguments()).getUsername();
         recipeNameAsId = RecipeDetailsFragmentArgs.fromBundle(getArguments()).getRecipeId();
         recipeName = view.findViewById(R.id.recipeDetails_nameOfRec);
-        recipeMethod= view.findViewById(R.id.recipeDetails_method);
-        recipeIngredients= view.findViewById(R.id.recipeDetails_ingredients);
-        type= view.findViewById(R.id.recipeDetails_type);
+        recipeMethod = view.findViewById(R.id.recipeDetails_method);
+        recipeIngredients = view.findViewById(R.id.recipeDetails_ingredients);
+        type = view.findViewById(R.id.recipeDetails_type);
         userName = view.findViewById(R.id.recipeDetails_username_tv);
         userName.setText(usernameAsId);
         recipeImage = view.findViewById(R.id.editmyaccount_image_recipe);
@@ -61,13 +65,13 @@ public class RecipeDetailsFragment extends Fragment {
             recipeMethod.setText(recipe.getMethod());
             recipeIngredients.setText(recipe.getIngredients());
             type.setText(recipe.getType());
-            if(recipe.getRecipeUrl()!=null){
+            if (recipe.getRecipeUrl() != null) {
                 Picasso.get().load(recipe.getRecipeUrl()).into(recipeImage);
             }
             userName.setText(recipe.getUsername());
         });
         Button backBtn = view.findViewById(R.id.recipeDetails_back_btn);
-        backBtn.setOnClickListener((v)->{
+        backBtn.setOnClickListener((v) -> {
             Navigation.findNavController(v).navigateUp();
             viewModel.refreshRecipesList();
 
@@ -77,9 +81,18 @@ public class RecipeDetailsFragment extends Fragment {
     }
 
     @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater)
+    {
+        super.onCreateOptionsMenu(menu,inflater);
+        inflater.inflate(R.menu.myaccount_menu, menu);
+    }
 
-         if(item.getItemId() == R.id.logout_menu){
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.menu_myAccount) {
+            NavHostFragment.findNavController(this).navigate(RecipeDetailsFragmentDirections.actionGlobalMyAccountFragment(userViewModel.getCurrentUser()));
+            return true;
+        } else if (item.getItemId() == R.id.logout_menu) {
             String currentUserEmail = userViewModel.getCurrentUserEmail();
             userViewModel.signOut();
             userViewModel.logout(currentUserEmail, () -> {
@@ -87,7 +100,7 @@ public class RecipeDetailsFragment extends Fragment {
                 getActivity().finish();
             });
             return true;
-        }else {
+        } else {
             return super.onOptionsItemSelected(item);
         }
     }

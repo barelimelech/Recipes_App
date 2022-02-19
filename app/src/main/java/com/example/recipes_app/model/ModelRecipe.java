@@ -72,7 +72,6 @@ public class ModelRecipe {
             //add all records to the local db
             executor.execute(() -> {
                 Long lud = new Long(0);
-                Log.d("TAG", "fb returned " + list.size());
                 for (Recipe recipe : list) {
                     if(recipe.getIsDeleted().equals("true")){
                         AppLocalDb.db.recipeDao().delete(recipe);
@@ -165,7 +164,6 @@ public class ModelRecipe {
             public void onComplete(List<Recipe> list) {
                 executor.execute(() -> {
                     Long lud = new Long(0);
-                    Log.d("TAG", "fb returned " + list.size());
                     for (Recipe recipe : list) {
                         if(recipe.getIsDeleted().equals("true") || !recipe.getUsername().equals(getCurrentUsername()) ){
                             AppLocalDb.db.recipeDao().delete(recipe);

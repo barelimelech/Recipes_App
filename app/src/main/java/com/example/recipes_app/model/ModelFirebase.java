@@ -53,7 +53,7 @@ public class ModelFirebase {
         FirebaseUser currentUser = firebaseAuth.getCurrentUser();
         return (currentUser != null);
     }
-    //TODO: fix since
+
     public void getAllRecipes(Long lastUpdateDate, GetAllRecipesListener listener) {
         db.collection(Recipe.COLLECTION_NAME)
                 .whereGreaterThanOrEqualTo("updateDate",new Timestamp(lastUpdateDate,0))
@@ -193,7 +193,6 @@ public class ModelFirebase {
         firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 user.setUId(firebaseAuth.getCurrentUser().getUid());
-                Log.d("TAG", "saved name:" + user.fullName + "user Id:" + user.uId);
 
                 Map<String, Object> json = user.toJson();
                 db.collection(User.COLLECTION_NAME)

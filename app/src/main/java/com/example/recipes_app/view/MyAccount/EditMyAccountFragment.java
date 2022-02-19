@@ -202,7 +202,7 @@ public class EditMyAccountFragment extends Fragment {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.menu_myAccount) {
             Log.d("TAG", "ADD...");
-            NavHostFragment.findNavController(this).navigate(RecipesListFragmentDirections.actionGlobalMyAccountFragment(ModelUser.instance.getCurrentUsername()));
+            NavHostFragment.findNavController(this).navigate(EditMyAccountFragmentDirections.actionGlobalMyAccountFragment(ModelUser.instance.getCurrentUsername()));
             return true;
         }else if(item.getItemId() == R.id.logout_menu){
             String currentUserEmail = ModelUser.instance.getCurrentUserEmail();

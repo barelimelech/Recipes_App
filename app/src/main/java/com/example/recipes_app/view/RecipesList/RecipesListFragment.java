@@ -57,7 +57,6 @@ public class RecipesListFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        //Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_recipes_list, container, false);
         fullNameAsId = RecipesListFragmentArgs.fromBundle(getArguments()).getUsername();
         category = RecipesListFragmentArgs.fromBundle(getArguments()).getCategory();
@@ -232,7 +231,6 @@ public class RecipesListFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull RecipesListFragment.MyViewHolder holder, int position) {
-            //Recipe recipe = viewModel.getRecipes().getValue().get(position);
             Recipe recipe;
             if(fullNameAsId.equals("") || !category.equals("")) {
                 recipe = viewModel.getRecipes().getValue().get(position);
@@ -260,7 +258,6 @@ public class RecipesListFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.menu_myAccount) {
-            Log.d("TAG", "ADD...");
             NavHostFragment.findNavController(this).navigate(RecipesListFragmentDirections.actionGlobalMyAccountFragment(viewModel.getCurrentUser()));
             return true;
         }else if(item.getItemId() == R.id.logout_menu){
@@ -273,7 +270,6 @@ public class RecipesListFragment extends Fragment {
             return true;
         }
         else if(item.getItemId() == R.id.newRecipeFragment_menu){
-            Log.d("TAG", "ADD...");
             NavHostFragment.findNavController(this).navigate(RecipesListFragmentDirections.actionRecipesListFragmentToNewRecipeFragment(viewModel.getCurrentUser()));
             return true;
         } else {

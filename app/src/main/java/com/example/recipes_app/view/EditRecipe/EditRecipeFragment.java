@@ -10,6 +10,8 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,11 +30,13 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.recipes_app.LoginActivity;
 import com.example.recipes_app.R;
 import com.example.recipes_app.model.Recipe;
 import com.example.recipes_app.view.MyAccount.UserViewModel;
+import com.example.recipes_app.view.NewRecipe.NewRecipeFragmentDirections;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
@@ -237,8 +241,19 @@ public class EditRecipeFragment extends Fragment {
     }
 
     @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater)
+    {
+        super.onCreateOptionsMenu(menu,inflater);
+        inflater.inflate(R.menu.myaccount_menu, menu);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-       if(item.getItemId() == R.id.logout_menu){
+        if (item.getItemId() == R.id.menu_myAccount) {
+            NavHostFragment.findNavController(this).navigate(EditRecipeFragmentDirections.actionGlobalMyAccountFragment(userViewModel.getCurrentUser()));
+            return true;
+        }
+       else if(item.getItemId() == R.id.logout_menu){
             String currentUserEmail = userViewModel.getCurrentUserEmail();
             userViewModel.signOut();
             userViewModel.logout(currentUserEmail, () -> {
