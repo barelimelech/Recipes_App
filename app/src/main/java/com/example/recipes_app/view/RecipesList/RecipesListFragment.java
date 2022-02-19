@@ -210,7 +210,7 @@ public class RecipesListFragment extends Fragment {
     interface OnItemClickListener {
         void onItemClick(View v, int position, int viewId);
     }
-    class MyAdapter extends RecyclerView.Adapter<RecipesListFragment.MyViewHolder>{
+    class MyAdapter extends RecyclerView.Adapter<RecipesListFragment.MyViewHolder> {
 
         OnItemClickListener listener;
 
@@ -255,6 +255,7 @@ public class RecipesListFragment extends Fragment {
             }
         }
     }
+
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {

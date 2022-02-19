@@ -112,7 +112,7 @@ public class NewRecipeFragment extends Fragment{
 
         camBtn.setOnClickListener(v -> openCam());
         galleryBtn.setOnClickListener(v -> openGallery());
-        cancelBtn.setOnClickListener(v -> Navigation.findNavController(v).navigate(NewRecipeFragmentDirections.actionGlobalMyAccountFragment(viewModel.getCurrentUser())));
+        cancelBtn.setOnClickListener(v -> Navigation.findNavController(v).navigateUp());
         setHasOptionsMenu(true);
 
         return view;
