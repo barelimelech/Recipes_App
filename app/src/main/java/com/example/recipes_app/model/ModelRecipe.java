@@ -2,7 +2,6 @@ package com.example.recipes_app.model;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -140,12 +139,12 @@ public class ModelRecipe {
         });
     }
 
-    public interface GetRecipeByRecipeName {
+    public interface GetRecipeByRecipeId {
         void onComplete(Recipe recipe);
     }
 
-    public Recipe getRecipeByRecipeName(String recipeId, ModelRecipe.GetRecipeByRecipeName listener) {
-        modelFirebase.getRecipeByRecipeName(recipeId, listener);
+    public Recipe getRecipeByRecipeId(String recipeId, ModelRecipe.GetRecipeByRecipeId listener) {
+        modelFirebase.getRecipeByRecipeId(recipeId, listener);
         return null;
     }
 

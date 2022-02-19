@@ -91,7 +91,7 @@ public class ModelFirebase {
                 .addOnFailureListener(e -> listener.onComplete());
     }
 
-    public void getRecipeByRecipeName(String recipeId, ModelRecipe.GetRecipeByRecipeName listener) {
+    public void getRecipeByRecipeId(String recipeId, ModelRecipe.GetRecipeByRecipeId listener) {
         db.collection(Recipe.COLLECTION_NAME)
                 .document(recipeId)
                 .get()

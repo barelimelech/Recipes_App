@@ -32,8 +32,8 @@ public class EditRecipeViewModel extends ViewModel {
         ModelRecipe.instance.refreshRecipeList();
     }
 
-    public void getRecipeByRecipeName(String recipeName, ModelRecipe.GetRecipeByRecipeName listener){
-        ModelRecipe.instance.getRecipeByRecipeName(recipeName,listener);
+    public void getRecipeByRecipeName(String recipeName, ModelRecipe.GetRecipeByRecipeId listener){
+        ModelRecipe.instance.getRecipeByRecipeId(recipeName,listener);
     }
     public List<String> getAllCategories(){
         return ModelRecipe.instance.getAllCategories();
