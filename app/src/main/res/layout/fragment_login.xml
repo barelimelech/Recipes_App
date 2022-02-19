@@ -23,21 +23,16 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
-                android:id="@+id/linearLayoutCompat"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="45dp"
-                android:layout_marginStart="35dp"
-                android:layout_marginBottom="32dp"
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="40dp"
                 android:fontFamily="@font/berkshire_swash"
+                android:gravity="center"
                 android:text="Cook&amp;Share"
                 android:textColor="#3E260B"
-                android:textSize="55sp"
-                app:layout_constraintBottom_toTopOf="@+id/linearLayoutCompat"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="1.0" />
+                android:textSize="55sp" />
 
 
             <com.google.android.material.textfield.TextInputLayout
@@ -79,9 +74,9 @@
                 android:layout_gravity="end"
                 android:layout_marginTop="16dp"
                 android:backgroundTint="@android:color/transparent"
+                android:fontFamily="@font/aclonica"
                 android:shadowColor="#00FFFFFF"
                 android:text="login"
-                android:fontFamily="@font/aclonica"
                 android:textColor="#3E260B"
                 android:textColorHighlight="#00FFFFFF"
                 android:textColorLink="#00231F1F"
@@ -92,8 +87,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
                 android:layout_marginTop="15dp"
-                android:gravity="center"
                 android:fontFamily="@font/aclonica"
+                android:gravity="center"
                 android:text="Don't have an account yet?"
                 android:textSize="17sp" />
 
