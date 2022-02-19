@@ -1,23 +1,13 @@
 package com.example.recipes_app.model;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
-import android.net.Uri;
-import android.os.Environment;
-import android.util.Log;
-import android.webkit.URLUtil;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.recipes_app.MyApplication;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -114,45 +104,6 @@ public class ModelRecipe {
     }
     public void saveImage(Bitmap imageBitmap, String imageName, ModelRecipe.SaveImageListener listener) {
         modelFirebase.saveImage(imageBitmap,imageName,listener);
-    }
-
-    public void saveImageFile(final Bitmap imageBitmap, String name, final SaveImageListener listener) {
-        modelFirebase.saveImage(imageBitmap, name, url -> {
-            String localName = getLocalImageFileName(url);
-            Log.d("TAG","cach image: " + localName);
-            saveImageToFile(imageBitmap,localName);
-            listener.onComplete(url);
-        });
-    }
-
-    public void saveImageToFile(Bitmap imageBitmap, String imageFileName){
-        try {
-            File dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-            if (!dir.exists()) {
-                dir.mkdir();
-            }
-            File imageFile = new File(dir,imageFileName);
-            imageFile.createNewFile();
-            OutputStream out = new FileOutputStream(imageFile);
-            imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
-            out.close();
-            addPictureToGallery(imageFile);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-    private void addPictureToGallery(File imageFile){
-        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-        Uri contentUri = Uri.fromFile(imageFile);
-        mediaScanIntent.setData(contentUri);
-        MyApplication.getContext().sendBroadcast(mediaScanIntent);
-    }
-
-    private String getLocalImageFileName(String url) {
-        String name = URLUtil.guessFileName(url, null, null);
-        return name;
     }
 
     public interface AddRecipeListener {

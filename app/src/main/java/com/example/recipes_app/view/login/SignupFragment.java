@@ -6,12 +6,16 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.URLUtil;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -25,12 +29,18 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.recipes_app.MainActivity;
+import com.example.recipes_app.MyApplication;
 import com.example.recipes_app.R;
+import com.example.recipes_app.model.ModelRecipe;
 import com.example.recipes_app.model.ModelUser;
 import com.example.recipes_app.model.User;
 import com.example.recipes_app.view.MyAccount.UserViewModel;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 
 public class SignupFragment extends Fragment {
 
@@ -174,7 +184,7 @@ public class SignupFragment extends Fragment {
             else{
                 viewModel.saveImage(imageBitmap,fullName + ".jpg", url-> {
                     user.setUserUrl(url);
-                    viewModel.saveImageToFile(imageBitmap, fullName + ".jpg", url1 -> {});
+                    saveImageFile(imageBitmap, fullName + ".jpg", url1 -> {});
                     viewModel.addUser(user, email, password, new ModelUser.AddUserListener() {
                         @Override
                         public void onComplete() { toFeedActivity(); }
@@ -188,5 +198,45 @@ public class SignupFragment extends Fragment {
 
             }
         }
+    }
+
+
+    public void saveImageFile(final Bitmap imageBitmap, String name, final ModelRecipe.SaveImageListener listener) {
+        viewModel.saveImage(imageBitmap, name, url -> {
+            String localName = getLocalImageFileName(url);
+            Log.d("TAG","cach image: " + localName);
+            saveImageToFile(imageBitmap,localName);
+            listener.onComplete(url);
+        });
+    }
+
+    public void saveImageToFile(Bitmap imageBitmap, String imageFileName){
+        try {
+            File dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+            if (!dir.exists()) {
+                dir.mkdir();
+            }
+            File imageFile = new File(dir,imageFileName);
+            imageFile.createNewFile();
+            OutputStream out = new FileOutputStream(imageFile);
+            imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+            out.close();
+            addPictureToGallery(imageFile);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    private void addPictureToGallery(File imageFile){
+        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        Uri contentUri = Uri.fromFile(imageFile);
+        mediaScanIntent.setData(contentUri);
+        MyApplication.getContext().sendBroadcast(mediaScanIntent);
+    }
+
+    private String getLocalImageFileName(String url) {
+        String name = URLUtil.guessFileName(url, null, null);
+        return name;
     }
 }
